@@ -1,5 +1,5 @@
 AC_INIT([warped-models],[1.0])
-
+AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([foreign])
 AC_PREREQ(2.61)
@@ -10,8 +10,6 @@ dnl Checks for programs.
 AC_PROG_LIBTOOL
 AC_PROG_CXX
 AC_PROG_INSTALL
-
-dnl LT_INIT
 
 m4_include([m4/ax_cxx_compile_stdcxx_11.m4])
 AX_CXX_COMPILE_STDCXX_11([noext], [mandatory])
@@ -35,7 +33,7 @@ if test $cl_cv_lib_warped = no ; then
 AC_MSG_ERROR(The warped package is required.)
 fi
 if test $cl_cv_lib_warped != /usr ; then
-LDFLAGS="$LDFLAGS -L$cl_cv_lib_warped/lib"
+LDFLAGS="$LDFLAGS -L$cl_cv_lib_warped/lib -lwarped"
 CPPFLAGS="$CPPFLAGS -I$cl_cv_lib_warped/include"
 fi
 AC_CHECK_HEADER(WarpedMain.h, ,

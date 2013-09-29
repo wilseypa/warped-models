@@ -63,9 +63,5 @@ warpedUnitTests_SOURCES = \
 
 
 warpedUnitTests_LDFLAGS=-static
-warpedUnitTests_LDADD=libwarped.la
-
-# EXTRA_DIST=warpedUnitTests/Makefile.am.stub
-
 
 endif

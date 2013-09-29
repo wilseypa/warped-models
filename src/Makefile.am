@@ -1,4 +1,4 @@
-INCLUDES=-I$(top_builddir)/src -I$(top_builddir)/thirdparty
+INCLUDES=-I$(top_builddir)/thirdparty
 
 # Ping pong stuff
 include pingPong/Makefile.am.stub
@@ -22,7 +22,5 @@ include epidemic/Makefile.am.stub
 # include circuitsimulationmodels/iscas89/Makefile.am.DFF
 # iscas89 stuff
 include circuitsimulationmodels/iscas89/Makefile.am.stub
-# fulladder stuff
-# include circuitsimulationmodels/fulladder/Makefile.am.stub
 
-noinst_PROGRAMS = $(PING_PONG_PROGRAM) $(UNIT_TEST_PROGRAM) $(ADAPT_TEST_PROGRAM) $(PHOLD_PROGRAM) $(RAID_PROGRAM) $(SMMP_PROGRAM) $(ISCAS89_PROGRAM) $(EPIDEMIC_PROGRAM) #$(FULLADDER_PROGRAM)
+noinst_PROGRAMS = $(PING_PONG_PROGRAM) $(UNIT_TEST_PROGRAM) $(ADAPT_TEST_PROGRAM) $(PHOLD_PROGRAM) $(RAID_PROGRAM) $(SMMP_PROGRAM) $(ISCAS89_PROGRAM) $(EPIDEMIC_PROGRAM)

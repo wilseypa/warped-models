@@ -28,5 +28,4 @@ smmpSim_SOURCES= \
      smmp/SMMPServerState.h
 
 smmpSim_LDFLAGS=-static
-smmpSim_LDADD=libwarped.la \
-            $(top_builddir)/simulationmodels/libRnd.la
+smmpSim_LDADD=$(top_builddir)/simulationmodels/libRnd.la

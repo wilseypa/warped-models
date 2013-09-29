@@ -11,6 +11,3 @@ adapttest_SOURCES= \
 	adaptTest/adaptTestMain.cpp
 
 adapttest_LDFLAGS=-static
-adapttest_LDADD=libwarped.la
-
-#EXTRA_DIST=adapttest/Makefile.am.stub
