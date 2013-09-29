@@ -16,6 +16,34 @@ dnl LT_INIT
 m4_include([m4/ax_cxx_compile_stdcxx_11.m4])
 AX_CXX_COMPILE_STDCXX_11([noext], [mandatory])
 
+dnl Check for libwarped
+AC_CACHE_CHECK([for location of libwarped], [cl_cv_lib_warped],
+  [AC_ARG_WITH(warped,
+    AS_HELP_STRING([--with-warped],
+      [location of libwarped (default is /usr)]),
+      [
+        case "${withval}" in
+          yes) cl_cv_lib_warped=/usr ;;
+          no) cl_cv_lib_warped=no ;;
+          *) cl_cv_lib_warped=$withval ;;
+        esac
+      ],
+      [cl_cv_lib_warped=/usr]
+  )]
+)
+if test $cl_cv_lib_warped = no ; then
+AC_MSG_ERROR(The warped package is required.)
+fi
+if test $cl_cv_lib_warped != /usr ; then
+LDFLAGS="$LDFLAGS -L$cl_cv_lib_warped/lib"
+CPPFLAGS="$CPPFLAGS -I$cl_cv_lib_warped/include"
+fi
+AC_CHECK_HEADER(WarpedMain.h, ,
+  AC_MSG_ERROR(Couldn't find WarpedMain.h which is required and
+    part of the warped distribution. You probably need to install it
+    and/or specify the location of it with the --with-warped option.))
+
+
 AH_TEMPLATE([USE_CPPUNIT], [Compile cppunit tests])
 
 dnl Look for cppunit

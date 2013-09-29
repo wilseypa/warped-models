@@ -1,6 +1,5 @@
 INCLUDES=-I$(top_builddir)/src -I$(top_builddir)/thirdparty
 
-include $(top_srcdir)/Makefile.am.common
 # Ping pong stuff
 include pingPong/Makefile.am.stub
 # Unit test stuff
