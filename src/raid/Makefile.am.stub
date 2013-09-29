@@ -27,4 +27,4 @@ raidSim_SOURCES= \
      raid/factory/src/RAIDMain.cpp
 
 raidSim_LDFLAGS=-static
-raidSim_LDADD=$(top_builddir)/simulationmodels/libRnd.la
+raidSim_LDADD=$(top_builddir)/src/libRnd.la

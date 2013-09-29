@@ -28,4 +28,4 @@ iscas85Sim_SOURCES= \
 	circuitsimulationmodels/iscas85/iscas85Sim/Iscas85Main.cpp
 
 iscas85Sim_LDFLAGS=-static
-iscas85Sim_LDADD= $(top_builddir)/simulationmodels/libRnd.la
+iscas85Sim_LDADD= $(top_builddir)/src/libRnd.la

@@ -23,4 +23,4 @@ fulladderSim_SOURCES= \
 
 fulladderSim_LDFLAGS=-static
 fulladderSim_LDADD=libwarped.la \
-		    $(top_builddir)/simulationmodels/libRnd.la
+		    $(top_builddir)/src/libRnd.la
