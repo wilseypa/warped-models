@@ -16,5 +16,5 @@ pholdSim_SOURCES= \
      phold/factory/src/PHOLDMain.cpp
 
 pholdSim_LDFLAGS=-static
-pholdSim_LDADD=$(top_builddir)/src/libwarped.la \
+pholdSim_LDADD=libwarped.la \
             $(top_builddir)/simulationmodels/libRnd.la

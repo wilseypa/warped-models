@@ -22,5 +22,5 @@ fulladderSim_SOURCES= \
 	circuitsimulationmodels/fulladder/factory/src/NInputOrGate.cpp 
 
 fulladderSim_LDFLAGS=-static
-fulladderSim_LDADD=$(top_builddir)/src/libwarped.la \
+fulladderSim_LDADD=libwarped.la \
 		    $(top_builddir)/simulationmodels/libRnd.la

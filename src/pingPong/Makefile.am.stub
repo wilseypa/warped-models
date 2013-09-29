@@ -11,7 +11,6 @@ pingpong_SOURCES= \
 	pingPong/main.cpp
 
 pingpong_LDFLAGS=-static
-pingpong_LDADD=$(top_builddir)/src/libwarped.la
 
 EXTRA_DIST=pingPong/Makefile.am.stub
 

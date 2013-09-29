@@ -8,5 +8,5 @@ epidemicSim_SOURCES= \
 	 epidemic/tinyxml2.cpp
 
 epidemicSim_LDFLAGS=-static
-epidemicSim_LDADD=$(top_builddir)/src/libwarped.la \
+epidemicSim_LDADD=libwarped.la \
             $(top_builddir)/simulationmodels/libRnd.la
