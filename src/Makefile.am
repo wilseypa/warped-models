@@ -5,13 +5,13 @@ INCLUDES=-I$(top_srcdir)/thirdparty
 # and other macro definitions for each model are kept in `.am.stub` files in
 # the models' directories. These stub files are included here directly.
 
-include pingPong/Makefile.am.stub
-include adaptTest/Makefile.am.stub
-include phold/Makefile.am.stub
-include raid/Makefile.am.stub
-include rnd/Makefile.am.stub
-include smmp/Makefile.am.stub
-include epidemic/Makefile.am.stub
-include circuitsimulationmodels/iscas89/Makefile.am.stub
+include pingPong/aminclude.am
+include adaptTest/aminclude.am
+include phold/aminclude.am
+include raid/aminclude.am
+include rnd/aminclude.am
+include smmp/aminclude.am
+include epidemic/aminclude.am
+include circuitsimulationmodels/iscas89/aminclude.am
 
 noinst_PROGRAMS = $(PING_PONG_PROGRAM) $(UNIT_TEST_PROGRAM) $(ADAPT_TEST_PROGRAM) $(PHOLD_PROGRAM) $(RAID_PROGRAM) $(SMMP_PROGRAM) $(ISCAS89_PROGRAM) $(EPIDEMIC_PROGRAM)
