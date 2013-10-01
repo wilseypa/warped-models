@@ -21,17 +21,19 @@ Each model defines it's own command line interface, but in general they follow t
 
 ###Examples
 
+All examples are run from the `src` directory where the executables are built.
+
 Run the Ping Pong model with a sequential simulator.
 
-    ./src/pingPong/pingpong -c config/sequential.json 
+    ./pingpong -c sequential.json 
 
 Run the RAID model in a parallel configuration. 
 
-    ./src/raid/raidSim -c config/parallel.json --simulate src/raid/LargeRaid
+    ./raidSim -c parallel.json --simulate raid/LargeRaid
 
 Run the PHOLD model until the global VTime reaches 10000
 
-    ./src/phold/pholdSim -c config/parallel.json --simulate src/phold/LargePHOLD -u 10000
+    ./pholdSim -c parallel.json --simulate phold/LargePHOLD -u 10000
 
 # License
 The WARPED Models code in this repository is licensed under the MIT license, unless otherwise specified. The full text of the MIT license can be found in the `LICENSE.txt` file. 
