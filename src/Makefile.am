@@ -1,26 +1,17 @@
-INCLUDES=-I$(top_builddir)/thirdparty
+INCLUDES=-I$(top_srcdir)/thirdparty
 
-# Ping pong stuff
+# The models are built with non-recursive make. This is faster and reduces
+# Automake code duplication. To make keep everything more modular, the SOURCES
+# and other macro definitions for each model are kept in `.am.stub` files in
+# the models' directories. These stub files are included here directly.
+
 include pingPong/Makefile.am.stub
-# Unit test stuff
-include warped/Makefile.am.stub
-# Adaptive test stuff
 include adaptTest/Makefile.am.stub
-# PHOLD stuff
 include phold/Makefile.am.stub
-# Raid stuff
 include raid/Makefile.am.stub
-# Random stuff
 include rnd/Makefile.am.stub
-# SMMP stuff
 include smmp/Makefile.am.stub
-# Epidemic stuff
 include epidemic/Makefile.am.stub
-# iscas85 stuff
-# include circuitsimulationmodels/iscas85/Makefile.am.stub
-# DFF stuff
-# include circuitsimulationmodels/iscas89/Makefile.am.DFF
-# iscas89 stuff
 include circuitsimulationmodels/iscas89/Makefile.am.stub
 
 noinst_PROGRAMS = $(PING_PONG_PROGRAM) $(UNIT_TEST_PROGRAM) $(ADAPT_TEST_PROGRAM) $(PHOLD_PROGRAM) $(RAID_PROGRAM) $(SMMP_PROGRAM) $(ISCAS89_PROGRAM) $(EPIDEMIC_PROGRAM)
