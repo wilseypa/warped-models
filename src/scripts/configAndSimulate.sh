@@ -8,73 +8,67 @@ function control_c()
 # run if user hits control-c
 {
   echo -en "\n*** Ouch! Exiting ***\n"
-  scripts/dropbox_uploader.sh upload $logFile
+#  scripts/dropbox_uploader.sh upload $logFile
   exit $?
 }
 
 #Modifies the config file to the given settings
 function set_config {
-	threads=$1
-	scheduleQScheme=$2
-	scheduleQCount=$3
-	loadBalancing=$4
-	loadBalancingMetric=$5
-	loadBalancingTrigger=$6
-	loadBalancingNormalInterval=$7
-	loadBalancingNormalThresh=$8
-	loadBalancingRelaxedInterval=$9
-	loadBalancingRelaxedThresh=${10}
+    workerThreadCount=$1
+    scheduleQScheme=$2
+    causalityType=$3
+    scheduleQCount=$4
 
-	# Copy config file to tmp folder
-	cp parallel.config /tmp/$hostname.parallel.config
-	configFile="/tmp/$hostname.parallel.config"
+    # Copy config file to tmp folder
+    cp parallel.json /tmp/$hostname.parallel.json
+    configFile="/tmp/$hostname.parallel.json"
 
-	# Set configuration parameters
-	sed -i "s/WorkerThreadCount : [0-9]*$/WorkerThreadCount : "$threads"/g" $configFile
-	sed -i "s/ScheduleQScheme : [A-Z]*$/ScheduleQScheme : "$scheduleQScheme"/g" $configFile
-	sed -i "s/ScheduleQCount : [0-9]*$/ScheduleQCount : "$scheduleQCount"/g" $configFile
-	sed -i "s/LoadBalancing : [A-Z]*$/LoadBalancing : "$loadBalancing"/g" $configFile
-	sed -i "s/LoadBalancingMetric : [A-Za-z]*$/LoadBalancingMetric : "$loadBalancingMetric"/g" $configFile
-	sed -i "s/LoadBalancingTrigger : [A-Za-z]*$/LoadBalancingTrigger : "$loadBalancingTrigger"/g" $configFile
-	sed -i "s/LoadBalancingNormalInterval : [0-9]*$/LoadBalancingInterval : "$loadBalancingInterval"/g" $configFile
+    # Set configuration parameters
+    sed -i "s/\"WorkerThreadCount\": [0-9]*$/\"WorkerThreadCount\": $workerThreadCount/g" $configFile
+    sed -i "s/\"ScheduleQScheme\": \"[a-zA-Z]*$\"/\"ScheduleQScheme\": \"$scheduleQScheme\"/g" $configFile
+    sed -i "s/\"CausalityType\": \"[a-zA-Z]*$\"/\"CausalityType\": \"$causalityType\"/g" $configFile
+    sed -i "s/\"ScheduleQCount\": [0-9]*$/\"ScheduleQCount\": $scheduleQCount/g" $configFile
 }
 
 function run {
-	binary=$1
-	binaryConfig=$2
-	threads=$3
-	scheduleQScheme=$4
-	scheduleQCount=$5
-	loadBalancing=$6
-	loadBalancingMetric=$7
-	loadBalancingTrigger=$8
-	loadBalancingNormalInterval=$9
-	loadBalancingNormalThresh=${10}
-	loadBalancingRelaxedInterval=${11}
-	loadBalancingRelaxedThresh=${12}
-	simulateUntil=${13}
+    testCycles=$1
+    binary=$2
+    binaryConfig=$3
+    workerThreadCount=$4
+    scheduleQScheme=$5
+    causalityType=$6
+    scheduleQCount=$7
+    simulateUntil=$8
+    timeoutVal=$9
 
-	echo -e "\nStarting $binary $binaryConfig Simulation: $threads threads, $scheduleQCount scheduleQueues, $scheduleQScheme, and loadBalancing $loadBalancing\n"
+    set_config $workerThreadCount $scheduleQScheme $causalityType $scheduleQCount
 
-	set_config $threads $scheduleQScheme $scheduleQCount $loadBalancing $loadBalancingMetric $loadBalancingInterval $loadBalancingTrigger
+    for ((iteration=1; iteration <= $testCycles; ++iteration));
+    do
+        echo -e "\nStarting $binary $binaryConfig Simulation: $workerThreadCount threads, $scheduleQCount $causalityType $scheduleQScheme Test number: $iteration/$testCycles\n"
+        if [ $simulateUntil == "-" ]
+        then
+            runCommand="./$binary -c $configFile --simulate $binaryConfig"
+        else
+            runCommand="./$binary -c $configFile --simulate $binaryConfig -u $simulateUntil"
+        fi
 
-	if [ $simulateUntil == "-" ]
-	then
-		runCommand="./$binary -configuration $configFile -simulate $binaryConfig"
-	else
-		runCommand="./$binary -configuration $configFile -simulate $binaryConfig -simulateUntil $simulateUntil"
-	fi
-	date=`date +"%m-%d-%y_%T"`
-	grepMe=`$runCommand | grep "Simulation complete"`
-	runTime=`echo $grepMe | sed -e 's/.*complete (\(.*\) secs.*/\1/'`
-	rollbacks=`echo $grepMe | sed -e 's/.*Rollbacks: (\(.*\)).*/\1/'`
-	echo $runTime
-	echo $rollbacks
+        if [ $timeoutVal == "-" ]
+        then
+            grepMe=`$runCommand | grep "Simulation complete"`
+        else
+            grepMe=`timeout $timeoutVal bash -c "$runCommand" | grep "Simulation complete"`
+        fi
+        runTime=`echo $grepMe | sed -e 's/.*complete (\(.*\) secs.*/\1/'`
+        rollbacks=`echo $grepMe | sed -e 's/.*Rollbacks: (\(.*\)).*/\1/'`
+        echo $runTime
+        echo $rollbacks
 
-	# Write to log file
-	echo "$binary,$binaryConfig,$threads,$scheduleQScheme,$scheduleQCount,$loadBalancing,$loadBalancingMetric,$loadBalancingInterval,$loadBalancingTrigger,$simulateUntil,$runTime,$rollbacks" >> $logFile
+        # Write to log file
+        echo "$binary,$binaryConfig,$iteration,$workerThreadCount,$scheduleQScheme,$causalityType,$scheduleQCount,$simulateUntil,$runTime,$rollbacks" >> $logFile
 
-	sleep 10
+        sleep 10
+    done
 }
 
 hostname=`hostname`
@@ -83,12 +77,12 @@ logFile="scripts/logs/$hostname---$date.csv"
 
 # Write csv header
 ## Simulation Threads Scheme ScheduleQCount SimulateUntil Runtime Rollbacks
-echo "Simulation,SimulationConfig,Threads,Scheme,ScheduleQCount,LoadBalancing,LoadBalancingMetric,LoadBalancingInterval,LoadBalancingTrigger,SimulateUntil,Runtime,Rollbacks" > $logFile
+echo "Simulation,SimulationConfig,TestNumber,Threads,Scheme,CausalityType,ScheduleQCount,SimulateUntil,Runtime,Rollbacks" > $logFile
 
 trap control_c SIGINT
 
 . scripts/$1
-#run raidSim raid/LargeRAID 6 MULTISET 1 100000
+# run raidSim raid/LargeRAID 4 LadderQueue Strict 2 100000
 
 # Upload output to dropbox
-scripts/dropbox_uploader.sh upload $logFile
+#scripts/dropbox_uploader.sh upload $logFile
