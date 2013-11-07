@@ -18,7 +18,7 @@ else
 	fi
 fi
 
-rm G*
+rm -f G*
 
 for ((i=0;i<NUM_TESTS;i++))
 do

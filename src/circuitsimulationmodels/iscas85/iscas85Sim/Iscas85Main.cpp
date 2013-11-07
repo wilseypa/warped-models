@@ -18,8 +18,6 @@ main(int argc, char** argv) {
     try {
         TCLAP::CmdLine cmd("Iscas85 Simulation");
 
-        TCLAP::ValueArg<string> inputFileNameArg("", "simulate", "configuration file name",
-                true, inputFileName, "file", cmd);
         TCLAP::ValueArg<string> testCaseFileNameArg("", "simulate", "test case file name",
                 true, testCaseFileName, "file", cmd);
         TCLAP::ValueArg<int> numObjectsArg("", "numObjects",
@@ -35,7 +33,7 @@ main(int argc, char** argv) {
 
         cmd.parse(argc, argv);
 
-        inputFileName = inputFileNameArg.getValue();
+        inputFileName = testCaseFileNameArg.getValue();
         testCaseFileName = testCaseFileNameArg.getValue();
         numObjects = numObjectsArg.getValue();
 

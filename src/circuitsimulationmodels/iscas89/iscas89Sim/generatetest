@@ -27,8 +27,8 @@ else
   fi
 fi
 
-rm G* 
-rm g*
+rm -f G* 
+rm -f g*
 
 echo $NUM_TESTS
 NUM_INPUTS=${var[0]};
