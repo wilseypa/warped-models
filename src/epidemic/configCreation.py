@@ -32,8 +32,8 @@ PROB_UI_U                       = 0.3
 LOCATION_STATE_REFRESH_INTERVAL = 1
 
 # Regions
-NUMBER_OF_REGIONS               = 5
-NUMBER_OF_LOCATIONS             = [4,3,6,7,2]
+NUMBER_OF_REGIONS               = 10
+NUMBER_OF_LOCATIONS             = [4,3,6,7,2,10,7,8,3,6]
 
 # Location
 MIN_NUM_OF_PERSONS_PER_LOC      = 10
