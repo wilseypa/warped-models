@@ -78,6 +78,13 @@ Legend:
 		Intervals at which the disease spread at any location is re-computed
 
 
+IMPORTANT FEATURE :
+-----------------
+The config file can be auto-generated with random region details using the 'configCreation.py' script.
+Type 'python configCreation.py <config_file_name>' to create the config file.
+
+
+
 References
 ----------
 
