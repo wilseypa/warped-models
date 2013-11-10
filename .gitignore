@@ -47,4 +47,9 @@ libtool
 ltmain.*
 
 # ctags
-.tags*
+tags*
+
+# Auto-generated ISCAS files
+src/circuitsimulationmodels/iscas85/iscas85Sim/c*
+src/circuitsimulationmodels/iscas89/iscas89Sim/s*
+
