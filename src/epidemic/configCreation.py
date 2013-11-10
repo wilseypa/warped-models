@@ -128,7 +128,7 @@ def main():
                 field.text = str(INFECTION_STATES[randIS.randrange(0, len(INFECTION_STATES))])
 
     tree = ET.ElementTree(root)
-    tree.write(outFileName)
+    tree.write(outFileName, "ISO-8859-1")
 
 if __name__ == "__main__":
     main()
