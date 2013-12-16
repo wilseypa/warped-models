@@ -122,10 +122,10 @@
     //     None, Cheby
     "OptFossilCollManager": {
         "Type": "None",
-        "CheckpointTime": 10000,
+        "CheckpointTime": 2500,
         "MinimumSamples": 64,
         "MaximumSamples": 100,
-        "DefaultLength": 2000,
+        "DefaultLength": 20000,
         "AcceptableRisk": 0.99
     },
 
