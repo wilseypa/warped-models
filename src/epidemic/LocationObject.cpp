@@ -5,7 +5,7 @@
 #include <vector>
 #include <map>
 
-#define SAMPLING_FREQ 1000
+#define SAMPLING_FREQ 10
 
 using namespace std;
 
@@ -79,7 +79,7 @@ void LocationObject::finalize() {}
 void LocationObject::executeProcess() {
 
     LocationState *myState = static_cast<LocationState*>(getState());
-    IntVTime currentTime = static_cast<const IntVTime&> (getSimulationTime());
+    IntVTime currentTime = dynamic_cast<const IntVTime&> (getSimulationTime());
     EpidemicEvent *recvEvent = NULL;
     SimulationObject *receiver = NULL;
 
