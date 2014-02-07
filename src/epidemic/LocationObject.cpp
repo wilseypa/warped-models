@@ -6,6 +6,7 @@
 #include <map>
 
 #define SAMPLING_FREQ 10
+#define RANDOM_SEED   90
 
 using namespace std;
 
@@ -34,8 +35,7 @@ LocationObject::LocationObject( string locationName,
         locDiffusionTrigInterval(locDiffusionTrigInterval) {
 
     /* Create and seed the random number class */
-    randNumGen = new RandomNumGen();
-    randNumGen->seedRandNumGen();
+    randNumGen = new RandomNumGen(RANDOM_SEED);
 
     /* Create the disease model */
     diseaseModel = new DiseaseModel(    transmissibility, latentDwellTime, 

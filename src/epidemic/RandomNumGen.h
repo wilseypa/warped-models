@@ -9,27 +9,26 @@ class RandomNumGen {
 public:
 
     /* Default constructor */
-    RandomNumGen() {}
+    RandomNumGen(unsigned int seedVal): 
+        seed(seedVal) {}
 
     /* Destructor */
     ~RandomNumGen() {}
-
-    /* Seed the random number generator */
-    void seedRandNumGen() {
-        srand( time(NULL) );
-    }
 
     /* Generate the random number */
     unsigned int genRandNum( unsigned int upperLimit ) {
 
         unsigned int randNum = 0;
         if(upperLimit > 0) {
-            randNum = (unsigned int) rand()%upperLimit;
+            randNum = (unsigned int) rand_r(&seed)%upperLimit;
         } else {
-            randNum = (unsigned int) rand();
+            randNum = (unsigned int) rand_r(&seed);
         }
         return randNum;
     }
+
+private:
+    unsigned int seed;
 };
 
 #endif
