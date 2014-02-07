@@ -55,8 +55,8 @@
     // Schedule Queue count (changed based on WorkerThreadCount)
     "Scheduler": {
         "Type": "MultiSet",
-        "ScheduleQScheme": "MultiSet",
-        "CausalityType": "Strict",
+        "ScheduleQScheme": "LadderQueue",
+        "CausalityType": "Relaxed",
         "ScheduleQCount": 2
     },
     

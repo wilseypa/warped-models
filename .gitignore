@@ -40,6 +40,8 @@ config.guess
 config.log
 config.status
 config.sub
+config.h
+config.h.in
 stamp-h1
 
 # Libtool
