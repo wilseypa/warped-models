@@ -50,6 +50,9 @@ ltmain.*
 
 # ctags
 tags*
+.tags*
+src/tags*
+src/.tags*
 
 # Auto-generated ISCAS files
 src/circuitsimulationmodels/iscas85/iscas85Sim/c*
