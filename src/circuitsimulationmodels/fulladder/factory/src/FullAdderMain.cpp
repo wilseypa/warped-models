@@ -8,7 +8,6 @@
 
 int
 main(int argc, char** argv) {
-    int numObjects = 0;
     std::string inputFileName = "";
 
     std::string configuration = "";
@@ -18,9 +17,6 @@ main(int argc, char** argv) {
     try {
         TCLAP::CmdLine cmd("FullAdder Simulation");
 
-        TCLAP::ValueArg<int> numObjectsArg("", "numObjects",
-                                           "number of simulation objects",
-                                           false, numObjects, "int", cmd);
         TCLAP::ValueArg<string> inputFileNameArg("", "simulate", "configuration file name",
                                                  true, inputFileName, "string", cmd);
 
@@ -35,7 +31,6 @@ main(int argc, char** argv) {
         cmd.parse(argc, argv);
 
         inputFileName = inputFileNameArg.getValue();
-        numObjects = numObjectsArg.getValue();
 
         configuration = configurationArg.getValue();
         simulateUntil = simulateUntilArg.getValue();
@@ -51,7 +46,7 @@ main(int argc, char** argv) {
         abort();
     }
 
-    WarpedMain wm(new FullAdderApplication(numObjects, inputFileName),
+    WarpedMain wm(new FullAdderApplication(inputFileName), 
                   configuration, simulateUntil, debug);
 
     return wm.main(argc, argv);

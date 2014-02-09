@@ -4,36 +4,25 @@
 #include "../include/NInputAndGate.h"
 #include "../include/NInputXorGate.h"
 #include "../include/NInputOrGate.h"
-#include <PartitionInfo.h>
-#include <RoundRobinPartitioner.h>
 #include <DeserializerManager.h>
 
-#include "vector"
-#include "iostream"
-#include "fstream"
+#include <vector>
+#include <iostream>
+#include <fstream>
 
 using namespace std;
 
 
-FullAdderApplication::FullAdderApplication(int numObjects, string inputFileName)
-    : inputFileName(inputFileName),
-      numObjects(numObjects) {}
+FullAdderApplication::FullAdderApplication(string inputFileName)
+    : inputFileName(inputFileName) {}
 
 int 
 FullAdderApplication::finalize(){
   return 0;
 }
 
-int
-FullAdderApplication::getNumberOfSimulationObjects(int mgrId) const {
-  return numObjects;
-}
-
-const PartitionInfo *
-FullAdderApplication::getPartitionInfo(unsigned int numberOfProcessorsAvailable){
-  
-  const PartitionInfo *retval = 0;
-  Partitioner *myPartitioner = new RoundRobinPartitioner();
+std::vector<SimulationObject*>*
+FullAdderApplication::getSimulationObjects(unsigned int numProcessorsAvailable){
   int numFileObjects;
   string fileName;
   int numOfGates;  
@@ -159,11 +148,7 @@ FullAdderApplication::getPartitionInfo(unsigned int numberOfProcessorsAvailable)
 }
   cout<<"objects size is"<<objects->size()<<endl;
 
-  retval = myPartitioner->partition( objects, numberOfProcessorsAvailable );
-
-  delete objects;
-  
-  return retval; 	
+  return objects; 	
 }
 
 void 
