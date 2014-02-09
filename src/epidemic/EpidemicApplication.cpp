@@ -1,10 +1,7 @@
 #include "EpidemicApplication.h"
 #include "LocationObject.h"
-#include "EpidemicPartitioner.h"
 #include "Person.h"
 #include "tinyxml2.h"
-#include "PartitionInfo.h"
-#include "RoundRobinPartitioner.h"
 #include "DeserializerManager.h"
 
 #include <vector>
@@ -18,18 +15,12 @@ using namespace std;
 using namespace tinyxml2;
 
 
-EpidemicApplication::EpidemicApplication(string inputFileName, int numObjects):
-    inputFileName(inputFileName),
-    numObjects(numObjects) { }
+EpidemicApplication::EpidemicApplication(string inputFileName):
+    inputFileName(inputFileName) { }
 
-int EpidemicApplication::getNumberOfSimulationObjects(int mgrId) const {
-    return numObjects;
-}
+std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects(
+    unsigned int numProcessorsAvailable) {
 
-const PartitionInfo *EpidemicApplication::getPartitionInfo(
-                    unsigned int numberOfProcessorsAvailable ) {
-
-    EpidemicPartitioner *myPartitioner = new EpidemicPartitioner();
     int numRegions = 0, numLocations = 0, numPersons = 0;
     unsigned int pid = 0, travelTimeToHub = 0, latentDwellTime = 0, 
             incubatingDwellTime = 0, infectiousDwellTime = 0, 
@@ -47,7 +38,7 @@ const PartitionInfo *EpidemicApplication::getPartitionInfo(
     vector <SimulationObject*> *locObjs;
     vector <Person *> *personVec;
 
-    vector <SimulationObject *> simulationObjVec;
+    vector <SimulationObject *>* simulationObjVec = new vector <SimulationObject *>;
     map <string, unsigned int> travelMap;
     
     /* open the XML file */
@@ -137,27 +128,19 @@ const PartitionInfo *EpidemicApplication::getPartitionInfo(
                                                             probULU, probULV, probURV, probUIV, probUIU,
                                                             locStateRefreshInterval, locDiffusionTrigInterval, 
                                                             personVec, travelTimeToHub);
-            locObjs->push_back(locObject);
-            simulationObjVec.push_back(locObject);
+            simulationObjVec->push_back(locObject);
         }
-        numObjects += numLocations;
-
-        /* Add the group of objects to the partition information */
-        myPartitioner->addObjectGroup(locObjs);
     }
 
     /* Send travel map to all the objects once all the objects have been created */
-    for( vector<SimulationObject*>::iterator vecIter = simulationObjVec.begin();
-                                    vecIter != simulationObjVec.end(); vecIter++ ) {
+    for( vector<SimulationObject*>::iterator vecIter = simulationObjVec->begin();
+                                    vecIter != simulationObjVec->end(); vecIter++ ) {
         LocationObject *locObj = static_cast <LocationObject *> (*vecIter);
         locObj->populateTravelMap(&travelMap);
     }
 
-    /* Perform the actual partitioning of groups */
-    const PartitionInfo *retval = myPartitioner->partition( NULL, numberOfProcessorsAvailable );
-
     EpidemicConfig.SaveFile(inputFileName.c_str());
-    return retval;
+    return simulationObjVec;
 }
 
 int EpidemicApplication::finalize() {

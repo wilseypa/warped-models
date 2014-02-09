@@ -8,5 +8,19 @@
     "EventList": {
         // Sequential EventList types can be "SplayTree" or "SingleLinkedList"
         "Type": "SplayTree"
+    },
+
+
+    // The statistics configuration has no effect for simulation types other
+    // than "Sequential"
+    "Statistics": {
+        // When enabled, statistics on the number of event passed between
+        // nodes will be collected.
+        "EventCount": false,
+        // The file format of the statistics file that will be created at the
+        // end of the simulation. Choices are: "dot"
+        "OutputFormat": "dot",
+        // The path to the file that will be created
+        "OutputFilePath": "statistics.dot"
     }
 }

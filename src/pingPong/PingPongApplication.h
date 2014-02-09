@@ -11,10 +11,8 @@ public:
 		       unsigned int initNumBallsAtOnce,
 		       bool initRandomDelays );
 
-  int getNumberOfSimulationObjects(int mgrId) const;
+  vector<SimulationObject *> *getSimulationObjects(unsigned int numProcessorsAvailable);
 
-  const PartitionInfo *getPartitionInfo( unsigned int numberOfProcessorsAvailable );
-  
   int finalize();
 
   void registerDeserializers();
@@ -24,7 +22,6 @@ public:
   const VTime &getTime(string &){ return IntVTime::getIntVTimeZero(); }
 
 private:
-  vector<SimulationObject *> *getSimulationObjects();
 
   unsigned int numObjects;
   unsigned int numEventsPerObject;

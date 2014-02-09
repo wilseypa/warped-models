@@ -7,17 +7,16 @@
 
 #include <Application.h>
 #include <IntVTime.h>
+#include <vector>
 
 class EpidemicApplication : public Application {
 
 public:
 
 	/* Constructor */
-	EpidemicApplication(string inputFileName, int numObjects);
+	EpidemicApplication(string inputFileName);
 
-	int getNumberOfSimulationObjects(int mgrId) const;
-
-	const PartitionInfo *getPartitionInfo( unsigned int numberOfProcessorsAvailable );
+    std::vector<SimulationObject*>* getSimulationObjects(unsigned int numProcessorsAvailable);
   
 	int finalize();
 
@@ -33,8 +32,6 @@ public:
 	}
 
 private:
-    int numObjects;
-
     string inputFileName;
 };
 

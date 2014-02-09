@@ -17,13 +17,8 @@ PingPongApplication::PingPongApplication( unsigned int initNumObjects,
     numBallsAtOnce( initNumBallsAtOnce ),
     randomDelays( initRandomDelays ){}
 
-int 
-PingPongApplication::getNumberOfSimulationObjects(int mgrId) const { 
-  return numObjects;
-}
-
 vector<SimulationObject *> *
-PingPongApplication::getSimulationObjects(){
+PingPongApplication::getSimulationObjects(unsigned int numProcessorsAvailable){
   vector<SimulationObject *> *retval = new vector<SimulationObject *>;
   retval->reserve( numObjects );
 
@@ -59,19 +54,6 @@ PingPongApplication::getSimulationObjects(){
   return retval;
 }
 
-
-const PartitionInfo *
-PingPongApplication::getPartitionInfo( unsigned int numberOfProcessorsAvailable ){
-  const PartitionInfo *retval = 0;
-
-  Partitioner *myPartitioner = new RoundRobinPartitioner();
-  // Now we'll create some simulation objects...
-  vector<SimulationObject *> *objects = getSimulationObjects();
-  retval = myPartitioner->partition( objects, numberOfProcessorsAvailable );
-  delete objects;
-
-  return retval;
-}
 
 int 
 PingPongApplication::finalize(){ 

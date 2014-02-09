@@ -9,7 +9,6 @@
 int
 main(int argc, char** argv) {
     std::string inputFileName = "";
-    int numObjects = 0;
 
     std::string configuration = "";
     std::string simulateUntil = "";
@@ -20,9 +19,6 @@ main(int argc, char** argv) {
 
         TCLAP::ValueArg<string> inputFileNameArg("", "simulate", "configuration file name",
                                                  true, inputFileName, "file", cmd);
-        TCLAP::ValueArg<int> numObjectsArg("", "numObjects",
-                                           "number of simulation objects",
-                                           false, numObjects, "int", cmd);
 
         // Arguments for WarpedMain
         TCLAP::ValueArg<std::string> configurationArg("c", "configuration", "WARPED configuration file",
@@ -34,7 +30,6 @@ main(int argc, char** argv) {
         cmd.parse(argc, argv);
 
         inputFileName = inputFileNameArg.getValue();
-        numObjects = numObjectsArg.getValue();
 
         configuration = configurationArg.getValue();
         simulateUntil = simulateUntilArg.getValue();
@@ -48,7 +43,7 @@ main(int argc, char** argv) {
         std::cerr << "A configuration file must be specified using --simulate" << std::endl;
         abort();
     }
-    WarpedMain wm(new EpidemicApplication(inputFileName, numObjects),
+    WarpedMain wm(new EpidemicApplication(inputFileName),
                   configuration, simulateUntil, debug);
 
     return wm.main(argc, argv);
