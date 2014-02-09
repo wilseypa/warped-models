@@ -1,12 +1,8 @@
 #include "AdaptTestApplication.h"
 #include "AdaptTestObject.h"
 #include "AdaptTestEvent.h"
-#include <PartitionInfo.h>
-#include <RoundRobinPartitioner.h>
 #include <DeserializerManager.h>
 
-#include <tclap/CmdLine.h>
-#include <tclap/ValuesConstraint.h>
 #include <vector>
 using std::string;
 
