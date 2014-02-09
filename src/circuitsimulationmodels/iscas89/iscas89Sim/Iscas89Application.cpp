@@ -8,8 +8,6 @@
 #include "NInputNorGate.h"
 #include "NotGate.h"
 #include "DFF.h"
-#include "PartitionInfo.h"
-#include "RoundRobinPartitioner.h"
 #include "DeserializerManager.h"
 
 #include <vector>
@@ -19,27 +17,17 @@
 
 using namespace std;
 
-Iscas89Application::Iscas89Application(string inputFileName, string testCaseFileName,
-                                       int numObjects)
+Iscas89Application::Iscas89Application(string inputFileName, string testCaseFileName)
     : inputFileName(inputFileName),
-      testCaseFileName(testCaseFileName),
-      numObjects(numObjects) {}
+      testCaseFileName(testCaseFileName) {}
 
 int 
 Iscas89Application::finalize(){
   return 0;
 }
 
-int
-Iscas89Application::getNumberOfSimulationObjects(int mgrId) const {
-  return numObjects;
-}
-
-const PartitionInfo*
-Iscas89Application::getPartitionInfo(unsigned int numberOfProcessorsAvailable){
-  const PartitionInfo *retval = 0;
-  Partitioner *myPartitioner = new RoundRobinPartitioner();
-
+std::vector<SimulationObject*>*
+Iscas89Application::getSimulationObjects(unsigned int numProcessorsAvailable){
   int numFileObjects;
   string fileName;
   int numOfGates;  
@@ -204,10 +192,7 @@ Iscas89Application::getPartitionInfo(unsigned int numberOfProcessorsAvailable){
         }
      }
    }
-     // cout<<"objects size is"<<objects->size()<<endl;
-      retval = myPartitioner->partition( objects, numberOfProcessorsAvailable );
-      delete objects;
-      return retval;
+      return objects;
 }
 
 

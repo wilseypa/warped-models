@@ -3,15 +3,14 @@
 
 #include <Application.h>
 #include <IntVTime.h>
+#include <vector>
 
 class Iscas89Application : public Application{
 public:
 
-  Iscas89Application(string inputFileName, string testCaseFileName, int numObjects);
+  Iscas89Application(string inputFileName, string testCaseFileName);
 
-  int getNumberOfSimulationObjects(int mgrId) const;
-
-  const PartitionInfo *getPartitionInfo( unsigned int numberOfProcessorsAvailable);
+  std::vector<SimulationObject*>* getSimulationObjects(unsigned int numProcessorsAvailable);
 
   int finalize();
 

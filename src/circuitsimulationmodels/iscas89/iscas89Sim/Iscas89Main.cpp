@@ -10,7 +10,6 @@ int
 main(int argc, char **argv){
     std::string inputFileName = "";
     std::string testCaseFileName = "";
-    int numObjects = 0;
 
     std::string configuration = "";
     std::string simulateUntil = "";
@@ -20,9 +19,6 @@ main(int argc, char **argv){
 
         TCLAP::ValueArg<string> testCaseFileNameArg("", "simulate", "test case file name",
                 true, testCaseFileName, "file", cmd);
-        TCLAP::ValueArg<int> numObjectsArg("", "numObjects",
-                                           "number of simulation objects",
-                                           false, numObjects, "int", cmd);
 
         // Arguments for WarpedMain
         TCLAP::ValueArg<std::string> configurationArg("c", "configuration", "WARPED configuration file",
@@ -35,7 +31,6 @@ main(int argc, char **argv){
 
         inputFileName = testCaseFileNameArg.getValue();
         testCaseFileName = testCaseFileNameArg.getValue();
-        numObjects = numObjectsArg.getValue();
 
         configuration = configurationArg.getValue();
         simulateUntil = simulateUntilArg.getValue();
@@ -55,7 +50,7 @@ main(int argc, char **argv){
     string path = "circuitsimulationmodels/iscas89/iscas89Sim/";
     inputFileName = path + inputFileName + "/" + inputFileName + "config";
 
-    WarpedMain wm(new Iscas89Application(inputFileName, testCaseFileName, numObjects),
+    WarpedMain wm(new Iscas89Application(inputFileName, testCaseFileName),
                   configuration, simulateUntil, debug);
 
     return wm.main(argc, argv);
