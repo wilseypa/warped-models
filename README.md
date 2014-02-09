@@ -3,7 +3,7 @@ Simulation models for the WARPED Parallel & Distributed Discrete Simulation Libr
 
 # Building
 
-The is built with a C++11 compiler (see [here](http://lektiondestages.blogspot.de/2013/05/installing-and-switching-gccg-versions.html) for instructions about upgrading and switching GCC versions if you have an old version of GCC that does not support the required features.).  
+The WARPED models are built with a C++11 compiler (see [here](http://lektiondestages.blogspot.de/2013/05/installing-and-switching-gccg-versions.html) for instructions about upgrading and switching GCC versions if you have an old version of GCC that does not support the required features.).  
 
 These models require the WARPED library to be built and installed. The library can be found with build instructions [here](https://github.com/wilseypa/pdes). 
 
@@ -14,6 +14,8 @@ To build from the git repository, first clone a local copy.
 You can run the Autotools build without any options. These models are not typically installed, so a prefix is optional. However, if the WARPED library is not install at the default location of `/usr`, then the location must be specified with the `--with-warped` configure option. For example, if the WARPED library is installed in `/usr/local`, then the following command would be used to build the models:
 
 	autoreconf -i && ./configure --with-warped=/usr/local && make
+
+As with WARPED itself, the models can be built using silent build rules by passing the `--enable-silent-rules` flag to configure.
 
 # Usage
 
