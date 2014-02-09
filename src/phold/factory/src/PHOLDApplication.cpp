@@ -1,8 +1,6 @@
 #include "../include/PHOLDApplication.h"
 #include "../include/Process.h"
 #include "../include/PHOLDEvent.h"
-#include <PartitionInfo.h>
-#include <RoundRobinPartitioner.h>
 #include <DeserializerManager.h>
 
 #include <vector>
@@ -15,13 +13,8 @@ PHOLDApplication::PHOLDApplication(string inputFileName, int numObjects)
     : inputFileName(inputFileName),
       numObjects(numObjects) {}
 
-int 
-PHOLDApplication::getNumberOfSimulationObjects(int mgrId) const { 
-  return numObjects;
-}
-
 vector<SimulationObject *> *
-PHOLDApplication::getSimulationObjects(){
+PHOLDApplication::getSimulationObjects(unsigned int numProcessorsAvailable){
 
   unsigned int msgDen;
   string distributionString; // distribution_t
@@ -200,20 +193,6 @@ PHOLDApplication::getSimulationObjects(){
   }
   configFile.close();
   
-  return retval;
-}
-
-const PartitionInfo *
-PHOLDApplication::getPartitionInfo( unsigned int numberOfProcessorsAvailable ){
-  const PartitionInfo *retval = 0;
-  numLPs = numberOfProcessorsAvailable;
-
-  Partitioner *myPartitioner = new RoundRobinPartitioner();
-  // Now we'll create some simulation objects...
-  vector<SimulationObject *> *objects = getSimulationObjects();
-  retval = myPartitioner->partition( objects, numberOfProcessorsAvailable );
-  delete objects;
-
   return retval;
 }
 

@@ -3,14 +3,13 @@
 
 #include <Application.h>
 #include <IntVTime.h>
+#include <vector>
 
 class PHOLDApplication : public Application {
 public:
   PHOLDApplication(string inputFileName, int numObjects);
 
-  int getNumberOfSimulationObjects(int mgrId) const;
-
-  const PartitionInfo *getPartitionInfo( unsigned int numberOfProcessorsAvailable );
+  std::vector<SimulationObject*>* getSimulationObjects(unsigned int numProcessorsAvailable);
   
   int finalize();
 
@@ -24,8 +23,6 @@ public:
   }
 
 private:
-  vector<SimulationObject *> *getSimulationObjects();
-
   string inputFileName;
   int numObjects;
   int numLPs;
