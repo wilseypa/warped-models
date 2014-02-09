@@ -2,17 +2,19 @@
 #ifndef SMMPFORKOBJECT_HH
 #define SMMPFORKOBJECT_HH
 
-#include <iostream>
 #include "../rnd/Uniform.h"
-#include "SimulationObject.h"
+#include "SMMPObject.h"
+#include <iostream>
 #include <vector>
 using namespace std;
 
-class SMMPForkObject : public SimulationObject {
+class SimulationObject;
+
+class SMMPForkObject : public SMMPObject {
 public:
   
   SMMPForkObject(string myName, double initSeed, double cHitRat,
-                 vector<string> outNames);
+                 vector<string> outNames, int group);
   ~SMMPForkObject();
   
   void initialize();

@@ -2,11 +2,11 @@
 #define SMMPQUEUEOBJECT_HH
 
 #include <iostream>
-#include "SimulationObject.h"
+#include "SMMPObject.h"
 
-class SMMPQueueObject : public SimulationObject {
+class SMMPQueueObject : public SMMPObject {
 public: 
-   SMMPQueueObject(string initName, string initServerName);
+   SMMPQueueObject(string initName, string initServerName, int group);
   ~SMMPQueueObject();
 
    void initialize();

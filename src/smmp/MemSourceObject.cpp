@@ -3,9 +3,10 @@
 #include "IntVTime.h"
 using namespace std;
 
-MemSourceObject::MemSourceObject(string initName, int max):
+MemSourceObject::MemSourceObject(string initName, int max, int group):
   objectName(initName),
-  maxMemRequests(max){  
+  maxMemRequests(max) {
+    this->group = group;
 }
 
 MemSourceObject::~MemSourceObject() {

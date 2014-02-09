@@ -3,10 +3,11 @@
 #include "IntVTime.h"
 #include "MemEvents.h"
 
-SMMPJoinObject::SMMPJoinObject(string myName, string initDest):
+SMMPJoinObject::SMMPJoinObject(string myName, string initDest, int group):
   myObjectName(myName),
   dest(initDest),
-  joinDelay(0){
+  joinDelay(0) {
+    this->group = group;
 }
 
 SMMPJoinObject::~SMMPJoinObject(){

@@ -3,9 +3,10 @@
 #include "IntVTime.h"
 #include "MemEvents.h"
 
-SMMPQueueObject::SMMPQueueObject(string initName, string initServerName):
+SMMPQueueObject::SMMPQueueObject(string initName, string initServerName, int group):
    myObjectName(initName),
-   serverName(initServerName){
+   serverName(initServerName) {
+    this->group = group;
 }
 
 SMMPQueueObject::~SMMPQueueObject(){

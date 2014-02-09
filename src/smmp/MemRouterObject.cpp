@@ -2,8 +2,9 @@
 #include "MemEvents.h"
 #include "MemRouterState.h"
 
-MemRouterObject::MemRouterObject(string initName):
+MemRouterObject::MemRouterObject(string initName, int group):
   objectName(initName) {
+    this->group = group;
 }
 
 MemRouterObject::~MemRouterObject() {

@@ -1,7 +1,7 @@
 #ifndef MEMROUTEROBJECT_HH
 #define MEMROUTEROBJECT_HH
 
-#include "SimulationObject.h"
+#include "SMMPObject.h"
 
 /* The MemRouterObject Class.
    
@@ -9,9 +9,9 @@
    main source processor object that sent the request.
 
 */
-class MemRouterObject : public SimulationObject  {
+class MemRouterObject : public SMMPObject  {
 public:
-  MemRouterObject(string initName);
+  MemRouterObject(string initName, int group);
   ~MemRouterObject();
 
   void initialize();

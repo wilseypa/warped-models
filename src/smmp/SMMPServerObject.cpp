@@ -4,14 +4,15 @@
 #include "MemEvents.h"
 using namespace std;
 
-SMMPServerObject::SMMPServerObject(string initName, string initDest, double initSeed):
+SMMPServerObject::SMMPServerObject(string initName, string initDest, double initSeed, int group):
    myObjectName(initName),
    dest(initDest),
    serverDist(UNIFORM),
    delay(0),
    first(0),
    second(0),
-   seed(initSeed){
+   seed(initSeed) {
+    this->group = group;
 }
 
 SMMPServerObject::~SMMPServerObject(){

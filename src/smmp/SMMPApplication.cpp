@@ -9,27 +9,42 @@
 #include "SMMPPartitioner.h"
 #include "PartitionInfo.h"
 #include "DeserializerManager.h"
+#include "SimulationObject.h"
+#include "SMMPObject.h"
 
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <map>
+
 using namespace std;
-using std::string;
 
 #define NUMPER 6
 
-SMMPApplication::SMMPApplication(string inputFileName, int numObjects)
-    : inputFileName(inputFileName),
-      numObjects(numObjects) {}
+SMMPApplication::SMMPApplication(string inputFileName)
+    : inputFileName(inputFileName) {}
 
-int
-SMMPApplication::getNumberOfSimulationObjects(int mgrId) const {
-  return numObjects;
+const PartitionInfo* 
+SMMPApplication::getPartitionInfo(unsigned int numProcessorsAvailable,
+                                  const std::vector<SimulationObject*>* simulationObjects){
+  SMMPPartitioner *myPartitioner = new SMMPPartitioner();
+
+  map<int, vector<SimulationObject*>> groups;
+
+  for (auto obj : *simulationObjects) {
+    groups[static_cast<SMMPObject*>(obj)->getGroup()].push_back(obj);
+  }
+
+  for (auto& mapiter : groups) {
+    myPartitioner->addObjectGroup(&(mapiter.second));
+  }
+
+  // Perform the actual partitioning of groups.
+  return myPartitioner->partition( NULL, numProcessorsAvailable );
 }
 
-const PartitionInfo *
-SMMPApplication::getPartitionInfo( unsigned int numberOfProcessorsAvailable ){
-  SMMPPartitioner *myPartitioner = new SMMPPartitioner();
+std::vector<SimulationObject*>*
+SMMPApplication::getSimulationObjects(unsigned int numProcessorsAvailable){
   int numProcs;
   int cacheSpeed;
   double cacheHitRatio;
@@ -65,68 +80,59 @@ SMMPApplication::getPartitionInfo( unsigned int numberOfProcessorsAvailable ){
   // Used to initialize the seeds for the objects.
   double seed = 0;
 
-  vector<SimulationObject*> *procObjs;
+  vector<SimulationObject*> * simulationObjects = new vector<SimulationObject*>;
 
   // For each processor in the simulation, initialize 6 objects.
-  for(int p = 0; p < numProcs; p++){
-    procObjs = new vector<SimulationObject*>;  
+  int p = 0;
+  for(; p < numProcs; p++){
     stringstream out;
     out << p;
     string curProc = out.str();
 
-    MemSourceObject *source = new MemSourceObject(sourceName + curProc, numReqPerProc);
+    MemSourceObject *source = new MemSourceObject(sourceName + curProc, numReqPerProc, p);
     source->setDestination(join1Name + curProc);
-    procObjs->push_back(source);
+    simulationObjects->push_back(source);
 
-    SMMPJoinObject *join1 = new SMMPJoinObject(join1Name + curProc, queueName + curProc);
-    procObjs->push_back(join1);
+    SMMPJoinObject *join1 = new SMMPJoinObject(join1Name + curProc, queueName + curProc, p);
+    simulationObjects->push_back(join1);
 
-    SMMPQueueObject *queue = new SMMPQueueObject(queueName + curProc, forkName + curProc);
-    procObjs->push_back(queue);
+    SMMPQueueObject *queue = new SMMPQueueObject(queueName + curProc, forkName + curProc, p);
+    simulationObjects->push_back(queue);
 
     vector<string> outputs(2,"");
     outputs[0] = serverName + curProc;    
     outputs[1] = finalJoin;
-    SMMPForkObject *fork = new SMMPForkObject(forkName + curProc, seed++, cacheHitRatio, outputs);
-    procObjs->push_back(fork);
+    SMMPForkObject *fork = new SMMPForkObject(forkName + curProc, seed++, cacheHitRatio, outputs, p);
+    simulationObjects->push_back(fork);
 
-    SMMPServerObject *server = new SMMPServerObject(serverName + curProc, join2Name + curProc, seed++);
+    SMMPServerObject *server = new SMMPServerObject(serverName + curProc, join2Name + curProc, seed++, p);
     server->setServerDistribution(FIXED, cacheSpeed);
-    procObjs->push_back(server);
+    simulationObjects->push_back(server);
 
-    SMMPJoinObject *join2 = new SMMPJoinObject(join2Name + curProc, sourceName + curProc);
-    procObjs->push_back(join2);
-
-    // Add the group of objects to the partition information.
-    myPartitioner->addObjectGroup(procObjs);
+    SMMPJoinObject *join2 = new SMMPJoinObject(join2Name + curProc, sourceName + curProc, p);
+    simulationObjects->push_back(join2);
   }
+  p += 1;
 
   // Then initialize the final 4 objects for the main memory.
-  procObjs = new vector<SimulationObject*>;  
   string finalQueue = "Queue.F";
   string finalServer = "Server.F";
   string finalMemRouter = "MemRouter.F";
 
-  SMMPJoinObject *joinF = new SMMPJoinObject(finalJoin, finalQueue);
-  procObjs->push_back(joinF);
+  SMMPJoinObject *joinF = new SMMPJoinObject(finalJoin, finalQueue, p);
+  simulationObjects->push_back(joinF);
 
-  SMMPQueueObject *queueF = new SMMPQueueObject(finalQueue, finalServer);
-  procObjs->push_back(queueF);
+  SMMPQueueObject *queueF = new SMMPQueueObject(finalQueue, finalServer, p);
+  simulationObjects->push_back(queueF);
 
-  SMMPServerObject *serverF = new SMMPServerObject(finalServer, finalMemRouter, seed++);
+  SMMPServerObject *serverF = new SMMPServerObject(finalServer, finalMemRouter, seed++, p);
   serverF->setServerDistribution(FIXED, mainSpeed);
-  procObjs->push_back(serverF);
+  simulationObjects->push_back(serverF);
 
-  MemRouterObject *memRouterF = new MemRouterObject(finalMemRouter);
-  procObjs->push_back(memRouterF);
+  MemRouterObject *memRouterF = new MemRouterObject(finalMemRouter, p);
+  simulationObjects->push_back(memRouterF);
 
-  // Add the group of objects to the partition information.
-  myPartitioner->addObjectGroup(procObjs);
-
-  // Perform the actual partitioning of groups.
-  const PartitionInfo *retval = myPartitioner->partition( NULL, numberOfProcessorsAvailable );
-
-  return retval;
+  return simulationObjects;
 }
 
 int

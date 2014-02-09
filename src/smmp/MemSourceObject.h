@@ -3,9 +3,9 @@
 
 #include <iostream>
 
-#include "SimulationObject.h"
 #include "MemEvents.h"
 #include "controlkit/IIRFilter.h"
+#include "SMMPObject.h"
 
 /*
    The MemSourceObject Class.
@@ -14,9 +14,9 @@
    and receives requests that have been satisfied.
 
 */
-class MemSourceObject : public SimulationObject  {
+class MemSourceObject : public SMMPObject  {
 public:
-  MemSourceObject(string initName, int max);
+  MemSourceObject(string initName, int max, int group);
   ~MemSourceObject();
 
   void initialize();
@@ -42,7 +42,7 @@ public:
       @return string The name of the simulation object.
   */
   string getDestination();
-  
+
 private:
   /// This is the name used to represent the object.
   string objectName;

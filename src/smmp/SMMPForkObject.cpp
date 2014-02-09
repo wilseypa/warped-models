@@ -7,12 +7,13 @@ const double first = 0.0;
 const double second = 1.0;
 
 SMMPForkObject::SMMPForkObject(string myName, double initSeed, double cHitRat,
-                               vector<string> fanNames) :
+                               vector<string> fanNames, int group) :
   myObjectName(myName),
   seed(initSeed),
   numFanOut(0),
   cacheHitRatio(cHitRat),
-  fanOutNames(fanNames){
+  fanOutNames(fanNames) {
+    this->group = group;
 }
 
 SMMPForkObject::~SMMPForkObject(){

@@ -10,13 +10,13 @@
 #include "../rnd/Random.h"
 
 #include "SidTypes.h"
-#include "SimulationObject.h"
+#include "SMMPObject.h"
 
 #define SERVERDELAY 20
 
-class SMMPServerObject : public SimulationObject {
+class SMMPServerObject : public SMMPObject {
 public:
-  SMMPServerObject(string initName, string initDest, double initSeed);
+  SMMPServerObject(string initName, string initDest, double initSeed, int group);
   ~SMMPServerObject();
   
   void initialize();

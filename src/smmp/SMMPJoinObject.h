@@ -3,12 +3,12 @@
 
 #include <iostream>
 #include "SidTypes.h"
-#include "SimulationObject.h"
+#include "SMMPObject.h"
 
-class SMMPJoinObject : public SimulationObject {
+class SMMPJoinObject : public SMMPObject {
 public:
   
-  SMMPJoinObject(string myName, string initDest);
+  SMMPJoinObject(string myName, string initDest, int group);
   ~SMMPJoinObject();
 
   void initialize();

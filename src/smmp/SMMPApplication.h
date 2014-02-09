@@ -4,13 +4,18 @@
 #include <Application.h>
 #include <IntVTime.h>
 
+#include <vector>
+
+class SimulationObject;
+
 class SMMPApplication : public Application {
 public:
-  SMMPApplication( string inputFileName, int numObjects );
+  SMMPApplication( string inputFileName );
 
-  int getNumberOfSimulationObjects(int mgrId) const;
+  std::vector<SimulationObject*>* getSimulationObjects(unsigned int numProcessorsAvailable);
 
-  const PartitionInfo *getPartitionInfo( unsigned int numberOfProcessorsAvailable );
+  const PartitionInfo* getPartitionInfo(unsigned int numProcessorsAvailable,
+                                        const std::vector<SimulationObject*>* simulationObjects);
   
   int finalize();
 
@@ -21,7 +26,6 @@ public:
   const VTime &getTime(string &){ return IntVTime::getIntVTimeZero(); }
 
 private:
-  unsigned int numObjects;
   string inputFileName;
 };
 
