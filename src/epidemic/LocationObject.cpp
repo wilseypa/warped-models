@@ -50,13 +50,7 @@ LocationObject::LocationObject( string locationName,
 }
 
 LocationObject::~LocationObject() {
-
     deallocateState(getState());
-
-    for( vector<Person *>::iterator vecIter = personVec->begin();
-                            vecIter != personVec->end(); vecIter++ ) {
-        delete *vecIter;
-    }
 
     delete personVec;
     delete randNumGen;
