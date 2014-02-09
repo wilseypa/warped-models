@@ -10,31 +10,23 @@
 #include <vector>
 using std::string;
 
-AdaptTestApplication::AdaptTestApplication(unsigned int initNumObjects,
-                                           unsigned int initNumStragglers,
+AdaptTestApplication::AdaptTestApplication(unsigned int initNumStragglers,
                                            string initOutputMode,
                                            bool initAdaptiveState)
-  : numObjects(initNumObjects),
-    numStragglers(initNumStragglers),
+  : numStragglers(initNumStragglers),
     outputMode(initOutputMode),
     adaptiveState(initAdaptiveState) {}
 
-int 
-AdaptTestApplication::getNumberOfSimulationObjects(int mgrId) const { 
-  return numObjects;
-}
-
 vector<SimulationObject *> *
-AdaptTestApplication::getSimulationObjects(){
+AdaptTestApplication::getSimulationObjects(unsigned int numProcessorsAvailable){
   vector<SimulationObject *> *retval = new vector<SimulationObject *>;
-  retval->reserve( numObjects );
 
   for( unsigned int i = 0; i < 2; i++ ){
     retval->push_back( new AdaptTestObject( i,
 				            AdaptTestObject::getName( i + 1 ),
 				            numStragglers,
 				            adaptiveState,
-                                            outputMode ) );
+                    outputMode ) );
   }
   retval->push_back( new AdaptTestObject( 2,
                                           AdaptTestObject::getName(2),
@@ -58,19 +50,6 @@ AdaptTestApplication::getSimulationObjects(){
   return retval;
 }
 
-
-const PartitionInfo *
-AdaptTestApplication::getPartitionInfo( unsigned int numberOfProcessorsAvailable ){
-  const PartitionInfo *retval = 0;
-
-  Partitioner *myPartitioner = new RoundRobinPartitioner();
-  // Now we'll create some simulation objects...
-  vector<SimulationObject *> *objects = getSimulationObjects();
-  retval = myPartitioner->partition( objects, numberOfProcessorsAvailable );
-  delete objects;
-
-  return retval;
-}
 
 int 
 AdaptTestApplication::finalize(){ 

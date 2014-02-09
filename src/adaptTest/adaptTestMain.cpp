@@ -10,7 +10,6 @@
 int
 main(int argc, char** argv) {
     int numStragglers = 6;
-    int numObjects = 6;
     std::string outputMode = "lazy";
     int adaptiveState = false;
 
@@ -21,8 +20,6 @@ main(int argc, char** argv) {
     try {
         TCLAP::CmdLine cmd("Adapt Test Simulation");
 
-        TCLAP::ValueArg<int> numObjectsArg("", "numObjects", "number of simulation objects",
-                                           false, numObjects, "int", cmd);
         TCLAP::ValueArg<int> numStragglersArg("", "numStragglers", "number of stragglers",
                                               false, numStragglers, "int", cmd);
         TCLAP::SwitchArg adaptiveStateArg("", "adaptiveState",
@@ -43,7 +40,6 @@ main(int argc, char** argv) {
 
         cmd.parse(argc, argv);
 
-        numObjects = numObjectsArg.getValue();
         numStragglers = numStragglersArg.getValue();
         adaptiveState = adaptiveStateArg.getValue();
         outputMode = outputModeArg.getValue();
@@ -57,7 +53,7 @@ main(int argc, char** argv) {
         exit(-1);
     }
 
-    WarpedMain wm(new AdaptTestApplication(numStragglers, numObjects, outputMode, adaptiveState),
+    WarpedMain wm(new AdaptTestApplication(numStragglers, outputMode, adaptiveState),
                   configuration, simulateUntil, debug);
 
     // Defaults - 6 objects, 6 stragglers, regenerate same events, no delays.

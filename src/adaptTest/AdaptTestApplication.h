@@ -6,14 +6,11 @@
 
 class AdaptTestApplication : public Application {
 public:
-  AdaptTestApplication( unsigned int initNumObjects,
-                        unsigned int numStragglers,
-		        string initOutputMode,
-		        bool initAdaptiveState );
+  AdaptTestApplication( unsigned int numStragglers,
+          		          string initOutputMode,
+          		          bool initAdaptiveState );
 
-  int getNumberOfSimulationObjects(int mgrId) const;
-
-  const PartitionInfo *getPartitionInfo( unsigned int numberOfProcessorsAvailable );
+  std::vector<SimulationObject*>* getSimulationObjects(unsigned int numProcessorsAvailable);
   
   int finalize();
 
@@ -24,8 +21,6 @@ public:
   const VTime &getTime(string &){ return IntVTime::getIntVTimeZero(); }
 
 private:
-  vector<SimulationObject *> *getSimulationObjects();
-
   unsigned int numObjects;
   unsigned int numStragglers;
   string outputMode;
