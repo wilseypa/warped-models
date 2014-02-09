@@ -6,28 +6,23 @@
 
 class RAIDApplication : public Application {
 public:
-  RAIDApplication( string inputFileName, int numObjects );
+    RAIDApplication(string inputFileName, int numObjects);
 
-  int getNumberOfSimulationObjects(int mgrId) const;
+    std::vector<SimulationObject*>* getSimulationObjects(unsigned int numProcessorsAvailable);
 
-  const PartitionInfo *getPartitionInfo( unsigned int numberOfProcessorsAvailable );
-  
-  int finalize();
+    int finalize();
 
-  void registerDeserializers();
-  
-  const VTime &getPositiveInfinity(){ return IntVTime::getIntVTimePositiveInfinity(); }
-  const VTime &getZero(){ return IntVTime::getIntVTimeZero(); }
-  const VTime &getTime(string &time){
-    IntVTime *vtime = new IntVTime( atoi(time.c_str()) );
-    return *vtime;
-  }
+    void registerDeserializers();
+
+    const VTime& getPositiveInfinity() { return IntVTime::getIntVTimePositiveInfinity(); }
+    const VTime& getZero() { return IntVTime::getIntVTimeZero(); }
+    const VTime& getTime(string& time) {
+        IntVTime* vtime = new IntVTime(atoi(time.c_str()));
+        return *vtime;
+    }
 
 private:
-  vector<SimulationObject *> *getSimulationObjects();
-
-  string inputFileName;
-  int numObjects;
+    string inputFileName;
 };
 
 #endif

@@ -3,27 +3,18 @@
 #include "../include/RAIDFork.h"
 #include "../include/RAIDDisk.h"
 #include "../include/RAIDRequest.h"
-#include "PartitionInfo.h"
-#include "RoundRobinPartitioner.h"
 #include "DeserializerManager.h"
 
 #include <vector>
 #include <iostream>
 #include <fstream>
 using namespace std;
-using std::string;
 
 RAIDApplication::RAIDApplication(string inputFileName, int numObjects)
-    : inputFileName(inputFileName),
-      numObjects(numObjects) {}
-
-int 
-RAIDApplication::getNumberOfSimulationObjects(int mgrId) const { 
-  return numObjects;
-}
+    : inputFileName(inputFileName) {}
 
 vector<SimulationObject *> *
-RAIDApplication::getSimulationObjects(){
+RAIDApplication::getSimulationObjects(unsigned int numProcessorsAvailable){
   vector<SimulationObject *> *retval = new vector<SimulationObject *>;
 
   string name;        // Used for the fork, disk, and process names.
@@ -49,7 +40,7 @@ RAIDApplication::getSimulationObjects(){
   
   // Read in the number of disks, forks, and processes.
   configFile >> totalNumDisks >> numForks >> numProcesses;
-  numObjects = totalNumDisks + numForks + numProcesses;
+  int numObjects = totalNumDisks + numForks + numProcesses;
 
   // Setup the disks.
   for( int d = 0; d < totalNumDisks; d++){
@@ -111,19 +102,6 @@ RAIDApplication::getSimulationObjects(){
 
   configFile.close();
   
-  return retval;
-}
-
-const PartitionInfo *
-RAIDApplication::getPartitionInfo( unsigned int numberOfProcessorsAvailable ){
-  const PartitionInfo *retval = 0;
-
-  Partitioner *myPartitioner = new RoundRobinPartitioner();
-  // Now we'll create some simulation objects...
-  vector<SimulationObject *> *objects = getSimulationObjects();
-  retval = myPartitioner->partition( objects, numberOfProcessorsAvailable );
-  delete objects;
-
   return retval;
 }
 
