@@ -14,7 +14,7 @@ AdaptTestApplication::AdaptTestApplication(unsigned int initNumStragglers,
     adaptiveState(initAdaptiveState) {}
 
 vector<SimulationObject *> *
-AdaptTestApplication::getSimulationObjects(unsigned int numProcessorsAvailable){
+AdaptTestApplication::getSimulationObjects(){
   vector<SimulationObject *> *retval = new vector<SimulationObject *>;
 
   for( unsigned int i = 0; i < 2; i++ ){

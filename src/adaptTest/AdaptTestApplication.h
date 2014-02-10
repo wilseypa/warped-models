@@ -10,7 +10,7 @@ public:
           		          string initOutputMode,
           		          bool initAdaptiveState );
 
-  std::vector<SimulationObject*>* getSimulationObjects(unsigned int numProcessorsAvailable);
+  std::vector<SimulationObject*>* getSimulationObjects();
   
   int finalize();
 

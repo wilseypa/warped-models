@@ -18,8 +18,7 @@ using namespace tinyxml2;
 EpidemicApplication::EpidemicApplication(string inputFileName):
     inputFileName(inputFileName) { }
 
-std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects(
-    unsigned int numProcessorsAvailable) {
+std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
 
     int numRegions = 0, numLocations = 0, numPersons = 0;
     unsigned int pid = 0, travelTimeToHub = 0, latentDwellTime = 0, 

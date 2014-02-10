@@ -14,7 +14,7 @@ PHOLDApplication::PHOLDApplication(string inputFileName, int numObjects)
       numObjects(numObjects) {}
 
 vector<SimulationObject *> *
-PHOLDApplication::getSimulationObjects(unsigned int numProcessorsAvailable){
+PHOLDApplication::getSimulationObjects(){
 
   unsigned int msgDen;
   string distributionString; // distribution_t

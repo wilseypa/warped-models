@@ -16,7 +16,7 @@ public:
 	/* Constructor */
 	EpidemicApplication(string inputFileName);
 
-    std::vector<SimulationObject*>* getSimulationObjects(unsigned int numProcessorsAvailable);
+    std::vector<SimulationObject*>* getSimulationObjects();
   
 	int finalize();
 

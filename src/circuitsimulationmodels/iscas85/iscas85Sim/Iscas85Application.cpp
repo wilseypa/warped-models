@@ -27,7 +27,7 @@ Iscas85Application::finalize(){
 }
 
 const PartitionInfo*
-Iscas85Application::getSimulationObjects(unsigned int numProcessorsAvailable){
+Iscas85Application::getSimulationObjects(){
   int numFileObjects;
   string fileName;
   int numOfGates;  

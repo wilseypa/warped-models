@@ -10,7 +10,7 @@ public:
 
   Iscas85Application(string inputFileName, string testCaseFileName, int numObjects);
 
-  std::vector<SimulationObject*>* getSimulationObjects(unsigned int numProcessorsAvailable);
+  std::vector<SimulationObject*>* getSimulationObjects();
 
   int finalize();
 

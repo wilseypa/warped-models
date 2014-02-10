@@ -44,7 +44,7 @@ SMMPApplication::getPartitionInfo(unsigned int numProcessorsAvailable,
 }
 
 std::vector<SimulationObject*>*
-SMMPApplication::getSimulationObjects(unsigned int numProcessorsAvailable){
+SMMPApplication::getSimulationObjects(){
   int numProcs;
   int cacheSpeed;
   double cacheHitRatio;

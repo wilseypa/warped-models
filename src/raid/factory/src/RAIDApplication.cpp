@@ -14,7 +14,7 @@ RAIDApplication::RAIDApplication(string inputFileName, int numObjects)
     : inputFileName(inputFileName) {}
 
 vector<SimulationObject *> *
-RAIDApplication::getSimulationObjects(unsigned int numProcessorsAvailable){
+RAIDApplication::getSimulationObjects(){
   vector<SimulationObject *> *retval = new vector<SimulationObject *>;
 
   string name;        // Used for the fork, disk, and process names.

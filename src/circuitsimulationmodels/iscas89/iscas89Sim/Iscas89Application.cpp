@@ -27,7 +27,7 @@ Iscas89Application::finalize(){
 }
 
 std::vector<SimulationObject*>*
-Iscas89Application::getSimulationObjects(unsigned int numProcessorsAvailable){
+Iscas89Application::getSimulationObjects(){
   int numFileObjects;
   string fileName;
   int numOfGates;  

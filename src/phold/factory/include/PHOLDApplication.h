@@ -9,7 +9,7 @@ class PHOLDApplication : public Application {
 public:
   PHOLDApplication(string inputFileName, int numObjects);
 
-  std::vector<SimulationObject*>* getSimulationObjects(unsigned int numProcessorsAvailable);
+  std::vector<SimulationObject*>* getSimulationObjects();
   
   int finalize();
 

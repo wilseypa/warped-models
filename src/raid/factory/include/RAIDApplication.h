@@ -8,7 +8,7 @@ class RAIDApplication : public Application {
 public:
     RAIDApplication(string inputFileName, int numObjects);
 
-    std::vector<SimulationObject*>* getSimulationObjects(unsigned int numProcessorsAvailable);
+    std::vector<SimulationObject*>* getSimulationObjects();
 
     int finalize();
 

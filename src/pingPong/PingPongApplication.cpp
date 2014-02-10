@@ -18,7 +18,7 @@ PingPongApplication::PingPongApplication( unsigned int initNumObjects,
     randomDelays( initRandomDelays ){}
 
 vector<SimulationObject *> *
-PingPongApplication::getSimulationObjects(unsigned int numProcessorsAvailable){
+PingPongApplication::getSimulationObjects(){
   vector<SimulationObject *> *retval = new vector<SimulationObject *>;
   retval->reserve( numObjects );
 

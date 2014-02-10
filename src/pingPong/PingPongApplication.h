@@ -11,7 +11,7 @@ public:
 		       unsigned int initNumBallsAtOnce,
 		       bool initRandomDelays );
 
-  vector<SimulationObject *> *getSimulationObjects(unsigned int numProcessorsAvailable);
+  vector<SimulationObject *> *getSimulationObjects();
 
   int finalize();
 

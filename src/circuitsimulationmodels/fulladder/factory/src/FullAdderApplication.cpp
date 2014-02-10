@@ -22,7 +22,7 @@ FullAdderApplication::finalize(){
 }
 
 std::vector<SimulationObject*>*
-FullAdderApplication::getSimulationObjects(unsigned int numProcessorsAvailable){
+FullAdderApplication::getSimulationObjects(){
   int numFileObjects;
   string fileName;
   int numOfGates;  

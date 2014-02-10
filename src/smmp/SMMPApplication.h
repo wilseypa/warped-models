@@ -12,7 +12,7 @@ class SMMPApplication : public Application {
 public:
   SMMPApplication( string inputFileName );
 
-  std::vector<SimulationObject*>* getSimulationObjects(unsigned int numProcessorsAvailable);
+  std::vector<SimulationObject*>* getSimulationObjects();
 
   const PartitionInfo* getPartitionInfo(unsigned int numProcessorsAvailable,
                                         const std::vector<SimulationObject*>* simulationObjects);
