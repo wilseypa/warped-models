@@ -157,6 +157,17 @@
         "DebugPrint": false,
         "Period": 1,
         "FIRSize": 1
+    },
+
+    // Simulation Object Partitioning
+    // 
+    // Type: Default | RoundRobin
+    //   RoundRobin - Partition Simulation objects equally between 
+    //                available processors
+    //   Default - If a model defines a custom partitioner use it, otherwise 
+    //             use RoundRobin
+    "Partitioner": {
+        "Type": "Default"
     }
   }
 }
