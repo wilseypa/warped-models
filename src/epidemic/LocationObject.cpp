@@ -5,7 +5,7 @@
 #include <vector>
 #include <map>
 
-#define SAMPLING_FREQ 10
+#define SAMPLING_FREQ 20
 #define RANDOM_SEED   90
 
 using namespace std;
