@@ -1,17 +1,18 @@
 {
+// SpinBeforeConfiguration and SpinBeforeSimulationStart will cause the
+// simulation to enter an infinite loop before configuration, and between
+// configuration and simulation start, respecively.
+// To Use:
+// Start a simualtion and attatch to the running process with GDB once
+// attached, you can continue the simualtion by using "set x=0" in GDB.
 "ParallelDebug": {
-    //Put every CPU into a loop that could only break out in gdb.   
-    //To Use:
-    //set true and Kick off a simulation, all sim managers will be sitting
-    //there spinning, Attach on every CPU with gdb, and then break them out
-    //and you could watch every CPU in gdb simultaneously. Use: "set x=0" in
-    //gdb to break the while loop
     "SpinBeforeSimulationStart": false
 },
+"SpinBeforeConfiguration": false,
 
 // Simulation Options:
 //   TimeWarp : Single thread TimeWarp simulation
-//   ThreadedTimewarp : TimeWarp with multiple threads executing objects
+//   ThreadedTimeWarp : TimeWarp with multiple threads executing objects
 //   Sequential : Single thread sequential simulation
 "Simulation": "ThreadedTimeWarp",
 
@@ -161,13 +162,23 @@
 
     // Simulation Object Partitioning
     // 
-    // Type: Default | RoundRobin
-    //   RoundRobin - Partition Simulation objects equally between 
-    //                available processors
+    // Type: Default | RoundRobin | Greedy | ProfileGuided
+    //   RoundRobin - Partition simulation objects equally between partitions
+    //                such that consecutive objects will be placed in
+    //                consecutive partitions.
+    //   Greedy - Partition simulation objects equally between partitions such
+    //            that consecutive objects will be placed on the same
+    //            partition, as much as possible.
+    //   ProfileGuided - Use statistics data from a previous sequential 
+    //                   run to perform partitioning.
     //   Default - If a model defines a custom partitioner use it, otherwise 
-    //             use RoundRobin
+    //             use RoundRobin.
+    // StatisticsFile
+    //   The path to the statistics file that was created from a previous run.
+    //   Only used if the Type is ProfileGuided.
     "Partitioner": {
-        "Type": "Default"
+        "Type": "Default",
+        "StatisticsFile": "statistics.metis"
     }
   }
 }
