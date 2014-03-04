@@ -18,9 +18,9 @@
         // nodes will be collected.
         "EventCount": false,
         // The file format of the statistics file that will be created at the
-        // end of the simulation. Choices are: "dot"
-        "OutputFormat": "dot",
+        // end of the simulation. Choices are: "graphviz", "metis"
+        "OutputFormat": "metis",
         // The path to the file that will be created
-        "OutputFilePath": "statistics.dot"
+        "OutputFilePath": "statistics.metis"
     }
 }
