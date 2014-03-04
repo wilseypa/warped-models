@@ -3,7 +3,8 @@
 
 #include "warped.h"
 #include "ObjectStub.h"
-
+#include <string>
+#include <sstream>
 class SimulationObject;
 
 /** The class RAIDForkStub.
@@ -13,13 +14,13 @@ public:
    RAIDForkStub(FactoryImplementationBase *owner) : ObjectStub(owner){}
    ~RAIDForkStub(){};
 
-   string &getName() const {
-      static string name("RAIDFork");
+   std::string &getName() const {
+      static std::string name("RAIDFork");
       return name;
    }
 
-   const string &getInformation() const {
-      static string info("A Simple RAID Fork Object");
+   const std::string &getInformation() const {
+      static std::string info("A Simple RAID Fork Object");
       return info;
    }
 
@@ -28,7 +29,7 @@ public:
    }
 
    SimulationObject *createSimulationObject(int numberOfArguments,
-                                            ostringstream &argumentStream);
+                                            std::ostringstream &argumentStream);
 };
 
 #endif

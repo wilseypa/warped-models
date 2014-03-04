@@ -1,6 +1,7 @@
 #ifndef PING_PONG_APPLICATION
 #define PING_PONG_APPLICATION
 
+#include <vector>
 #include <Application.h>
 #include <IntVTime.h>
 
@@ -11,7 +12,7 @@ public:
 		       unsigned int initNumBallsAtOnce,
 		       bool initRandomDelays );
 
-  vector<SimulationObject *> *getSimulationObjects();
+  std::vector<SimulationObject *> *getSimulationObjects();
 
   int finalize();
 

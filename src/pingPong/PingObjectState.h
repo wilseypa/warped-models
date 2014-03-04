@@ -3,6 +3,7 @@
 
 #include <State.h>
 #include <sstream>
+#include <string>
 
 class PingObjectState : public State {
 public :
@@ -29,7 +30,7 @@ public :
 
   int getNumStarted(){ return numBallsStarted; }
 
-  const string getSummaryString(){
+  const std::string getSummaryString(){
    std::ostringstream oss;
    oss << "received " << numBallsRecvd << ", sent " << numBallsSent << ", and started " << numBallsStarted;
    return oss.str();

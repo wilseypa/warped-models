@@ -2,6 +2,7 @@
 #define SMMPSERVEROBJECT_HH
 
 #include <iostream>
+#include <string>
 #include "../rnd/Normal.h"
 #include "../rnd/Poisson.h"
 #include "../rnd/Binomial.h"
@@ -16,7 +17,7 @@
 
 class SMMPServerObject : public SMMPObject {
 public:
-  SMMPServerObject(string initName, string initDest, double initSeed, int group);
+  SMMPServerObject(std::string initName, std::string initDest, double initSeed, int group);
   ~SMMPServerObject();
   
   void initialize();
@@ -34,14 +35,14 @@ public:
   void deallocateState( const State* state );
   
   void reclaimEvent(const Event *event);
-  const string &getName() const { return myObjectName; }
+  const std::string &getName() const { return myObjectName; }
 
 private:
    /// The name of this object.
-   string myObjectName;
+   std::string myObjectName;
 
    /// The name of the destination object.
-   string dest;
+   std::string dest;
 
    /// The type of distribution for this object. In this
    /// case, it will always be fixed.

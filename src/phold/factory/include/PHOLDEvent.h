@@ -3,6 +3,7 @@
 
 #include "warped.h"
 #include <DefaultEvent.h>
+#include <string>
 
 class PHOLDEvent: public DefaultEvent {
 public:
@@ -27,12 +28,12 @@ public:
   
   bool eventCompare(const Event* event);
 
-  static const string &getPHOLDEventDataType(){
-    static string PHOLDEventDataType = "PHOLDEvent";
+  static const std::string &getPHOLDEventDataType(){
+    static std::string PHOLDEventDataType = "PHOLDEvent";
     return PHOLDEventDataType;
   }
 
-  const string &getDataType() const {
+  const std::string &getDataType() const {
     return getPHOLDEventDataType();
   }
 

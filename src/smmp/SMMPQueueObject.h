@@ -2,11 +2,12 @@
 #define SMMPQUEUEOBJECT_HH
 
 #include <iostream>
+#include <string>
 #include "SMMPObject.h"
 
 class SMMPQueueObject : public SMMPObject {
 public: 
-   SMMPQueueObject(string initName, string initServerName, int group);
+   SMMPQueueObject(std::string initName, std::string initServerName, int group);
   ~SMMPQueueObject();
 
    void initialize();
@@ -18,14 +19,14 @@ public:
    void deallocateState( const State* state );
   
    void reclaimEvent(const Event *event);
-   const string &getName() const { return myObjectName; } 
+   const std::string &getName() const { return myObjectName; } 
 
 private:
    /// The name of this object.
-   string myObjectName;
+   std::string myObjectName;
 
    /// The name of the destination object.
-   string serverName;
+   std::string serverName;
 };
 
 #endif 

@@ -4,6 +4,7 @@
 #include <warped.h>
 #include <SimulationObject.h>
 #include <vector>
+#include <string>
 using std::vector;
 
 /**
@@ -20,10 +21,10 @@ public :
      @param initNumberOfBalls How many balls we expect to receive.
   */
   AdaptTestObject( const int initObjectId,
-	           const string &destName,
+	           const std::string &destName,
 	           const int numberOfBalls,
 	           bool adaptiveState,
-                   string outputMode );
+                   std::string outputMode );
   
   ~AdaptTestObject();
   
@@ -37,19 +38,19 @@ public :
   
   void reclaimEvent(const Event *event);
 
-  static string getName( int forId );
+  static std::string getName( int forId );
 
-  const string &getName() const { return myObjectName; }
+  const std::string &getName() const { return myObjectName; }
   
 private :
-  const string myObjectName;
-  const string myDestObjectName;
+  const std::string myObjectName;
+  const std::string myDestObjectName;
   const int numStragglers;
   SimulationObject *sendTo;
   const bool adaptiveState;
   bool rollbackOccurred;
   int rollbackCount;
-  string outputMode;
+  std::string outputMode;
   vector<ObjectID> objects;
 
   void startEvent();

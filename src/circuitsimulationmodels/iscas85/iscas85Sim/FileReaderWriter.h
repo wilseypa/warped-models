@@ -5,7 +5,8 @@
 #include <SimulationStream.h>
 #include <vector>
 #include <string>
-
+#include <sstream>
+#include <iostream>
 
 using std::string;
 using std::vector;
@@ -62,16 +63,16 @@ class FileReaderWriter : public SimulationObject {
   bool haveMoreLines(SimulationStream* simPt);
 	
 	/// read one line from the file 
-  string getLine(SimulationStream* simPt, ostringstream& ost);
+  string getLine(SimulationStream* simPt, std::ostringstream& ost);
 	
   /// clear the ostringstream object
-  void clearOstringstream(ostringstream& ost);
+  void clearOstringstream(std::ostringstream& ost);
 			
   /// change the string value to the bit value
 	int getBitValue(string logicBit);
 	 
 	/// open the output file
-	SimulationStream* openOutputFile(string& filename, ios::openmode mode);
+	SimulationStream* openOutputFile(string& filename, std::ios::openmode mode);
   //@}//End of Public Class Methods of FileReaderWriter.
 
 	/**@name Private Class Attributes of FileReaderWriter*/

@@ -1,6 +1,8 @@
 #ifndef PINGEVENT_HH
 #define PINGEVENT_HH
 
+#include <string>
+
 #include <DefaultEvent.h>
 
 class PingEvent : public DefaultEvent {
@@ -12,7 +14,7 @@ public:
 	     const VTime &initRecvTime,
 	     SimulationObject *initSender,
 	     SimulationObject *initReceiver,
-	     const string &owner ) : 
+	     const std::string &owner ) : 
     DefaultEvent( initSendTime, initRecvTime, initSender, initReceiver ),
     myOwner( owner ){}
 
@@ -27,16 +29,16 @@ public:
   
   bool eventCompare(const Event* event);
 
-  static const string &getPingEventDataType(){
-    static string pingEventDataType = "PingEvent";
+  static const std::string &getPingEventDataType(){
+    static std::string pingEventDataType = "PingEvent";
     return pingEventDataType;
   }
   
-  const string &getDataType() const {
+  const std::string &getDataType() const {
     return getPingEventDataType();
   }
 
-  const string &getOwner() const { return myOwner; }
+  const std::string &getOwner() const { return myOwner; }
 
 private:
   /*
@@ -47,12 +49,12 @@ private:
 	     const ObjectID &initSender,
 	     const ObjectID &initReceiver,
 	     const unsigned int eventIdVal,
-	     const string &owner ) : 
+	     const std::string &owner ) : 
     DefaultEvent( initSendTime, initRecvTime, initSender, initReceiver, eventIdVal ),
     myOwner( owner ){}
 
 
-  const string myOwner;
+  const std::string myOwner;
 };
 
 #endif

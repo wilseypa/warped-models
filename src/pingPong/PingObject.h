@@ -19,7 +19,7 @@ public :
      @param initNumberOfBalls How many balls we expect to receive.
   */
   PingObject( const int initObjectId,
-	      const string &destName,
+	      const std::string &destName,
 	      const int numberOfBalls,
 	      bool master,
 	      bool randomDelays );
@@ -36,13 +36,13 @@ public :
   
   void reclaimEvent(const Event *event);
 
-  static string getName( int forId );
+  static std::string getName( int forId );
 
-  const string &getName() const { return myObjectName; }
+  const std::string &getName() const { return myObjectName; }
   
 private :
-  const string myObjectName;
-  const string myDestObjectName;
+  const std::string myObjectName;
+  const std::string myDestObjectName;
   const int numBalls;
   SimulationObject *sendTo;
   const bool isMaster;
@@ -52,7 +52,7 @@ private :
   /**
      Handles the sending of our event to our neighbor.
   */
-  void sendEvent( const string &ownerName );
+  void sendEvent( const std::string &ownerName );
 
   /**
      Starts a new "ball" in the system.

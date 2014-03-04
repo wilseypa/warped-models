@@ -2,7 +2,7 @@
 #define MEMROUTEROBJECT_HH
 
 #include "SMMPObject.h"
-
+#include <string>
 /* The MemRouterObject Class.
    
    This class takes incoming memory requests and routes them back to
@@ -11,7 +11,7 @@
 */
 class MemRouterObject : public SMMPObject  {
 public:
-  MemRouterObject(string initName, int group);
+  MemRouterObject(std::string initName, int group);
   ~MemRouterObject();
 
   void initialize();
@@ -24,10 +24,10 @@ public:
   
   void reclaimEvent(const Event *event);
 
-  const string &getName() const;
+  const std::string &getName() const;
 
 private:
-   string objectName;
+   std::string objectName;
 };
 
 #endif

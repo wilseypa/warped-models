@@ -45,7 +45,7 @@ public :
   int getNumSent(){ return numEventsSent; }
   int getNumStragglersSent(){ return numStragglers; }
 
-  const string getSummaryString(){
+  const std::string getSummaryString(){
     return "Received " + std::to_string(numEventsReceived) + ", Sent " +
       std::to_string(numEventsSent ) + ", and Started " + std::to_string(numEventsStarted);
   }

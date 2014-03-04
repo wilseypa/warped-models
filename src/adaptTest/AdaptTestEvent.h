@@ -2,6 +2,7 @@
 #define ADAPTTESTEVENT_HH
 
 #include <DefaultEvent.h>
+#include <vector>
 
 class AdaptTestEvent : public DefaultEvent {
 public:
@@ -24,12 +25,12 @@ public:
   
   bool eventCompare(const Event* event);
 
-  static const string &getAdaptTestEventDataType(){
-    static string AdaptTestEventDataType = "AdaptTestEvent";
+  static const std::string &getAdaptTestEventDataType(){
+    static std::string AdaptTestEventDataType = "AdaptTestEvent";
     return AdaptTestEventDataType;
   }
   
-  const string &getDataType() const {
+  const std::string &getDataType() const {
     return getAdaptTestEventDataType();
   }
 

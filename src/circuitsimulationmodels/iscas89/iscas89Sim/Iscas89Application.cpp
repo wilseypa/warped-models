@@ -57,25 +57,18 @@ Iscas89Application::getSimulationObjects(){
 
   for(int i=0; i < numFileObjects; i++){
     configfile>>fileName>>numOfGates>>type;	
-    cout<<"file name is: "<<fileName<<endl;
     vector<int> *desPortId = new vector<int>;
     vector<string> *desGatesNames = new vector<string>;
 		 
     if(0==numOfGates){
       configfile>>desPort;
-      //cout<<"numOfGates is:"<<numOfGates<<endl;
-      //cout<<"desPort Value is:"<<desPort<<endl;
       desPortId->push_back(desPort);
       configfile>>desGateName;
-      //cout<<"numOfGates is:"<<numOfGates<<endl;
-      //cout<<"desPort Value is:"<<desPort<<endl;
       desGatesNames->push_back(desGateName);
     }
   else{
     for(int j= 0;j<numOfGates;j++){
     configfile>>desPort;
-    //cout<<"numOfGates is:"<<numOfGates<<endl;
-    //cout<<"desPort Value is:"<<desPort<<endl;
     desPortId->push_back(desPort);
    }
     for(int j= 0;j<numOfGates;j++){
@@ -87,7 +80,6 @@ Iscas89Application::getSimulationObjects(){
     fileName = filePath+fileName;//the absolute path of the file 
     SimulationObject *newObject = new FileReaderWriter(fileName,numOfGates,type,desPortId,desGatesNames,maxLines); 
     objects->push_back(newObject);
-    //cout<<"construct FileReaderWriter object!"<<endl;
   }
 	 
    // int totalGates; // total gates number in the circuit 
@@ -108,7 +100,6 @@ Iscas89Application::getSimulationObjects(){
 
       for(int i = 0; i < numberOfOutputs; i++){
         configfile >> destObjName;
-        //cout<<"object name is "<< destObjName<<endl;
         outputObjectNames -> push_back(destObjName);	
       } 
 									
@@ -130,8 +121,6 @@ Iscas89Application::getSimulationObjects(){
                                                         delay);
 
         objects->push_back(newObject);
-        // cout << "building object with R !"<<endl;
-        // cout << "the address of the object is " << newObject<<endl;
       } 
       else if ("X"==gate){
         SimulationObject *newObject = new NInputXorGate(myObjName,
@@ -142,8 +131,6 @@ Iscas89Application::getSimulationObjects(){
                                                         delay);
 
         objects->push_back(newObject);
-        // cout << "building object with R !"<<endl;
-        // cout << "the address of the object is " << newObject<<endl;
       }
       else if ("O"==gate){
         SimulationObject *newObject = new NInputOrGate(myObjName,
@@ -153,8 +140,6 @@ Iscas89Application::getSimulationObjects(){
                                                        destinationPorts,
                                                        delay);
         objects->push_back(newObject);
-        // cout << "building object with R !"<<endl;
-        // cout << "the address of the object is " << newObject<<endl;
       }
       else if ("D" == gate){
         DFF* newDFF = new DFF(myObjName,

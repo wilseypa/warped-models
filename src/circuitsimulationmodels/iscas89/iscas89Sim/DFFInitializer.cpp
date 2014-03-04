@@ -20,7 +20,6 @@ void
 DFFInitializer::initialize(){
   InitializerState *newState =(InitializerState *) getState();
   if (newState !=NULL)
-    cout<<"the time is :"<<newState->time<<endl;
   if(numberOfOutputs != 0){
     outputHandles = new SimulationObject *[numberOfOutputs];
     for(int i = 0; i < numberOfOutputs; i++){
@@ -36,7 +35,6 @@ DFFInitializer::initialize(){
       event->setsourcePort(0);
       event->setdestinationPort(2); 
       outputHandles[j]->receiveEvent(event);
-      cout << "send "<<j<<" to "<<outputHandles[j]->getName()<<endl;
     }
 
   }
