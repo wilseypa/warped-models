@@ -9,6 +9,10 @@
 #include <IntVTime.h>
 #include <vector>
 
+class EpidemicPartitioner;
+class Partitioninfo;
+class SimulationObject;
+
 class EpidemicApplication : public Application {
 
 public:
@@ -17,7 +21,9 @@ public:
 	EpidemicApplication(string inputFileName);
 
     std::vector<SimulationObject*>* getSimulationObjects();
-  
+    const PartitionInfo* getPartitionInfo(
+        unsigned int numberOfProcessorsAvailable,
+        const std::vector<SimulationObject*>* simulationObjects);
 	int finalize();
 
 	void registerDeserializers();
@@ -33,6 +39,7 @@ public:
 
 private:
     string inputFileName;
+    EpidemicPartitioner* myPartitioner;
 };
 
 #endif

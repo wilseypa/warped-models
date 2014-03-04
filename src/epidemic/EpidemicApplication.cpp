@@ -1,7 +1,10 @@
 #include "EpidemicApplication.h"
 #include "LocationObject.h"
+#include "EpidemicPartitioner.h"
 #include "Person.h"
 #include "tinyxml2.h"
+#include "PartitionInfo.h"
+#include "RoundRobinPartitioner.h"
 #include "DeserializerManager.h"
 
 #include <vector>
@@ -18,8 +21,17 @@ using namespace tinyxml2;
 EpidemicApplication::EpidemicApplication(string inputFileName):
     inputFileName(inputFileName) { }
 
+const PartitionInfo* EpidemicApplication::getPartitionInfo(
+        unsigned int numberOfProcessorsAvailable,
+        const std::vector<SimulationObject*>* simulationObjects) {
+    const PartitionInfo* retval = myPartitioner->partition(NULL, numberOfProcessorsAvailable);
+    delete myPartitioner;
+    return retval;
+}
+
 std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
 
+    myPartitioner = new EpidemicPartitioner();
     int numRegions = 0, numLocations = 0, numPersons = 0;
     unsigned int pid = 0, travelTimeToHub = 0, latentDwellTime = 0, 
             incubatingDwellTime = 0, infectiousDwellTime = 0, 
@@ -127,8 +139,12 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
                                                             probULU, probULV, probURV, probUIV, probUIU,
                                                             locStateRefreshInterval, locDiffusionTrigInterval, 
                                                             personVec, travelTimeToHub);
+            locObjs->push_back(locObject);
             simulationObjVec->push_back(locObject);
         }
+
+        /* Add the group of objects to the partition information */
+        myPartitioner->addObjectGroup(locObjs);
     }
 
     /* Send travel map to all the objects once all the objects have been created */
@@ -139,6 +155,7 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
     }
 
     EpidemicConfig.SaveFile(inputFileName.c_str());
+
     return simulationObjVec;
 }
 
