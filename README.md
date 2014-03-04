@@ -11,9 +11,9 @@ To build from the git repository, first clone a local copy.
 
 	git clone https://github.com/wilseypa/warped-models.git ~/warped-models
 
-You can run the Autotools build without any options. These models are not typically installed, so a prefix is optional. However, if the WARPED library is not install at the default location of `/usr`, then the location must be specified with the `--with-warped` configure option. For example, if the WARPED library is installed in `/usr/local`, then the following command would be used to build the models:
+You can run the Autotools build without any options. These models are not typically installed, so a prefix is optional. However, if the WARPED library is not install at the default location of `/usr`, then the location must be specified with the `--with-warped` configure option. For example, if the WARPED library is installed in `$HOME/lib/warped`, then the following command would be used to build the models:
 
-	autoreconf -i && ./configure --with-warped=/usr/local && make
+	autoreconf -i && ./configure --with-warped=$HOME/lib/warped && make
 
 As with WARPED itself, the models can be built using silent build rules by passing the `--enable-silent-rules` flag to configure.
 
