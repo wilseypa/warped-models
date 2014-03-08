@@ -6,6 +6,7 @@
 #include "PartitionInfo.h"
 #include "RoundRobinPartitioner.h"
 #include "DeserializerManager.h"
+#include "WattsStrogatzModel.h"
 
 #include <vector>
 #include <map>
@@ -145,23 +146,25 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
         myPartitioner->addObjectGroup(locObjs);
     }
 
-    /* Send travel map to all the objects once all the objects have been created */
-    for( map<string, SimulationObject*>::iterator mapIter = simulationObjMap.begin();
-                                    mapIter != simulationObjMap.end(); mapIter++ ) {
-        LocationObject *locObj = static_cast <LocationObject *> (mapIter->second);
+    /* Send the travel map to each location based on the model type */
+    if( modelType == "Random" ) {
+        /* Send travel distance of all locations except its own */
+        for( map <string, SimulationObject*>::iterator mapIter = simulationObjMap.begin();
+                                            mapIter != simulationObjMap.end(); mapIter++ ) {
 
-        if( modelType == "Random" ) {
-            map<string, unsigned int> tempTravelMap = travelMap;
+            LocationObject *locObj = static_cast <LocationObject *> (mapIter->second);
+            map <string, unsigned int> tempTravelMap = travelMap;
             tempTravelMap.erase(mapIter->first);
             locObj->populateTravelMap(tempTravelMap);
-
-        } else if( modelType == "WattsStrogatz" ) {
-            //coming soon
-
-        } else {
-            cerr << "ERROR : Invalid network model" << endl;
-            abort();
         }
+
+    } else if( modelType == "WattsStrogatz" ) {
+        WattsStrogatzModel wsModel;
+        // to be added soon
+
+    } else {
+        cerr << "ERROR : Invalid network model" << endl;
+        abort();
     }
 
     EpidemicConfig.SaveFile(inputFileName.c_str());
