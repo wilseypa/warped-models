@@ -60,9 +60,8 @@ public:
     }
 
     /* Populate the travel cost details */
-    void populateTravelCost( map <string, unsigned int> *travelMap, string locationName ) {
-        travelTimeMap.insert( travelMap->begin(), travelMap->end() );
-        travelTimeMap.erase(locationName);
+    void populateTravelCost( map <string, unsigned int> travelMap ) {
+        travelTimeMap = travelMap;
     }
 
 private:

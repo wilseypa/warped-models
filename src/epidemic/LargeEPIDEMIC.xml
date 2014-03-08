@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='ISO-8859-1'?>
 <epidemic_configuration>
+    <network_model>Random</network_model>
     <disease>
         <transmissibility>0.12</transmissibility>
         <latent_dwell_time>200</latent_dwell_time>

@@ -65,8 +65,8 @@ public:
     /* Accessor for objectName */
     const string &getName() const {return locationName;}
 
-    void populateTravelMap( map <string, unsigned int> *travelMap ) {
-        diffusionNetwork->populateTravelCost(travelMap, locationName);
+    void populateTravelMap( map <string, unsigned int> travelMap ) {
+        diffusionNetwork->populateTravelCost(travelMap);
     }
 
 private:

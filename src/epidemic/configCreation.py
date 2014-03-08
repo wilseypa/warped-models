@@ -14,6 +14,9 @@ import random as randIS
 
 ###### Settings go here ######
 
+# Network model - "Random" or "WattsStrogatz"
+NETWORK_MODEL                   = "Random"
+
 # Disease parameters
 TRANSMISSIBILITY                = 0.12
 LATENT_DWELL_TIME               = 200
@@ -62,6 +65,10 @@ def main():
     randIS.seed()
 
     root = ET.Element("epidemic_configuration")
+
+    doc = ET.SubElement(root, "network_model")
+    doc.text = str(NETWORK_MODEL)
+
     doc = ET.SubElement(root, "disease")
     field = ET.SubElement(doc, "transmissibility")
     field.text = str(TRANSMISSIBILITY)

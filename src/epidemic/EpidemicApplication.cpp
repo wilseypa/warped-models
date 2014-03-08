@@ -43,44 +43,49 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
             latentInfectivity = 0.0, incubatingInfectivity = 0.0, 
             infectiousInfectivity = 0.0, asymptInfectivity = 0.0;
     string locationName = "", infectionState = "", vaccinationStatus = "", 
-            regionName = "";
+            regionName = "", modelType = "";
 
     Person *person;
     vector <SimulationObject*> *locObjs;
     vector <Person *> *personVec;
 
-    vector <SimulationObject *>* simulationObjVec = new vector <SimulationObject *>;
+    vector <SimulationObject *> *simulationObjVec = new vector <SimulationObject *>;
+
+    map <string, SimulationObject *> simulationObjMap;
     map <string, unsigned int> travelMap;
-    
+
     /* open the XML file */
     XMLDocument EpidemicConfig;
     int errorID = EpidemicConfig.LoadFile(inputFileName.c_str());
-    if(errorID){
-        cerr<<"ERROR : return code from XMLDocument::LoadFile() is "<<errorID<<"."<<endl;
+    if(errorID) {
+        cerr << "ERROR : XML config file failed to load. Error ID: " << errorID << endl;
         abort();
     }
 
-    XMLElement* diseaseElement=NULL,*numOfRegions=NULL,*region=NULL,*location=NULL,*people=NULL;
+    XMLElement *networkModel = NULL, *disease = NULL, *numOfRegions = NULL,
+               *region = NULL, *location = NULL, *people = NULL;
 
-    diseaseElement =EpidemicConfig.FirstChildElement()->FirstChildElement("disease");
-    diseaseElement->FirstChildElement("transmissibility")->QueryFloatText(&transmissibility);
-        
     /* Refer to README for more details */
-    diseaseElement->FirstChildElement("latent_dwell_time")->QueryUnsignedText(&latentDwellTime);
-    diseaseElement->FirstChildElement("latent_infectivity")->QueryFloatText(&latentInfectivity);
-    diseaseElement->FirstChildElement("incubating_dwell_time")->QueryUnsignedText(&incubatingDwellTime );
-    diseaseElement->FirstChildElement("incubating_infectivity")->QueryFloatText(&incubatingInfectivity);
-    diseaseElement->FirstChildElement("infectious_dwell_time")->QueryUnsignedText(&infectiousDwellTime);
-    diseaseElement->FirstChildElement("infectious_infectivity")->QueryFloatText(&infectiousInfectivity);
-    diseaseElement->FirstChildElement("asympt_dwell_time")->QueryUnsignedText(&asymptDwellTime);
-    diseaseElement->FirstChildElement("asympt_infectivity")->QueryFloatText(&asymptInfectivity);
-    diseaseElement->FirstChildElement("prob_ul_u")->QueryFloatText(&probULU);
-    diseaseElement->FirstChildElement("prob_ul_v")->QueryFloatText(&probULV);
-    diseaseElement->FirstChildElement("prob_ur_v")->QueryFloatText(&probURV);
-    diseaseElement->FirstChildElement("prob_ui_v")->QueryFloatText(&probUIV);
-    diseaseElement->FirstChildElement("prob_ui_u")->QueryFloatText(&probUIU);
-    diseaseElement->FirstChildElement("location_state_refresh_interval")->QueryUnsignedText(&locStateRefreshInterval);
-    
+    networkModel = EpidemicConfig.FirstChildElement()->FirstChildElement("network_model");
+    modelType.assign( networkModel->GetText() );
+
+    /* Refer to README for more details */
+    disease = EpidemicConfig.FirstChildElement()->FirstChildElement("disease");
+    disease->FirstChildElement("transmissibility")->QueryFloatText(&transmissibility);
+    disease->FirstChildElement("latent_dwell_time")->QueryUnsignedText(&latentDwellTime);
+    disease->FirstChildElement("latent_infectivity")->QueryFloatText(&latentInfectivity);
+    disease->FirstChildElement("incubating_dwell_time")->QueryUnsignedText(&incubatingDwellTime );
+    disease->FirstChildElement("incubating_infectivity")->QueryFloatText(&incubatingInfectivity);
+    disease->FirstChildElement("infectious_dwell_time")->QueryUnsignedText(&infectiousDwellTime);
+    disease->FirstChildElement("infectious_infectivity")->QueryFloatText(&infectiousInfectivity);
+    disease->FirstChildElement("asympt_dwell_time")->QueryUnsignedText(&asymptDwellTime);
+    disease->FirstChildElement("asympt_infectivity")->QueryFloatText(&asymptInfectivity);
+    disease->FirstChildElement("prob_ul_u")->QueryFloatText(&probULU);
+    disease->FirstChildElement("prob_ul_v")->QueryFloatText(&probULV);
+    disease->FirstChildElement("prob_ur_v")->QueryFloatText(&probURV);
+    disease->FirstChildElement("prob_ui_v")->QueryFloatText(&probUIV);
+    disease->FirstChildElement("prob_ui_u")->QueryFloatText(&probUIU);
+    disease->FirstChildElement("location_state_refresh_interval")->QueryUnsignedText(&locStateRefreshInterval);
 
     /* Refer to README for more details */
     numOfRegions=EpidemicConfig.FirstChildElement()->FirstChildElement("number_of_regions");
@@ -90,9 +95,7 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
     /* For each region in the simulation, initialize the locations */
     for( int regIndex = 0; regIndex < numRegions; regIndex++ ) {
         region =region->NextSiblingElement();
-        const char*rName = region->FirstChildElement("region_name")->GetText();
-        string rname(rName);
-        regionName = rname;
+        regionName.assign( region->FirstChildElement("region_name")->GetText() );
 
         numLocations = 0;
         region->FirstChildElement("number_of_locations")->QueryIntText(&numLocations);
@@ -102,9 +105,7 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
             personVec = new vector <Person *>;
 
             location = location->NextSiblingElement();
-            const char*lName = location->FirstChildElement("location_name")->GetText();          
-            string lname(lName);
-            locationName = lname;
+            locationName.assign( location->FirstChildElement("location_name")->GetText() );          
             location->FirstChildElement("number_of_persons")->QueryIntText(&numPersons);            
             location->FirstChildElement("travel_time_to_central_hub")->QueryUnsignedText(&travelTimeToHub);         
             location->FirstChildElement("diffusion_trigger_interval")->QueryUnsignedText(&locDiffusionTrigInterval);            
@@ -120,13 +121,9 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
                 people= people->NextSiblingElement();
                 people->FirstChildElement("pid")->QueryUnsignedText(&pid);
                 people->FirstChildElement("susceptibility")->QueryDoubleText(&susceptibility);
-                const char *vaccFlag=people->FirstChildElement("is_vaccinated")->GetText();
-                string vaccflag(vaccFlag);
-                vaccinationStatus=vaccflag;
-                const char *infectState=people->FirstChildElement("infection_state")->GetText();
-                string infectstate(infectState);
-                infectionState = infectstate;   
-             
+                vaccinationStatus.assign( people->FirstChildElement("is_vaccinated")->GetText() );
+                infectionState.assign( people->FirstChildElement("infection_state")->GetText() );
+
                 person = new Person( pid, susceptibility, vaccinationStatus, infectionState, INIT_VTIME, INIT_VTIME );
                 personVec->push_back( person );
             }
@@ -140,6 +137,7 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
                                                             locStateRefreshInterval, locDiffusionTrigInterval, 
                                                             personVec, travelTimeToHub);
             locObjs->push_back(locObject);
+            simulationObjMap.insert( pair <string, SimulationObject *>(locationName, locObject) );
             simulationObjVec->push_back(locObject);
         }
 
@@ -148,10 +146,22 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
     }
 
     /* Send travel map to all the objects once all the objects have been created */
-    for( vector<SimulationObject*>::iterator vecIter = simulationObjVec->begin();
-                                    vecIter != simulationObjVec->end(); vecIter++ ) {
-        LocationObject *locObj = static_cast <LocationObject *> (*vecIter);
-        locObj->populateTravelMap(&travelMap);
+    for( map<string, SimulationObject*>::iterator mapIter = simulationObjMap.begin();
+                                    mapIter != simulationObjMap.end(); mapIter++ ) {
+        LocationObject *locObj = static_cast <LocationObject *> (mapIter->second);
+
+        if( modelType == "Random" ) {
+            map<string, unsigned int> tempTravelMap = travelMap;
+            tempTravelMap.erase(mapIter->first);
+            locObj->populateTravelMap(tempTravelMap);
+
+        } else if( modelType == "WattsStrogatz" ) {
+            //coming soon
+
+        } else {
+            cerr << "ERROR : Invalid network model" << endl;
+            abort();
+        }
     }
 
     EpidemicConfig.SaveFile(inputFileName.c_str());
