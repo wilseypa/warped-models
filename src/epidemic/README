@@ -32,10 +32,11 @@ This model contains four parts[1]:
 (4) a  diffusion  process,  called   between-host  transmission,  which 
     models the transmission of the disease among individual entities.
 
-NOTE:  In  the  network graph  design, it has  been  assumed  that  all 
-locations are connected to each  other in  star topology  configuration 
-via  a  central  hub.  This has  been  done  to  reduce  complexity  in  
-design of diffusion network.
+NOTE: Network graph design is diffusion model-specific. But to simplify 
+distance  calculation  between  locations,  it  has  been  assumed that 
+locations are  connected to each  other via a virtual central hub. This 
+has been done to reduce  complexity in management of the inter-location 
+distances.
 
 Travel time from location 1 to location 2 = 
                      Travel time from location 1 to central hub +
@@ -89,15 +90,17 @@ Type 'python configCreation.py <config_file_name>' to create the config file.
 References
 ----------
 
-[1]. Kalyan S Perumalla and Sudip K Seal. 2012. Discrete event modeling 
+[1] Kalyan S Perumalla and Sudip K Seal. 2012. Discrete event modeling 
 and massively parallel execution of epidemic outbreak phenomena. 
 Simulation 88, 7 (July 2012), 768-783.
 
-[2]. Christopher L. Barrett, Keith R. Bisset, Stephen G. Eubank, Xizhou Feng, 
+[2] Christopher L. Barrett, Keith R. Bisset, Stephen G. Eubank, Xizhou Feng, 
 and Madhav V. Marathe. 2008. EpiSimdemics: an efficient algorithm for 
 simulating the spread of infectious disease over large realistic social networks. 
 In Proceedings of the 2008 ACM/IEEE conference on Supercomputing (SC '08). 
 IEEE Press, Piscataway, NJ, USA, , Article 37 , 12 pages.
 
+[3] D.J. Watts and S.H. Strogatz. Collective dynamics of 'small-world' networks. 
+Nature 393, 440-442 (1998).
 
 
