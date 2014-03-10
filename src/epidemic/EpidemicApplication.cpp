@@ -170,6 +170,8 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
         }
         wsModel.populateNodes(nodeVec);
 
+        wsModel.mapNodes();
+
         // to be added soon
 
     } else {

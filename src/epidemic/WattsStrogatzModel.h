@@ -14,6 +14,10 @@ public:
         this->nodeVec = nodeVec;
     }
 
+    /* Map the nodes using the model's algorithm */
+    void mapNodes() {
+    }
+
 private:
     vector <string> nodeVec;
 };
