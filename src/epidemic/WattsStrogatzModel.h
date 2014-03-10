@@ -9,8 +9,13 @@ class WattsStrogatzModel {
 
 public:
 
-private:
+    /* Populate the nodes */
+    void populateNodes( vector <string> nodeVec ) {
+        this->nodeVec = nodeVec;
+    }
 
+private:
+    vector <string> nodeVec;
 };
 
 #endif

@@ -160,6 +160,16 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
 
     } else if( modelType == "WattsStrogatz" ) {
         WattsStrogatzModel wsModel;
+
+        vector <string> nodeVec;
+        for( map <string, unsigned int>::iterator mapIter = travelMap.begin();
+                                            mapIter != travelMap.end(); mapIter++ ) {
+
+            string location = static_cast <string> (mapIter->first);
+            nodeVec.push_back(location);
+        }
+        wsModel.populateNodes(nodeVec);
+
         // to be added soon
 
     } else {
