@@ -18,12 +18,23 @@ public:
 
     /* Default destructor */
     ~WattsStrogatzModel() {
+
         delete randNumGen;
+        for( vector< vector<unsigned int> *>::iterator vecIter = nodeConnVec.begin(); 
+                                            vecIter != nodeConnVec.end(); vecIter++ ) {
+            delete *vecIter;
+        }
     }
 
     /* Populate the nodes */
     void populateNodes( vector <string> nodeVec ) {
+
         this->nodeVec = nodeVec;
+        for( vector<string>::iterator vecIter = nodeVec.begin(); 
+                                vecIter != nodeVec.end(); vecIter++ ) {
+            vector<unsigned int> *connectionVec = new vector<unsigned int> (K);
+            nodeConnVec.push_back (connectionVec);
+        }
     }
 
     /* Map the nodes using the model's algorithm */
@@ -31,14 +42,23 @@ public:
     }
 
     /* Send the node links for a particular node */
-    vector <string> fetchNodeLinks( string ) {
-        return nodeVec;
+    vector<unsigned int> *fetchNodeLinks( string locationName ) {
+
+        unsigned int count = 0;
+        for( vector<string>::iterator vecIter = nodeVec.begin(); 
+                                vecIter != nodeVec.end(); vecIter++ ) {
+            if( *vecIter == locationName ) break;
+            else count++;
+        }
+        if( count == nodeVec.size() ) return NULL;
+
+        return nodeConnVec[count];
     }
 
 private:
 
     /* N nodes */
-    vector <string> nodeVec;
+    vector<string> nodeVec;
 
     /* K */
     unsigned int K;
@@ -48,6 +68,9 @@ private:
 
     /* Random number generator */
     RandomNumGen *randNumGen;
+
+    /* Structure of the actual graph */
+    vector< vector<unsigned int> *> nodeConnVec;
 };
 
 #endif
