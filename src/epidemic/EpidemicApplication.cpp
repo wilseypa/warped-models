@@ -172,19 +172,34 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
         wattsStrogatz->FirstChildElement("k")->QueryUnsignedText(&k);
         wattsStrogatz->FirstChildElement("beta")->QueryFloatText(&beta);
 
-        WattsStrogatzModel wsModel(k, beta);
+        WattsStrogatzModel *wsModel = new WattsStrogatzModel(k, beta, diffusionSeed);
 
         vector <string> nodeVec;
         for( map <string, unsigned int>::iterator mapIter = travelMap.begin();
                                             mapIter != travelMap.end(); mapIter++ ) {
-
             string location = static_cast <string> (mapIter->first);
             nodeVec.push_back(location);
         }
-        wsModel.populateNodes(nodeVec);
-        wsModel.mapNodes();
+        wsModel->populateNodes(nodeVec);
+        wsModel->mapNodes();
 
-        // to be added soon
+        for( map <string, SimulationObject*>::iterator mapIter = simulationObjMap.begin();
+                                            mapIter != simulationObjMap.end(); mapIter++ ) {
+
+            LocationObject *locObj = static_cast <LocationObject *> (mapIter->second);
+            vector <string> nodeLinksVec = wsModel->fetchNodeLinks(mapIter->first);
+            map <string, unsigned int> tempTravelMap;
+            for( vector <string>::iterator linkVecIter = nodeLinksVec.begin(); 
+                                linkVecIter != nodeLinksVec.end(); linkVecIter++ ) {
+
+                map <string, unsigned int>::iterator travelMapIter = 
+                                                travelMap.find(*linkVecIter);
+                tempTravelMap.insert( 
+                    pair <string, unsigned int>(travelMapIter->first, travelMapIter->second) );
+            }
+            locObj->populateTravelMap(tempTravelMap);
+        }
+        delete wsModel;
 
     } else {
         cerr << "ERROR : Invalid network model" << endl;
