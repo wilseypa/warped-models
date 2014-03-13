@@ -17,7 +17,7 @@ import random as randIS
 # Diffusion parameters
 # model - "Random" or "WattsStrogatz"
 MODEL                           = "WattsStrogatz"
-DIFFUSION_SEED                  = 18912
+DIFFUSION_SEED                  = 101
 
 # Watts-Strogatz model parameters
 K                               = 4
