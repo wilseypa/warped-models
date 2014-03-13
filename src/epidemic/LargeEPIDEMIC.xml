@@ -1,10 +1,13 @@
 <?xml version='1.0' encoding='ISO-8859-1'?>
 <epidemic_configuration>
-    <network_model>WattsStrogatz</network_model>
-    <watts_strogatz>
-        <k>4</k>
-        <beta>0.3</beta>
-    </watts_strogatz>
+    <diffusion>
+        <model>WattsStrogatz</model>
+        <seed>18912</seed>
+        <watts_strogatz>
+            <k>4</k>
+            <beta>0.3</beta>
+        </watts_strogatz>
+    </diffusion>
     <disease>
         <transmissibility>0.12</transmissibility>
         <latent_dwell_time>200</latent_dwell_time>
@@ -21,6 +24,7 @@
         <prob_ui_v>0.1</prob_ui_v>
         <prob_ui_u>0.3</prob_ui_u>
         <location_state_refresh_interval>10</location_state_refresh_interval>
+        <seed>90</seed>
     </disease>
     <number_of_regions>10</number_of_regions>
     <region>

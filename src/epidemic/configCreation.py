@@ -14,8 +14,10 @@ import random as randIS
 
 ###### Settings go here ######
 
-# Network model - "Random" or "WattsStrogatz"
-NETWORK_MODEL                   = "WattsStrogatz"
+# Diffusion parameters
+# model - "Random" or "WattsStrogatz"
+MODEL                           = "WattsStrogatz"
+DIFFUSION_SEED                  = 18912
 
 # Watts-Strogatz model parameters
 K                               = 4
@@ -37,6 +39,7 @@ PROB_UR_V                       = 0.5
 PROB_UI_V                       = 0.1
 PROB_UI_U                       = 0.3
 LOCATION_STATE_REFRESH_INTERVAL = 1
+DISEASE_SEED                    = 90
 
 # Regions
 NUMBER_OF_REGIONS               = 10
@@ -70,15 +73,19 @@ def main():
 
     root = ET.Element("epidemic_configuration")
 
-    doc = ET.SubElement(root, "network_model")
-    doc.text = str(NETWORK_MODEL)
+    doc = ET.SubElement(root, "diffusion")
+    field = ET.SubElement(doc, "model")
+    field.text = str(MODEL)
+    field = ET.SubElement(doc, "seed")
+    field.text = str(DIFFUSION_SEED)
 
-    if NETWORK_MODEL == "WattsStrogatz":
-        doc = ET.SubElement(root, "watts_strogatz")
+    if MODEL == "WattsStrogatz":
+        doc = ET.SubElement(doc, "watts_strogatz")
         field = ET.SubElement(doc, "k")
         field.text = str(K)
         field = ET.SubElement(doc, "beta")
         field.text = str(BETA)
+
 
     doc = ET.SubElement(root, "disease")
     field = ET.SubElement(doc, "transmissibility")
@@ -111,6 +118,8 @@ def main():
     field.text = str(PROB_UI_U)
     field = ET.SubElement(doc, "location_state_refresh_interval")
     field.text = str(LOCATION_STATE_REFRESH_INTERVAL)
+    field = ET.SubElement(doc, "seed")
+    field.text = str(DISEASE_SEED)
 
     doc = ET.SubElement(root, "number_of_regions")
     doc.text = str(NUMBER_OF_REGIONS)

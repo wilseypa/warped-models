@@ -6,7 +6,6 @@
 #include <map>
 
 #define SAMPLING_FREQ 20
-#define RANDOM_SEED   90
 
 using namespace std;
 
@@ -28,14 +27,17 @@ LocationObject::LocationObject( string locationName,
                                 unsigned int locStateRefreshInterval,
                                 unsigned int locDiffusionTrigInterval,
                                 vector <Person *> *personVec,
-                                unsigned int travelTimeToHub) : 
+                                unsigned int travelTimeToHub,
+                                unsigned int diseaseSeed,
+                                unsigned int diffusionSeed) : 
         locationName(locationName),
         personVec(personVec),
         locStateRefreshInterval(locStateRefreshInterval),
         locDiffusionTrigInterval(locDiffusionTrigInterval) {
 
     /* Create and seed the random number class */
-    randNumGen = new RandomNumGen(RANDOM_SEED);
+    diseaseRandGen   = new RandomNumGen(diseaseSeed);
+    diffusionRandGen = new RandomNumGen(diffusionSeed);
 
     /* Create the disease model */
     diseaseModel = new DiseaseModel(    transmissibility, latentDwellTime, 
@@ -43,17 +45,18 @@ LocationObject::LocationObject( string locationName,
                                         asymptDwellTime, latentInfectivity, 
                                         incubatingInfectivity, infectiousInfectivity, 
                                         asymptInfectivity, probULU, probULV, probURV, 
-                                        probUIV, probUIU, randNumGen  );
+                                        probUIV, probUIU, diseaseRandGen );
 
     /* Create the diffusion network */
-    diffusionNetwork = new DiffusionNetwork( randNumGen, travelTimeToHub );
+    diffusionNetwork = new DiffusionNetwork( diffusionRandGen, travelTimeToHub );
 }
 
 LocationObject::~LocationObject() {
     deallocateState(getState());
 
     delete personVec;
-    delete randNumGen;
+    delete diseaseRandGen;
+    delete diffusionRandGen;
     delete diseaseModel;
     delete diffusionNetwork;
 }
@@ -148,7 +151,7 @@ void LocationObject::migrateLocationEvent(  IntVTime currentTime,
                                             LocationState *locationState  ) {
 
     /* Randomly decide whether to migrate any person */
-    if( !randNumGen->genRandNum(SAMPLING_FREQ) ) {
+    if( !diffusionRandGen->genRandNum(SAMPLING_FREQ) ) {
 
         /* Decide a random location */
         string selectedLocation = diffusionNetwork->getLocationName();

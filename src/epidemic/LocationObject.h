@@ -39,7 +39,9 @@ public:
                     unsigned int locStateRefreshInterval,
                     unsigned int locDiffusionTrigInterval,
                     vector <Person *> *personVec,
-                    unsigned int travelTimeToHub );
+                    unsigned int travelTimeToHub,
+                    unsigned int diseaseSeed,
+                    unsigned int diffusionSeed );
 
     /* Destructor */
     ~LocationObject();
@@ -84,8 +86,11 @@ private:
     /* Location name */
     string locationName;
 
-    /* Random Number Generator */
-    RandomNumGen *randNumGen;
+    /* Disease Random Number Generator */
+    RandomNumGen *diseaseRandGen;
+
+    /* Diffusion Random Number generator */
+    RandomNumGen *diffusionRandGen;
 
     /* Disease model */
     DiseaseModel *diseaseModel;

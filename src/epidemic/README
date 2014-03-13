@@ -56,27 +56,26 @@ Configuration File :
 
 The model generator program lets the user adjust the following parameters
 before writing out the model:
-<network_model>
-[<watts_strogatz>] (added based on type of network model)
-<transmissiblity>
-<latent_dwell_time> <latent_infectivity>
-<incubating_dwell_time> <incubating_infectivity>
-<infectious_dwell_time> <infectious_infectivity>
-<asympt_dwell_time> <asympt_infectivity>
-<prob_ul_u> <prob_ul_v> <prob_ur_v> <prob_ui_v> <prob_ui_u>
-<location_state_refresh_interval>
-<number_of_regions>
-foreach region 1..<no_of_regions>
-	<region_name> <number_of_locations>
-	foreach location 1..<no_of_locations>
-		<location_name> <number_of_persons> <travel_time_to_central_hub> <diffusion_trigger_interval>
-		foreach person 1..<number_of_persons>
-			<pid> <susceptibility> <is_vaccinated> <infection_state>
-		endfor
-	endfor
-endfor
 
-Legend:
+1. Diffusion : model, seed, model parameters
+    a. Model Parameters for Watts-Strogatz: K, Beta
+
+2. Disease   : transmissiblity, latent dwell time, latent infectivity, 
+               incubating dwell time, incubating infectivity, 
+               infectious dwell time, infectious infectivity, 
+               asympt dwell time, asympt infectivity, 
+               prob_ul_u, prob_ul_v, prob_ur_v, prob_ui_v, prob_ui_u, 
+               location state refresh interval, seed
+
+3. Region    : number of regions
+               For each region : region name, number of locations
+	           a. For each location : location name, number of persons, 
+                   travel time to central hub, diffusion trigger interval
+		           a1. For each person : pid, susceptibility, 
+                                         is vaccinated, infection state
+
+Legend :
+
 	Refer to Figure 2 of ref[2] for the disease model
 	Transition Probabilities:
 		prob_ul_u : uninfected->latent (untreated)

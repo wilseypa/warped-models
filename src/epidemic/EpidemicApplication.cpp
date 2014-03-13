@@ -37,14 +37,15 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
     unsigned int pid = 0, travelTimeToHub = 0, latentDwellTime = 0, 
             incubatingDwellTime = 0, infectiousDwellTime = 0, 
             asymptDwellTime = 0, locStateRefreshInterval = 0,
-            locDiffusionTrigInterval = 0;
+            locDiffusionTrigInterval = 0, diseaseSeed = 0, 
+            diffusionSeed = 0;
     double susceptibility = 0.0;
     float transmissibility = 0.0, probULU = 0.0, probULV = 0.0, 
             probURV = 0.0, probUIV = 0.0, probUIU = 0.0, 
             latentInfectivity = 0.0, incubatingInfectivity = 0.0, 
             infectiousInfectivity = 0.0, asymptInfectivity = 0.0;
     string locationName = "", infectionState = "", vaccinationStatus = "", 
-            regionName = "", modelType = "";
+            regionName = "", model = "";
 
     Person *person;
     vector <SimulationObject*> *locObjs;
@@ -63,12 +64,13 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
         abort();
     }
 
-    XMLElement *networkModel = NULL, *disease = NULL, *numOfRegions = NULL,
+    XMLElement *diffusion = NULL, *disease = NULL, *numOfRegions = NULL,
                *region = NULL, *location = NULL, *people = NULL;
 
     /* Refer to README for more details */
-    networkModel = EpidemicConfig.FirstChildElement()->FirstChildElement("network_model");
-    modelType.assign( networkModel->GetText() );
+    diffusion = EpidemicConfig.FirstChildElement()->FirstChildElement("diffusion");
+    model.assign( diffusion->FirstChildElement("model")->GetText() );
+    diffusion->FirstChildElement("seed")->QueryUnsignedText(&diffusionSeed);
 
     /* Refer to README for more details */
     disease = EpidemicConfig.FirstChildElement()->FirstChildElement("disease");
@@ -87,6 +89,7 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
     disease->FirstChildElement("prob_ui_v")->QueryFloatText(&probUIV);
     disease->FirstChildElement("prob_ui_u")->QueryFloatText(&probUIU);
     disease->FirstChildElement("location_state_refresh_interval")->QueryUnsignedText(&locStateRefreshInterval);
+    disease->FirstChildElement("seed")->QueryUnsignedText(&diseaseSeed);
 
     /* Refer to README for more details */
     numOfRegions=EpidemicConfig.FirstChildElement()->FirstChildElement("number_of_regions");
@@ -135,8 +138,9 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
                                                             latentInfectivity, incubatingInfectivity,
                                                             infectiousInfectivity, asymptInfectivity,
                                                             probULU, probULV, probURV, probUIV, probUIU,
-                                                            locStateRefreshInterval, locDiffusionTrigInterval, 
-                                                            personVec, travelTimeToHub);
+                                                            locStateRefreshInterval, locDiffusionTrigInterval,
+                                                            personVec, travelTimeToHub, diseaseSeed,
+                                                            diffusionSeed );
             locObjs->push_back(locObject);
             simulationObjMap.insert( pair <string, SimulationObject *>(locationName, locObject) );
             simulationObjVec->push_back(locObject);
@@ -147,7 +151,7 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
     }
 
     /* Send the travel map to each location based on the model type */
-    if( modelType == "Random" ) {
+    if( model == "Random" ) {
         /* Send travel distance of all locations except its own */
         for( map <string, SimulationObject*>::iterator mapIter = simulationObjMap.begin();
                                             mapIter != simulationObjMap.end(); mapIter++ ) {
@@ -158,12 +162,13 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
             locObj->populateTravelMap(tempTravelMap);
         }
 
-    } else if( modelType == "WattsStrogatz" ) {
+    } else if( model == "WattsStrogatz" ) {
         /* Refer to README for more details */
         unsigned int k = 0;
         float beta = 0.0;
         XMLElement *wattsStrogatz = NULL;
-        wattsStrogatz = EpidemicConfig.FirstChildElement()->FirstChildElement("watts_strogatz");
+
+        wattsStrogatz = diffusion->FirstChildElement("watts_strogatz");
         wattsStrogatz->FirstChildElement("k")->QueryUnsignedText(&k);
         wattsStrogatz->FirstChildElement("beta")->QueryFloatText(&beta);
 
