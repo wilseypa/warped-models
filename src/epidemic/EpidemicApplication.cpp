@@ -159,7 +159,15 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
         }
 
     } else if( modelType == "WattsStrogatz" ) {
-        WattsStrogatzModel wsModel;
+        /* Refer to README for more details */
+        unsigned int k = 0;
+        float beta = 0.0;
+        XMLElement *wattsStrogatz = NULL;
+        wattsStrogatz = EpidemicConfig.FirstChildElement()->FirstChildElement("watts_strogatz");
+        wattsStrogatz->FirstChildElement("k")->QueryUnsignedText(&k);
+        wattsStrogatz->FirstChildElement("beta")->QueryFloatText(&beta);
+
+        WattsStrogatzModel wsModel(k, beta);
 
         vector <string> nodeVec;
         for( map <string, unsigned int>::iterator mapIter = travelMap.begin();
@@ -169,7 +177,6 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
             nodeVec.push_back(location);
         }
         wsModel.populateNodes(nodeVec);
-
         wsModel.mapNodes();
 
         // to be added soon

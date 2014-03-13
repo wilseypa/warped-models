@@ -1,6 +1,10 @@
 <?xml version='1.0' encoding='ISO-8859-1'?>
 <epidemic_configuration>
-    <network_model>Random</network_model>
+    <network_model>WattsStrogatz</network_model>
+    <watts_strogatz>
+        <k>4</k>
+        <beta>0.3</beta>
+    </watts_strogatz>
     <disease>
         <transmissibility>0.12</transmissibility>
         <latent_dwell_time>200</latent_dwell_time>

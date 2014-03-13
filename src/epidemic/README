@@ -5,7 +5,7 @@ Experimental Computing Laboratory
 Dept of ECECS, PO Box 210030
 Cincinnati, OH  45221--0030
 
-Introduction
+Introduction :
 ------------
 
 This simulation model simulates the epidemic outbreak phenomena. A new 
@@ -43,12 +43,21 @@ Travel time from location 1 to location 2 =
                      Travel time from central hub to location 2
 
 
-Configuration File
+Important Information :
+---------------------
+
+The  config  file can  be auto-generated  with  random  region  details 
+using  the 'configCreation.py'  script.  Type 'python configCreation.py 
+<config_file_name>' to create the config file.
+
+
+Configuration File :
 ------------------
 
 The model generator program lets the user adjust the following parameters
 before writing out the model:
 <network_model>
+[<watts_strogatz>] (added based on type of network model)
 <transmissiblity>
 <latent_dwell_time> <latent_infectivity>
 <incubating_dwell_time> <incubating_infectivity>
@@ -80,14 +89,7 @@ Legend:
 		Intervals at which the disease spread at any location is re-computed
 
 
-IMPORTANT FEATURE :
------------------
-The config file can be auto-generated with random region details using the 'configCreation.py' script.
-Type 'python configCreation.py <config_file_name>' to create the config file.
-
-
-
-References
+References :
 ----------
 
 [1] Kalyan S Perumalla and Sudip K Seal. 2012. Discrete event modeling 

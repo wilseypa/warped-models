@@ -15,7 +15,11 @@ import random as randIS
 ###### Settings go here ######
 
 # Network model - "Random" or "WattsStrogatz"
-NETWORK_MODEL                   = "Random"
+NETWORK_MODEL                   = "WattsStrogatz"
+
+# Watts-Strogatz model parameters
+K                               = 4
+BETA                            = 0.3
 
 # Disease parameters
 TRANSMISSIBILITY                = 0.12
@@ -68,6 +72,13 @@ def main():
 
     doc = ET.SubElement(root, "network_model")
     doc.text = str(NETWORK_MODEL)
+
+    if NETWORK_MODEL == "WattsStrogatz":
+        doc = ET.SubElement(root, "watts_strogatz")
+        field = ET.SubElement(doc, "k")
+        field.text = str(K)
+        field = ET.SubElement(doc, "beta")
+        field.text = str(BETA)
 
     doc = ET.SubElement(root, "disease")
     field = ET.SubElement(doc, "transmissibility")

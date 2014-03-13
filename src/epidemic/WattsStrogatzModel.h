@@ -9,6 +9,13 @@ class WattsStrogatzModel {
 
 public:
 
+    /* Constructor */
+    WattsStrogatzModel( unsigned int K, float beta ): 
+        K(K), beta(beta) {}
+
+    /* Default destructor */
+    ~WattsStrogatzModel() {}
+
     /* Populate the nodes */
     void populateNodes( vector <string> nodeVec ) {
         this->nodeVec = nodeVec;
@@ -19,7 +26,15 @@ public:
     }
 
 private:
+
+    /* N nodes */
     vector <string> nodeVec;
+
+    /* K */
+    unsigned int K;
+
+    /* Beta */
+    float beta;
 };
 
 #endif
