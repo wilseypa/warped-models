@@ -5,6 +5,8 @@
 // intellectual property laws, and all other applicable laws of the
 // U.S., and the terms of this license.
 
+#define BETA_PRECISION 10000
+
 class WattsStrogatzModel {
 
 public:
@@ -47,6 +49,7 @@ public:
         unsigned int N = nodeVec.size();
         unsigned int left  = K/2;
         unsigned int right = K - left;
+        unsigned precisionBeta = (unsigned int) (beta*BETA_PRECISION);
 
         /* Setup the ring lattice with N nodes, each of degree K */
         for( unsigned int uiIndex = 0; uiIndex < N; uiIndex++ ) {
@@ -66,7 +69,25 @@ public:
         }
 
         /* Rewire each edge with probability beta */
-        // to be added
+        for( unsigned int uiIndex = 0; uiIndex < N; uiIndex++ ) {
+
+            for( unsigned int uiNodeIndex = 0; uiNodeIndex < N; uiNodeIndex++ ) {
+
+                if( !connectionMap[uiIndex][uiNodeIndex] ) continue;
+                unsigned int randomNum = randNumGen->genRandNum( BETA_PRECISION );
+                if( randomNum >= precisionBeta ) continue;
+
+                unsigned int uiNewIndex = 0;
+                while(1) {
+                    uiNewIndex = randNumGen->genRandNum(N);
+                    if( (uiNewIndex != uiIndex) && (uiNewIndex != uiNodeIndex) ) break;
+                }
+                connectionMap[uiIndex][uiNodeIndex] = false;
+                connectionMap[uiNodeIndex][uiIndex] = false;
+                connectionMap[uiIndex][uiNewIndex]  = false;
+                connectionMap[uiNewIndex][uiIndex]  = false;
+            }
+        }
     }
 
     /* Send the node links for a particular node */
