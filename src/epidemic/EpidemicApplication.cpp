@@ -187,17 +187,12 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
                                             mapIter != simulationObjMap.end(); mapIter++ ) {
 
             LocationObject *locObj = static_cast <LocationObject *> (mapIter->second);
-            vector <unsigned int> *nodeConnVec = wsModel->fetchNodeLinks(mapIter->first);
-            if (!nodeConnVec) {
-                cerr << "ERROR : Couldn't fetch connections from Watts-Strogatz lib." << endl;
-                abort();
-            }
+            vector <string> connVec = wsModel->fetchNodeLinks(mapIter->first);
             map <string, unsigned int> tempTravelMap;
-            for( vector <unsigned int>::iterator connVecIter = nodeConnVec->begin(); 
-                                connVecIter != nodeConnVec->end(); connVecIter++ ) {
+            for( vector <string>::iterator connVecIter = connVec.begin(); 
+                                    connVecIter != connVec.end(); connVecIter++ ) {
 
-                map <string, unsigned int>::iterator travelMapIter = 
-                                                travelMap.find( nodeVec[*connVecIter] );
+                map <string, unsigned int>::iterator travelMapIter = travelMap.find(*connVecIter);
                 tempTravelMap.insert( 
                     pair <string, unsigned int>(travelMapIter->first, travelMapIter->second) );
             }
