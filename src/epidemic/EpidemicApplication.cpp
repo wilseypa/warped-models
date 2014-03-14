@@ -151,7 +151,7 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
     }
 
     /* Send the travel map to each location based on the model type */
-    if( model == "Random" ) {
+    if( model == "FullyConnected" ) {
         /* Send travel distance of all locations except its own */
         for( map <string, SimulationObject*>::iterator mapIter = simulationObjMap.begin();
                                             mapIter != simulationObjMap.end(); mapIter++ ) {

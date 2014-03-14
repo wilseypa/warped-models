@@ -24,7 +24,7 @@ This model contains four parts[1]:
 (1) a set of interacting entities.
 
 (2) a network graph that shows the interaction structure of entities. 
-    Currently "Random" and WattsStrogatz" models are supported.
+    Currently "FullyConnected" and WattsStrogatz" models are supported.
 
 (3) a reaction process, called  within-host  progression  which  models 
     the progress of the disease in an individual entity.
@@ -69,9 +69,9 @@ before writing out the model:
 
 3. Region    : number of regions
                For each region : region name, number of locations
-	           a. For each location : location name, number of persons, 
+	           (a) For each location : location name, number of persons, 
                    travel time to central hub, diffusion trigger interval
-		           a1. For each person : pid, susceptibility, 
+		           (a.1) For each person : pid, susceptibility, 
                                          is vaccinated, infection state
 
 Legend :
