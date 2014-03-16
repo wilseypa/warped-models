@@ -2,13 +2,13 @@
 #define PROCESS_H
 
 #include "warped.h"
-#include "../rnd/MLCG.h"
-#include "../rnd/Normal.h"
-#include "../rnd/Poisson.h"
-#include "../rnd/Binomial.h"
-#include "../rnd/Uniform.h"
-#include "../rnd/NegExp.h"
-#include "../rnd/DiscUnif.h"
+#include "rnd/MLCG.h"
+#include "rnd/Normal.h"
+#include "rnd/Poisson.h"
+#include "rnd/Binomial.h"
+#include "rnd/Uniform.h"
+#include "rnd/NegExp.h"
+#include "rnd/DiscUnif.h"
 #include "SimulationObject.h"
 #include "../include/PHOLDEvent.h"
 #include <vector>

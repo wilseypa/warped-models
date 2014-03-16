@@ -1,7 +1,7 @@
 #ifndef SMMPFORKSTATE_HH
 #define SMMPFORKSTATE_HH
 
-#include "../rnd/MLCG.h"
+#include "rnd/MLCG.h"
 #include "State.h"
 
 class SMMPForkState : public State {

@@ -4,7 +4,7 @@
 
 #include "State.h"
 #include "SerializedInstance.h"
-#include "../../../rnd/MLCG.h"
+#include "rnd/MLCG.h"
 
 /** The class RAIDProcessState.
 */

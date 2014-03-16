@@ -2,13 +2,13 @@
 #ifndef RAIDPROCESS_H
 #define RAIDPROCESS_H
 
-#include "../../../rnd/MLCG.h"
-#include "../../../rnd/Normal.h"
-#include "../../../rnd/Poisson.h"
-#include "../../../rnd/Binomial.h"
-#include "../../../rnd/Uniform.h"
-#include "../../../rnd/NegExp.h"
-#include "../../../rnd/DiscUnif.h"
+#include "rnd/MLCG.h"
+#include "rnd/Normal.h"
+#include "rnd/Poisson.h"
+#include "rnd/Binomial.h"
+#include "rnd/Uniform.h"
+#include "rnd/NegExp.h"
+#include "rnd/DiscUnif.h"
 
 #include "RAIDRequest.h"
 #include "SimulationObject.h"

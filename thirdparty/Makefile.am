@@ -1,1 +1,1 @@
-SUBDIRS = tclap
+SUBDIRS = rnd

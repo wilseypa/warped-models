@@ -2,7 +2,7 @@
 #ifndef SMMPFORKOBJECT_HH
 #define SMMPFORKOBJECT_HH
 
-#include "../rnd/Uniform.h"
+#include "rnd/Uniform.h"
 #include "SMMPObject.h"
 #include <iostream>
 #include <vector>

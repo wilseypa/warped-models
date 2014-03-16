@@ -1,7 +1,7 @@
 #ifndef SMMPSERVERSTATE_HH
 #define SMMPSERVERSTATE_HH
 
-#include "../rnd/MLCG.h"
+#include "rnd/MLCG.h"
 #include "State.h"
 
 class SMMPServerState : public State {

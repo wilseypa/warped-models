@@ -33,4 +33,3 @@ iscas89Sim_SOURCES= \
         circuitsimulationmodels/iscas89/iscas89Sim/Iscas89Main.cpp
 
 iscas89Sim_LDFLAGS=-static
-iscas89Sim_LDADD=$(top_builddir)/src/libRnd.la

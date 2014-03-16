@@ -8,4 +8,3 @@ epidemicSim_SOURCES= \
 	 epidemic/tinyxml2.cpp
 
 epidemicSim_LDFLAGS=-static
-epidemicSim_LDADD=$(top_builddir)/src/libRnd.la

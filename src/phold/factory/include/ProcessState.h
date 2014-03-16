@@ -2,7 +2,7 @@
 #define PHOLDPROCESSSTATE_H
 
 #include "warped.h"
-#include "../rnd/MLCG.h"
+#include "rnd/MLCG.h"
 #include "State.h"
 
 class ProcessState : public State {

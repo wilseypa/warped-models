@@ -3,12 +3,12 @@
 
 #include <iostream>
 #include <string>
-#include "../rnd/Normal.h"
-#include "../rnd/Poisson.h"
-#include "../rnd/Binomial.h"
-#include "../rnd/Uniform.h"
-#include "../rnd/NegExp.h"
-#include "../rnd/Random.h"
+#include "rnd/Normal.h"
+#include "rnd/Poisson.h"
+#include "rnd/Binomial.h"
+#include "rnd/Uniform.h"
+#include "rnd/NegExp.h"
+#include "rnd/Random.h"
 
 #include "SidTypes.h"
 #include "SMMPObject.h"
