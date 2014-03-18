@@ -1,12 +1,11 @@
-EPIDEMIC: A WARPED simulation kernel application
+#EPIDEMIC: A WARPED simulation kernel application
 
 Authors: Sounak Gupta, Xinyu Guo and Philip A. Wilsey
 Experimental Computing Laboratory
 Dept of ECECS, PO Box 210030
 Cincinnati, OH  45221--0030
 
-Introduction :
-------------
+##Introduction :
 
 This simulation model simulates the epidemic outbreak phenomena. A new 
 parallel discrete event formulation of the reaction-diffusion model was 
@@ -43,16 +42,14 @@ Travel time from location 1 to location 2 =
                      Travel time from central hub to location 2
 
 
-Important Information :
----------------------
+###Important Information :
 
 The  config  file can  be auto-generated  with  random  region  details 
 using  the 'configCreation.py'  script.  Type 'python configCreation.py 
 <config_file_name>' to create the config file.
 
 
-Configuration File :
-------------------
+##Configuration File :
 
 The model generator program lets the user adjust the following parameters
 before writing out the model:
@@ -74,7 +71,7 @@ before writing out the model:
 		           (a.1) For each person : pid, susceptibility, 
                                          is vaccinated, infection state
 
-Legend :
+###Legend :
 
 	Refer to Figure 2 of ref[2] for the disease model
 	Transition Probabilities:
@@ -88,8 +85,7 @@ Legend :
 		Intervals at which the disease spread at any location is re-computed
 
 
-References :
-----------
+##References :
 
 [1] Kalyan S Perumalla and Sudip K Seal. 2012. Discrete event modeling 
 and massively parallel execution of epidemic outbreak phenomena. 
