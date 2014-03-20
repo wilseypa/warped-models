@@ -2,7 +2,7 @@
 
 # Configuration file generator for epidemic model
 
-import xml.etree.cElementTree as ET
+from lxml import etree as ET
 import sys
 import random as randNumPersons
 import random as randTTCH
@@ -40,6 +40,10 @@ PROB_UI_V                       = 0.1
 PROB_UI_U                       = 0.3
 LOCATION_STATE_REFRESH_INTERVAL = 1
 DISEASE_SEED                    = 90
+
+# Data capture
+CAPTURE_NEEDED                  = "no"
+CAPTURE_TRIGGER_INTERVAL        = 1000
 
 # Regions
 NUMBER_OF_REGIONS               = 10
@@ -121,6 +125,13 @@ def main():
     field = ET.SubElement(doc, "seed")
     field.text = str(DISEASE_SEED)
 
+    doc = ET.SubElement(root, "data_capture")
+    field = ET.SubElement(doc, "is_capture_needed")
+    field.text = str(CAPTURE_NEEDED)
+    if CAPTURE_NEEDED == "yes":
+        field = ET.SubElement(doc, "capture_trigger_interval")
+        field.text = str(CAPTURE_TRIGGER_INTERVAL)
+
     doc = ET.SubElement(root, "number_of_regions")
     doc.text = str(NUMBER_OF_REGIONS)
 
@@ -155,7 +166,7 @@ def main():
                 field.text = str(INFECTION_STATES[randIS.randrange(0, len(INFECTION_STATES))])
 
     tree = ET.ElementTree(root)
-    tree.write(outFileName, "ISO-8859-1")
+    tree.write(outFileName, pretty_print=True)
 
 if __name__ == "__main__":
     main()
