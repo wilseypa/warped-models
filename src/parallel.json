@@ -23,6 +23,7 @@
     // SyncMechanism Options:
     //     AtomicLock
     //     Mutex
+    // WorkerThreadMigration : Worker thread migration needed or not (true or false)
     // LoadBalancing Options : Load balancing needed or not (true or false)
     // LoadBalancingMetric Options : Type of load balancing algorithm :-
     //     EventExecutionRatio
@@ -33,6 +34,7 @@
     "ThreadControl": {
         "WorkerThreadCount": 4,
         "SyncMechanism": "Mutex",
+        "WorkerThreadMigration": false,
         "LoadBalancing": false,
         "LoadBalancingMetric": "EventExecutionRatio",
         "LoadBalancingTrigger": "Rollback",
