@@ -36,6 +36,7 @@ public:
                     float probURV,
                     float probUIV,
                     float probUIU,
+                    bool dataCaptureStatus,
                     unsigned int locStateRefreshInterval,
                     unsigned int locDiffusionTrigInterval,
                     vector <Person *> *personVec,

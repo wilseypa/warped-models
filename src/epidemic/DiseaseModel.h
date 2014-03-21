@@ -28,6 +28,7 @@ public:
                     float probURV,
                     float probUIV,
                     float probUIU,
+                    bool dataCaptureStatus,
                     RandomNumGen *randNumGen ) :
         transmissibility(transmissibility),
         latentDwellTime(latentDwellTime),
@@ -43,6 +44,7 @@ public:
         probURV(probURV),
         probUIV(probUIV),
         probUIU(probUIU),
+        dataCaptureStatus(dataCaptureStatus),
         randNumGen(randNumGen) {}
 
     /* Destructor */
@@ -187,6 +189,9 @@ private:
 
     /* Disease state transition probabilities */
     float probULU, probULV, probURV, probUIV, probUIU;
+
+    /* Data capture status */
+    bool dataCaptureStatus;
 
     /* Random Number Generator */
     RandomNumGen *randNumGen;

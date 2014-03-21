@@ -25,10 +25,7 @@
         <location_state_refresh_interval>10</location_state_refresh_interval>
         <seed>90</seed>
     </disease>
-    <data_capture>
-        <is_capture_needed>no</is_capture_needed>
-        <capture_trigger_interval>1000</capture_trigger_interval>
-    </data_capture>
+    <data_capture>no</data_capture>
     <number_of_regions>10</number_of_regions>
     <region>
         <region_name>Region0</region_name>

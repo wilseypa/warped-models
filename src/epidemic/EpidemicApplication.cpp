@@ -45,7 +45,7 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
             latentInfectivity = 0.0, incubatingInfectivity = 0.0, 
             infectiousInfectivity = 0.0, asymptInfectivity = 0.0;
     string locationName = "", infectionState = "", vaccinationStatus = "", 
-            regionName = "", model = "";
+            regionName = "", model = "", dataCaptureStatus = "";
 
     Person *person;
     vector <SimulationObject*> *locObjs;
@@ -64,8 +64,9 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
         abort();
     }
 
-    XMLElement *diffusion = NULL, *disease = NULL, *numOfRegions = NULL,
-               *region = NULL, *location = NULL, *people = NULL;
+    XMLElement *diffusion = NULL, *disease = NULL, *dataCapture = NULL, 
+               *numOfRegions = NULL, *region = NULL, *location = NULL, 
+               *people = NULL;
 
     /* Refer to README for more details */
     diffusion = EpidemicConfig.FirstChildElement()->FirstChildElement("diffusion");
@@ -90,6 +91,10 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
     disease->FirstChildElement("prob_ui_u")->QueryFloatText(&probUIU);
     disease->FirstChildElement("location_state_refresh_interval")->QueryUnsignedText(&locStateRefreshInterval);
     disease->FirstChildElement("seed")->QueryUnsignedText(&diseaseSeed);
+
+    /* Refer to README for more details */
+    dataCapture = EpidemicConfig.FirstChildElement()->FirstChildElement("data_capture");
+    dataCaptureStatus.assign( dataCapture->GetText() );
 
     /* Refer to README for more details */
     numOfRegions=EpidemicConfig.FirstChildElement()->FirstChildElement("number_of_regions");
@@ -138,9 +143,9 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
                                                             latentInfectivity, incubatingInfectivity,
                                                             infectiousInfectivity, asymptInfectivity,
                                                             probULU, probULV, probURV, probUIV, probUIU,
-                                                            locStateRefreshInterval, locDiffusionTrigInterval,
-                                                            personVec, travelTimeToHub, diseaseSeed,
-                                                            diffusionSeed );
+                                                            (dataCaptureStatus == "yes") ? true : false, 
+                                                            locStateRefreshInterval, locDiffusionTrigInterval, 
+                                                            personVec, travelTimeToHub, diseaseSeed, diffusionSeed );
             locObjs->push_back(locObject);
             simulationObjMap.insert( pair <string, SimulationObject *>(locationName, locObject) );
             simulationObjVec->push_back(locObject);
