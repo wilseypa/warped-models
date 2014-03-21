@@ -42,7 +42,8 @@ LOCATION_STATE_REFRESH_INTERVAL = 10
 DISEASE_SEED                    = 90
 
 # Data capture
-DATA_CAPTURE                    = "no"
+IS_DATA_CAPTURE_NEEDED          = "no"
+DATA_CAPTURE_FILENAME           = "epidemic_data.csv"
 
 # Regions
 NUMBER_OF_REGIONS               = 10
@@ -125,7 +126,11 @@ def main():
     field.text = str(DISEASE_SEED)
 
     doc = ET.SubElement(root, "data_capture")
-    doc.text = str(DATA_CAPTURE)
+    field = ET.SubElement(doc, "is_needed")
+    field.text = str(IS_DATA_CAPTURE_NEEDED)
+    if IS_DATA_CAPTURE_NEEDED == "yes":
+        field = ET.SubElement(doc, "capture_file")
+        field.text = str(DATA_CAPTURE_FILENAME)
 
     doc = ET.SubElement(root, "number_of_regions")
     doc.text = str(NUMBER_OF_REGIONS)

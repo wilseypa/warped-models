@@ -64,7 +64,7 @@ before writing out the model:
                prob_ul_u, prob_ul_v, prob_ur_v, prob_ui_v, prob_ui_u, 
                location state refresh interval, seed
 
-3. Data Capture needed (yes/no)
+3. Data Capture : needed (yes/no), capture file name
 
 4. Region    : number of regions
                For each region : region name, number of locations

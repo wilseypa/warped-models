@@ -25,7 +25,10 @@
         <location_state_refresh_interval>10</location_state_refresh_interval>
         <seed>90</seed>
     </disease>
-    <data_capture>no</data_capture>
+    <data_capture>
+        <is_needed>no</is_needed>
+        <capture_file>epidemic_data.csv</capture_file>
+    </data_capture>
     <number_of_regions>10</number_of_regions>
     <region>
         <region_name>Region0</region_name>

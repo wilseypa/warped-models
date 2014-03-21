@@ -1,5 +1,6 @@
 #include "EpidemicApplication.h"
 #include "LocationObject.h"
+#include "FileWriter.h"
 #include "EpidemicPartitioner.h"
 #include "Person.h"
 #include "tinyxml2.h"
@@ -45,7 +46,10 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
             latentInfectivity = 0.0, incubatingInfectivity = 0.0, 
             infectiousInfectivity = 0.0, asymptInfectivity = 0.0;
     string locationName = "", infectionState = "", vaccinationStatus = "", 
-            regionName = "", model = "", dataCaptureStatus = "";
+            regionName = "", model = "", dataCaptureStatus = "", 
+            dataCaptureFileName = "";
+
+    FileWriter *fileWriter = NULL;
 
     Person *person;
     vector <SimulationObject*> *locObjs;
@@ -94,7 +98,12 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
 
     /* Refer to README for more details */
     dataCapture = EpidemicConfig.FirstChildElement()->FirstChildElement("data_capture");
-    dataCaptureStatus.assign( dataCapture->GetText() );
+    dataCaptureStatus.assign( dataCapture->FirstChildElement("is_needed")->GetText() );
+    if( dataCaptureStatus == "yes" ) {
+        dataCaptureFileName.assign( dataCapture->FirstChildElement("capture_file")->GetText() );
+        fileWriter = new FileWriter("writer", dataCaptureFileName);
+        simulationObjVec->push_back(fileWriter);
+    }
 
     /* Refer to README for more details */
     numOfRegions=EpidemicConfig.FirstChildElement()->FirstChildElement("number_of_regions");
@@ -109,7 +118,14 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
         numLocations = 0;
         region->FirstChildElement("number_of_locations")->QueryIntText(&numLocations);
         location = region->FirstChildElement("number_of_locations");
-        locObjs = new vector<SimulationObject*>;  
+        locObjs = new vector<SimulationObject*>;
+
+        /* Add file writer object for only one partition */
+        if(!fileWriter) {
+            locObjs->push_back(fileWriter);
+            fileWriter = NULL;
+        }
+
         for( int locIndex = 0; locIndex < numLocations; locIndex++ ) {
             personVec = new vector <Person *>;
 
