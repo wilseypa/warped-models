@@ -78,6 +78,13 @@ private:
     /* Create and send the refresh location state event */
     void refreshLocStateEvent( IntVTime currentTime );
 
+    /* Create and send the data capture event */
+    void sendCapturedData( IntVTime currentTime );
+
+    /* Update the intra-location disease spread and send related events */
+    void diseaseEventAndDataCapture( map <unsigned int, Person *> *personMap,
+                                     IntVTime currentTime );
+
     /* Create and send the diffusion trigger event */
     void triggerDiffusionEvent( IntVTime currentTime );
 
@@ -105,6 +112,9 @@ private:
 
     /* Data capture status */
     bool dataCaptureStatus;
+
+    /* Intra-location disease updation count */
+    unsigned int countIntraLocDiseaseUpdate;
 
     /* Location state refresh interval */
     unsigned int locStateRefreshInterval;

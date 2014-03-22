@@ -34,6 +34,7 @@ LocationObject::LocationObject( string locationName,
         locationName(locationName),
         personVec(personVec),
         dataCaptureStatus(dataCaptureStatus),
+        countIntraLocDiseaseUpdate(0),
         locStateRefreshInterval(locStateRefreshInterval),
         locDiffusionTrigInterval(locDiffusionTrigInterval) {
 
@@ -91,17 +92,7 @@ void LocationObject::executeProcess() {
             if( recvEvent->getSender() == *(this->getObjectID()) ) {
 
                 if( DISEASE == recvEvent->getDiseaseOrDiffusion() ) {
-                    diseaseModel->diseaseReaction(  myState->getPersonMap(),
-                                                    currentTime.getApproximateIntTime() );
-
-                    refreshLocStateEvent(currentTime);
-
-                    /* Send data to the file writer */
-                    if(dataCaptureStatus) {
-                        SimulationObject *receiver = getObjectHandle("writer");
-                        FileEvent *fileEvent = new FileEvent(currentTime, currentTime, this, receiver);
-                        receiver->receiveEvent(fileEvent);
-                    }
+                    diseaseEventAndDataCapture( myState->getPersonMap(), currentTime );
 
                 } else if( DIFFUSION == recvEvent->getDiseaseOrDiffusion() ){
                     migrateLocationEvent(currentTime, myState);
@@ -147,6 +138,38 @@ void LocationObject::refreshLocStateEvent( IntVTime currentTime ) {
                                                         currentTime + (int)locStateRefreshInterval,
                                                         this, this, NULL, DISEASE  );
     this->receiveEvent(refreshEvent);
+}
+
+void LocationObject::sendCapturedData( IntVTime currentTime ) {
+
+    SimulationObject *receiver = getObjectHandle("writer");
+    FileEvent *fileEvent = new FileEvent(currentTime, currentTime, this, receiver);
+    receiver->receiveEvent(fileEvent);
+}
+
+void LocationObject::diseaseEventAndDataCapture( map <unsigned int, Person *> *personMap,
+                                                 IntVTime currentTime ) {
+
+    unsigned int uninfectedNum = 0, latentNum = 0, incubatingNum = 0,
+                    infectiousNum = 0, asymptNum = 0, recoveredNum = 0;
+
+    diseaseModel->diseaseReaction(  personMap,
+                                    currentTime.getApproximateIntTime(),
+                                    &uninfectedNum,
+                                    &latentNum,
+                                    &incubatingNum,
+                                    &infectiousNum,
+                                    &asymptNum,
+                                    &recoveredNum );
+
+    refreshLocStateEvent(currentTime);
+
+    /* Send data to the file writer */
+    if(dataCaptureStatus) {
+        sendCapturedData(currentTime);
+    }
+
+    countIntraLocDiseaseUpdate++;
 }
 
 void LocationObject::triggerDiffusionEvent( IntVTime currentTime ) {

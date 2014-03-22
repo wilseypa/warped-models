@@ -49,11 +49,23 @@ public:
     ~DiseaseModel() {}
 
     /* Reaction function */
-    void diseaseReaction( map <unsigned int, Person *> *personMap, int currentTime ) {
+    void diseaseReaction( map <unsigned int, Person *> *personMap,
+                          int currentTime,
+                          unsigned int *uninfectedNum,
+                          unsigned int *latentNum,
+                          unsigned int *incubatingNum,
+                          unsigned int *infectiousNum,
+                          unsigned int *asymptNum,
+                          unsigned int *recoveredNum ) {
 
-        unsigned int latentNum = 0, incubatingNum = 0, 
-                        infectiousNum = 0, asymptNum = 0, uninfectedNum = 0;
         vector< Person* > uninfectedVec;
+
+        *uninfectedNum = 0;
+        *latentNum     = 0;
+        *incubatingNum = 0;
+        *infectiousNum = 0;
+        *asymptNum     = 0;
+        *recoveredNum  = 0;
 
         for( map<unsigned int, Person*>::iterator mapIter = personMap->begin(); 
                                                 mapIter != personMap->end(); mapIter++) {
@@ -63,44 +75,45 @@ public:
 
             string infectionState = (mapIter->second)->infectionState;
             if ("uninfected" == infectionState) {
-                uninfectedNum++;
+                (*uninfectedNum)++;
                 uninfectedVec.push_back(mapIter->second);
             } else if ("latent" == infectionState) {
-                latentNum++;
+                (*latentNum)++;
             } else if ("incubating" == infectionState) {
-                incubatingNum++;
+                (*incubatingNum)++;
             } else if ("infectious" == infectionState) {
-                infectiousNum++;
+                (*infectiousNum)++;
             } else if ("asympt" == infectionState) {
-                asymptNum++;
+                (*asymptNum)++;
             } else {
                 ASSERT("recovered" == infectionState);
+                (*recoveredNum)++;
             }
         }
 
         /* If some persons remain uninfected */
-        if ( uninfectedNum ) {
+        if ( *uninfectedNum ) {
             for( vector <Person*>::iterator vecIter = uninfectedVec.begin(); 
                                                 vecIter != uninfectedVec.end(); vecIter++) {
                 double susceptibility = (*vecIter)->susceptibility;
                 double suscepMultTrans = (double) (susceptibility * transmissibility);
                 double probLatent = 1.0, probIncubating = 1.0, probInfectious = 1.0, 
                                                     probAsympt = 1.0, diseaseProb = 1.0;
-                if (latentNum) {
+                if (*latentNum) {
                     probLatent -= (double) (suscepMultTrans * latentInfectivity);
-                    probLatent = pow( probLatent, (double) latentNum );
+                    probLatent = pow( probLatent, (double) *latentNum );
                 }
-                if (incubatingNum) {
+                if (*incubatingNum) {
                     probIncubating -= (double) (suscepMultTrans * incubatingInfectivity);
-                    probIncubating = pow( probIncubating, (double) incubatingNum );
+                    probIncubating = pow( probIncubating, (double) *incubatingNum );
                 }
-                if (infectiousNum) {
+                if (*infectiousNum) {
                     probInfectious -= (double) (suscepMultTrans * infectiousInfectivity);
-                    probInfectious = pow( probInfectious, (double) infectiousNum);
+                    probInfectious = pow( probInfectious, (double) *infectiousNum);
                 }
-                if (asymptNum) {
+                if (*asymptNum) {
                     probAsympt -= (double) (suscepMultTrans * asymptInfectivity);
-                    probAsympt = pow( probAsympt, (double) asymptNum);
+                    probAsympt = pow( probAsympt, (double) *asymptNum);
                 }
 
                 double prodProb = probLatent * probIncubating * probInfectious * probAsympt;
