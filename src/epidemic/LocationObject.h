@@ -102,6 +102,9 @@ private:
     /* Initial population */
     vector <Person *> *personVec;
 
+    /* Data capture status */
+    bool dataCaptureStatus;
+
     /* Location state refresh interval */
     unsigned int locStateRefreshInterval;
 

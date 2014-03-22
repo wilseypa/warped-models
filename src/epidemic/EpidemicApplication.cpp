@@ -101,8 +101,8 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
     dataCaptureStatus.assign( dataCapture->FirstChildElement("is_needed")->GetText() );
     if( dataCaptureStatus == "yes" ) {
         dataCaptureFileName.assign( dataCapture->FirstChildElement("capture_file")->GetText() );
-        fileWriter = new FileWriter("writer", dataCaptureFileName);
-        simulationObjVec->push_back(fileWriter);
+        //fileWriter = new FileWriter("writer", dataCaptureFileName);
+        //simulationObjVec->push_back(fileWriter);
     }
 
     /* Refer to README for more details */
@@ -121,10 +121,10 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
         locObjs = new vector<SimulationObject*>;
 
         /* Add file writer object for only one partition */
-        if(!fileWriter) {
+        /*if(!fileWriter) {
             locObjs->push_back(fileWriter);
             fileWriter = NULL;
-        }
+        }*/
 
         for( int locIndex = 0; locIndex < numLocations; locIndex++ ) {
             personVec = new vector <Person *>;

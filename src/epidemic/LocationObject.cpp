@@ -33,6 +33,7 @@ LocationObject::LocationObject( string locationName,
                                 unsigned int diffusionSeed) : 
         locationName(locationName),
         personVec(personVec),
+        dataCaptureStatus(dataCaptureStatus),
         locStateRefreshInterval(locStateRefreshInterval),
         locDiffusionTrigInterval(locDiffusionTrigInterval) {
 
@@ -46,8 +47,7 @@ LocationObject::LocationObject( string locationName,
                                         asymptDwellTime, latentInfectivity, 
                                         incubatingInfectivity, infectiousInfectivity, 
                                         asymptInfectivity, probULU, probULV, probURV, 
-                                        probUIV, probUIU, dataCaptureStatus, 
-                                        diseaseRandGen );
+                                        probUIV, probUIU, diseaseRandGen );
 
     /* Create the diffusion network */
     diffusionNetwork = new DiffusionNetwork( diffusionRandGen, travelTimeToHub );
