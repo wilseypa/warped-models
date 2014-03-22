@@ -43,7 +43,7 @@ public:
             fileEvent = (FileEvent *) getEvent();
             if ( fileEvent != NULL ) {
                 ostringstream strStream;
-                strStream << fileEvent->getSender() << "," << currentTime.getApproximateIntTime();
+                strStream << currentTime.getApproximateIntTime() << endl;
                 outStream->insert( strStream );
                 outStream->flush();
             }

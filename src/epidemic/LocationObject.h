@@ -8,6 +8,7 @@
 #include "DiseaseModel.h"
 #include "DiffusionNetwork.h"
 #include "EpidemicEvent.h"
+#include "FileEvent.h"
 
 #include <vector>
 #include <map>

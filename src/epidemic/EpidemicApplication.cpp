@@ -49,8 +49,6 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
             regionName = "", model = "", dataCaptureStatus = "", 
             dataCaptureFileName = "";
 
-    FileWriter *fileWriter = NULL;
-
     Person *person;
     vector <SimulationObject*> *locObjs;
     vector <Person *> *personVec;
@@ -97,12 +95,16 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
     disease->FirstChildElement("seed")->QueryUnsignedText(&diseaseSeed);
 
     /* Refer to README for more details */
+    /* Add fileWriter to the partition information if data capture is needed */
     dataCapture = EpidemicConfig.FirstChildElement()->FirstChildElement("data_capture");
     dataCaptureStatus.assign( dataCapture->FirstChildElement("is_needed")->GetText() );
     if( dataCaptureStatus == "yes" ) {
         dataCaptureFileName.assign( dataCapture->FirstChildElement("capture_file")->GetText() );
-        //fileWriter = new FileWriter("writer", dataCaptureFileName);
-        //simulationObjVec->push_back(fileWriter);
+        FileWriter *fileWriter = new FileWriter("writer", dataCaptureFileName);
+        simulationObjVec->push_back(fileWriter);
+        locObjs = new vector<SimulationObject*>;
+        locObjs->push_back(fileWriter);
+        myPartitioner->addObjectGroup(locObjs);
     }
 
     /* Refer to README for more details */
@@ -119,12 +121,6 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
         region->FirstChildElement("number_of_locations")->QueryIntText(&numLocations);
         location = region->FirstChildElement("number_of_locations");
         locObjs = new vector<SimulationObject*>;
-
-        /* Add file writer object for only one partition */
-        /*if(!fileWriter) {
-            locObjs->push_back(fileWriter);
-            fileWriter = NULL;
-        }*/
 
         for( int locIndex = 0; locIndex < numLocations; locIndex++ ) {
             personVec = new vector <Person *>;

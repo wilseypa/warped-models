@@ -93,7 +93,15 @@ void LocationObject::executeProcess() {
                 if( DISEASE == recvEvent->getDiseaseOrDiffusion() ) {
                     diseaseModel->diseaseReaction(  myState->getPersonMap(),
                                                     currentTime.getApproximateIntTime() );
+
                     refreshLocStateEvent(currentTime);
+
+                    /* Send data to the file writer */
+                    if(dataCaptureStatus) {
+                        SimulationObject *receiver = getObjectHandle("writer");
+                        FileEvent *fileEvent = new FileEvent(currentTime, currentTime, this, receiver);
+                        receiver->receiveEvent(fileEvent);
+                    }
 
                 } else if( DIFFUSION == recvEvent->getDiseaseOrDiffusion() ){
                     migrateLocationEvent(currentTime, myState);
