@@ -26,6 +26,12 @@ public:
     /* Initialize the simulation object */
     void initialize() {
         outStream = openOutputFile();
+
+        ostringstream strStream;
+        strStream << "Location;Data_Index;Uninfected;Latent; \
+                        Incubating;Infectious;Asympt;Recovered" << endl;
+        outStream->insert( strStream );
+        outStream->flush();
     }
 
     /* Finalize the simulation object before termination */
@@ -42,8 +48,18 @@ public:
 
             fileEvent = (FileEvent *) getEvent();
             if ( fileEvent != NULL ) {
+
                 ostringstream strStream;
-                strStream << currentTime.getApproximateIntTime() << endl;
+
+                strStream << fileEvent->getLocationName()     << ";";
+                strStream << fileEvent->getDataCaptureIndex() << ";";
+                strStream << fileEvent->getUninfectedNum()    << ";";
+                strStream << fileEvent->getLatentNum()        << ";";
+                strStream << fileEvent->getIncubatingNum()    << ";";
+                strStream << fileEvent->getInfectiousNum()    << ";";
+                strStream << fileEvent->getAsymptNum()        << ";";
+                strStream << fileEvent->getRecoveredNum()     << endl;
+
                 outStream->insert( strStream );
                 outStream->flush();
             }
