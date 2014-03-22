@@ -140,10 +140,20 @@ void LocationObject::refreshLocStateEvent( IntVTime currentTime ) {
     this->receiveEvent(refreshEvent);
 }
 
-void LocationObject::sendCapturedData( IntVTime currentTime ) {
+void LocationObject::sendCapturedData( IntVTime currentTime,
+                                       unsigned int uninfectedNum,
+                                       unsigned int latentNum,
+                                       unsigned int incubatingNum,
+                                       unsigned int infectiousNum,
+                                       unsigned int asymptNum,
+                                       unsigned int recoveredNum ) {
 
     SimulationObject *receiver = getObjectHandle("writer");
-    FileEvent *fileEvent = new FileEvent(currentTime, currentTime, this, receiver);
+    FileEvent *fileEvent = new FileEvent( currentTime, currentTime, 
+                                          this, receiver,
+                                          locationName, countIntraLocDiseaseUpdate, 
+                                          uninfectedNum, latentNum, incubatingNum,
+                                          infectiousNum, asymptNum, recoveredNum);
     receiver->receiveEvent(fileEvent);
 }
 
@@ -166,7 +176,10 @@ void LocationObject::diseaseEventAndDataCapture( map <unsigned int, Person *> *p
 
     /* Send data to the file writer */
     if(dataCaptureStatus) {
-        sendCapturedData(currentTime);
+        sendCapturedData( currentTime, uninfectedNum,
+                          latentNum, incubatingNum,
+                          infectiousNum, asymptNum,
+                          recoveredNum );
     }
 
     countIntraLocDiseaseUpdate++;

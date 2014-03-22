@@ -79,7 +79,13 @@ private:
     void refreshLocStateEvent( IntVTime currentTime );
 
     /* Create and send the data capture event */
-    void sendCapturedData( IntVTime currentTime );
+    void sendCapturedData( IntVTime     currentTime,
+                           unsigned int uninfectedNum,
+                           unsigned int latentNum,
+                           unsigned int incubatingNum,
+                           unsigned int infectiousNum,
+                           unsigned int asymptNum,
+                           unsigned int recoveredNum );
 
     /* Update the intra-location disease spread and send related events */
     void diseaseEventAndDataCapture( map <unsigned int, Person *> *personMap,
