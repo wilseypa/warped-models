@@ -25,11 +25,6 @@ RAIDDiskState::copyState(const State* state) {
   currentCylinder = diskState->getCurrentCylinder();
 }
 
-unsigned int
-RAIDDiskState::getStateSize() const {
-  return sizeof(RAIDDiskState);
-}
-
 const SerializedInstance*
 RAIDDiskState::serialize() {
   cerr << "Error: RAIDDiskState::serialize called\n";

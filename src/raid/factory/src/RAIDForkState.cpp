@@ -11,11 +11,6 @@ RAIDForkState::copyState(const State* state) {
   this->lastOutput = ((RAIDForkState *) state)->lastOutput;
 }
 
-unsigned int
-RAIDForkState::getStateSize() const {
-  return sizeof(RAIDForkState);
-}
-
 const SerializedInstance*
 RAIDForkState::serialize() {
   cerr << "Error: RAIDForkState::serialize called\n";

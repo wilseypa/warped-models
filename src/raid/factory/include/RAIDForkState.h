@@ -15,8 +15,6 @@ public:
 
   void copyState(const State* state);
 
-  unsigned int getStateSize() const;
-
   const SerializedInstance* serialize();
   State *deserialize(const SerializedInstance  instance);
 

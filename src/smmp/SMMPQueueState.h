@@ -10,8 +10,6 @@ public:
    ~SMMPQueueState(){}
   
    void copyState(const State *toCopy){}
-
-   unsigned int getStateSize() const { return sizeof(SMMPQueueState); }
 };
 
 #endif
