@@ -54,12 +54,6 @@ PingPongApplication::getSimulationObjects(){
   return retval;
 }
 
-
-int 
-PingPongApplication::finalize(){ 
-  return 0; 
-}
-
 void 
 PingPongApplication::registerDeserializers(){
   DeserializerManager::instance()->registerDeserializer( PingEvent::getPingEventDataType(),

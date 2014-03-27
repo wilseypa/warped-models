@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <Application.h>
-#include <IntVTime.h>
 
 class PingPongApplication : public Application {
 public:
@@ -14,14 +13,8 @@ public:
 
   std::vector<SimulationObject *> *getSimulationObjects();
 
-  int finalize();
-
   void registerDeserializers();
   
-  const VTime &getPositiveInfinity(){ return IntVTime::getIntVTimePositiveInfinity(); }
-  const VTime &getZero(){ return IntVTime::getIntVTimeZero(); }
-  const VTime &getTime(string &){ return IntVTime::getIntVTimeZero(); }
-
 private:
 
   unsigned int numObjects;
