@@ -11,6 +11,3 @@ pingpong_SOURCES= \
 	pingPong/main.cpp
 
 pingpong_LDFLAGS=-static
-
-EXTRA_DIST=pingPong/Makefile.am.stub
-
