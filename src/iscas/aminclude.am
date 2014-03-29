@@ -1,0 +1,23 @@
+ISCAS_PROGRAM=iscasSim
+
+iscasSim_SOURCES= \
+    iscas/ClockEvent.cpp \
+    iscas/ClockEvent.h \
+    iscas/Component.cpp \
+    iscas/Component.h \
+    iscas/ComponentState.h \
+    iscas/DFlipFlop.cpp \
+    iscas/DFlipFlop.h \
+    iscas/InputObject.cpp \
+    iscas/InputObject.h \
+    iscas/ISCASApplication.cpp \
+    iscas/ISCASApplication.h \
+    iscas/LogicGate.cpp \
+    iscas/LogicGate.h \
+    iscas/main.cpp \
+    iscas/SignalEvent.cpp \
+    iscas/SignalEvent.h
+
+iscasSim_LDFLAGS=-static
+iscasSim_CPPFLAGS = -I$(top_srcdir)/thirdparty/re2
+iscasSim_LDADD=$(top_builddir)/thirdparty/re2/libre2.la
