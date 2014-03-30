@@ -27,7 +27,7 @@ bool LogicGate::computeOutput() {
 
     switch (type) {
     case Type::NOT:
-        return ~(state->inputs[0]);
+        return !(state->inputs[0]);
     case Type::AND:
         for (bool input : state->inputs) {
             if (!input) {
