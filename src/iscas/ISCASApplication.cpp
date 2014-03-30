@@ -97,7 +97,7 @@ std::vector<SimulationObject*>* ISCASApplication::getSimulationObjects() {
         re2::StringPiece input2(group2);
         std::string arg;
         while (RE2::FindAndConsume(&input2, regex4, &arg)) {
-            auto inputIndex = static_cast<LogicGate*>(componentsByName[group1])->addInput();
+            auto inputIndex = static_cast<LogicGate*>(componentsByName[group1])->addInput() - 1;
             componentsByName[arg]->addOutput(componentsByName[group1], inputIndex);
         }
     }
