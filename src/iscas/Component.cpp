@@ -1,6 +1,5 @@
 #include "Component.h"
 #include "ClockEvent.h"
-#include "ComponentState.h"
 
 #include <State.h>
 #include <IntVTime.h>
