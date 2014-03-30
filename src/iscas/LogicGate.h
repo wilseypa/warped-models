@@ -17,14 +17,18 @@ public:
     virtual bool needsClock() const { return false; }
 
     void executeProcess();
+    State* allocateState();
 
-    // NOT hates only support one input. All other types support unlimited
-    // inputs.
+    // Add an input port and return the index of the new port.
+    // NOT gates only support one input. All other types support unlimited
+    // inputs. An exception will be raised if this function is called more
+    // times than the component supports.
     unsigned int addInput();
 
-protected:
+private:
     Type type;
     bool computeOutput();
+    unsigned int numberOfInputs;
 };
 
 #endif

@@ -2,6 +2,7 @@
 #define INPUT_OBJECT_H
 
 #include <string>
+#include <random>
 
 #include "Component.h"
 
@@ -11,13 +12,10 @@ public:
     virtual bool needsClock() const { return true; }
 
     void executeProcess();
-
-    // Input objects obvciously don't support any inputs
-    unsigned int addInput();
+    State* allocateState();
 
 private:
     std::uniform_int_distribution<int> distribution;
-    std::default_random_engine generator;
 };
 
 #endif

@@ -12,14 +12,7 @@ public:
     virtual bool needsClock() const { return true; }
 
     void executeProcess();
-
-    // Flip flops only support one input
-    unsigned int addInput();
-
-protected:
-    // Keep track of the previous output value to avoid sending duplicate
-    // events.
-    bool previousOutput;
+    State* allocateState();
 };
 
 #endif
