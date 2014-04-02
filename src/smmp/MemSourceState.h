@@ -26,8 +26,6 @@ public:
       filter = copy->filter;
    }
 
-   unsigned int getStateSize() const { return sizeof(MemSourceState); }
-
    /// The number of tokens that the object will produce.
    int maxMemRequests;
 

@@ -10,6 +10,6 @@ include phold/aminclude.am
 include raid/aminclude.am
 include smmp/aminclude.am
 include epidemic/aminclude.am
-include circuitsimulationmodels/iscas89/aminclude.am
+include iscas/aminclude.am
 
-noinst_PROGRAMS = $(PING_PONG_PROGRAM) $(PHOLD_PROGRAM) $(RAID_PROGRAM) $(SMMP_PROGRAM) $(ISCAS89_PROGRAM) $(EPIDEMIC_PROGRAM)
+noinst_PROGRAMS = $(PING_PONG_PROGRAM) $(PHOLD_PROGRAM) $(RAID_PROGRAM) $(SMMP_PROGRAM) $(EPIDEMIC_PROGRAM) $(ISCAS_PROGRAM)

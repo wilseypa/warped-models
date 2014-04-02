@@ -88,11 +88,6 @@ RAIDProcessState::copyState(const State* state)
   }
 }
 
-unsigned int
-RAIDProcessState::getStateSize() const {
-  return sizeof(RAIDProcessState);
-}
-
 const SerializedInstance*
 RAIDProcessState::serialize() {
   cerr << "Error: RAIDProcessState::serialize called\n";

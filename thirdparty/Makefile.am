@@ -1,1 +1,1 @@
-SUBDIRS = rnd
+SUBDIRS = rnd re2

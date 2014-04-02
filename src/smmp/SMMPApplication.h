@@ -2,15 +2,15 @@
 #define SMMP_APPLICATION
 
 #include <Application.h>
-#include <IntVTime.h>
 
 #include <vector>
+#include <string>
 
 class SimulationObject;
 
 class SMMPApplication : public Application {
 public:
-  SMMPApplication( string inputFileName );
+  SMMPApplication( std::string inputFileName );
 
   std::vector<SimulationObject*>* getSimulationObjects();
 
@@ -21,12 +21,8 @@ public:
 
   void registerDeserializers();
   
-  const VTime &getPositiveInfinity(){ return IntVTime::getIntVTimePositiveInfinity(); }
-  const VTime &getZero(){ return IntVTime::getIntVTimeZero(); }
-  const VTime &getTime(string &){ return IntVTime::getIntVTimeZero(); }
-
 private:
-  string inputFileName;
+  std::string inputFileName;
 };
 
 #endif

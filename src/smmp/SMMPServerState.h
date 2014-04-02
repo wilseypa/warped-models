@@ -20,8 +20,6 @@ public:
       gen = new MLCG(*(copy->gen));
    }
 
-   unsigned int getStateSize() const { return sizeof(SMMPServerState); }
-
    MLCG *gen;
 };
 

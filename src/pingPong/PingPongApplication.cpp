@@ -1,12 +1,12 @@
 #include "PingPongApplication.h"
 #include "PingObject.h"
 #include "PingEvent.h"
-#include <PartitionInfo.h>
-#include <RoundRobinPartitioner.h>
+
 #include <DeserializerManager.h>
 
 #include <vector>
 using std::string;
+using std::vector;
 
 PingPongApplication::PingPongApplication( unsigned int initNumObjects,
 					  unsigned int initNumEventsPerObject,
@@ -52,12 +52,6 @@ PingPongApplication::getSimulationObjects(){
 				     randomDelays ) );
   
   return retval;
-}
-
-
-int 
-PingPongApplication::finalize(){ 
-  return 0; 
 }
 
 void 

@@ -10,8 +10,6 @@ public:
    ~SMMPJoinState(){};
 
    void copyState(const State *toCopy){};
-
-   unsigned int getStateSize() const { return sizeof(SMMPJoinState); }
 };
 
 #endif

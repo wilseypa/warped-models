@@ -25,8 +25,6 @@ public:
       localDelay = copy->localDelay;
    }
 
-   unsigned int getStateSize() const { return sizeof(SMMPForkState); }
-
    MLCG *gen ;
    int lastOutput;
    int localDelay;

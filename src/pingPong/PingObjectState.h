@@ -22,8 +22,6 @@ public :
     numBallsStarted = pingState->numBallsStarted;
   }
 
-  unsigned int getStateSize() const { return sizeof(PingObjectState); }
-
   void ballStarted(){ numBallsStarted++; }
   void ballSent(){ numBallsSent++; }
   void ballReceived(){ numBallsRecvd++; }

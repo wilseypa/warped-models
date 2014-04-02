@@ -26,8 +26,6 @@ public:
    // this is needed to copy User State
    void copyState(const State* state);
    
-   unsigned int getStateSize() const { return sizeof(ProcessState); }
-
 private:
    int numSent;
    int numReceived;

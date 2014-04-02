@@ -17,7 +17,7 @@ main(int argc, char** argv) {
     try {
         TCLAP::CmdLine cmd("Epidemic Simulation");
 
-        TCLAP::ValueArg<string> inputFileNameArg("", "simulate", "configuration file name",
+        TCLAP::ValueArg<std::string> inputFileNameArg("", "simulate", "configuration file name",
                                                  true, inputFileName, "file", cmd);
 
         // Arguments for WarpedMain

@@ -45,9 +45,6 @@ public:
         }
     }
 
-    /* Get the state size */
-    unsigned int getStateSize() const { return sizeof(LocationState); }
-
     void populateLocation( vector <Person *> *personVec ) {
 
         vector <Person *>::iterator vecIter;

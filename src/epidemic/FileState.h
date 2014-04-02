@@ -15,9 +15,6 @@ public:
 
     /* Get the state size */
     const int getSize() const { return sizeof(FileState); }
-
-    /* Get the state size */
-    unsigned int getStateSize() const { return sizeof(FileState); }
 };
 
 #endif

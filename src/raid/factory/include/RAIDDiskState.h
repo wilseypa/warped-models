@@ -16,8 +16,6 @@ public:
   RAIDDiskState& operator=(RAIDDiskState&);
   void copyState(const State* state);
 
-  unsigned int getStateSize() const;
-
   const SerializedInstance* serialize();
   State *deserialize(const SerializedInstance  instance);
 

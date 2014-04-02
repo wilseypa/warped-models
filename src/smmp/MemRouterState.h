@@ -10,7 +10,6 @@ public:
    ~MemRouterState(){};
 
    void copyState(const State *toCopy){};
-   unsigned int getStateSize() const { return sizeof(MemRouterState); }
 };
 
 #endif

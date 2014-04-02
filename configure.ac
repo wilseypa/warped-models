@@ -69,5 +69,11 @@ AC_SUBST(LDFLAGS)
 AC_SUBST(LIBS)
 AC_SUBST(CXX)
 AC_SUBST(MAKEDEPEND)
-AC_CONFIG_FILES([Makefile src/Makefile thirdparty/Makefile thirdparty/rnd/Makefile])
+
+AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([src/Makefile])
+AC_CONFIG_FILES([thirdparty/Makefile])
+AC_CONFIG_FILES([thirdparty/rnd/Makefile])
+AC_CONFIG_FILES([thirdparty/re2/Makefile])
+
 AC_OUTPUT
