@@ -2,7 +2,8 @@
 
 # Configuration file generator for epidemic model
 
-from lxml import etree as ET
+import xml.etree.ElementTree as ET
+import xml.dom.minidom as minidom
 import sys
 import random as randNumLocations
 import random as randNumPersons
@@ -169,8 +170,9 @@ def main():
                 field = ET.SubElement(doc2, "infection_state")
                 field.text = str(INFECTION_STATES[randIS.randrange(0, len(INFECTION_STATES))])
 
-    tree = ET.ElementTree(root)
-    tree.write(outFileName, pretty_print=True)
+    with open(outFileName, 'w') as f:
+        s = ET.tostring(root)
+        minidom.parseString(s).writexml(f, addindent='  ' * 4, newl='\n')
 
 if __name__ == "__main__":
     main()
