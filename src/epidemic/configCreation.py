@@ -4,6 +4,7 @@
 
 from lxml import etree as ET
 import sys
+import random as randNumLocations
 import random as randNumPersons
 import random as randTTCH
 import random as randDTI
@@ -38,7 +39,7 @@ PROB_UL_V                       = 0.9
 PROB_UR_V                       = 0.5
 PROB_UI_V                       = 0.1
 PROB_UI_U                       = 0.3
-LOCATION_STATE_REFRESH_INTERVAL = 10
+LOCATION_STATE_REFRESH_INTERVAL = 50
 DISEASE_SEED                    = 90
 
 # Data capture
@@ -46,8 +47,9 @@ IS_DATA_CAPTURE_NEEDED          = "no"
 DATA_CAPTURE_FILENAME           = "epidemic_data.csv"
 
 # Regions
-NUMBER_OF_REGIONS               = 10
-NUMBER_OF_LOCATIONS             = [4,3,6,7,2,10,7,8,3,6]
+NUMBER_OF_REGIONS               = 50
+MIN_NUM_OF_LOCS_PER_REGION      = 100
+MAX_NUM_OF_LOCS_PER_REGION      = 120
 
 # Location
 MIN_NUM_OF_PERSONS_PER_LOC      = 10
@@ -68,6 +70,7 @@ VACCINATION_STATUS              = ["yes", "no"]
 def main():
     outFileName = sys.argv[1]
 
+    randNumLocations.seed()
     randNumPersons.seed()
     randTTCH.seed()
     randDTI.seed()
@@ -141,8 +144,9 @@ def main():
         field = ET.SubElement(doc, "region_name")
         field.text = "Region"+str(regionNum)
         field = ET.SubElement(doc, "number_of_locations")
-        field.text = str(NUMBER_OF_LOCATIONS[regionNum])
-        for locationNum in range(NUMBER_OF_LOCATIONS[regionNum]):
+        numberOfLocations = randNumLocations.randrange(MIN_NUM_OF_LOCS_PER_REGION, MAX_NUM_OF_LOCS_PER_REGION+1)
+        field.text = str(numberOfLocations)
+        for locationNum in range(numberOfLocations):
             doc1 = ET.SubElement(doc, "location")
             field = ET.SubElement(doc1, "location_name")
             field.text = "Location"+str(locationNum)
