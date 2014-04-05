@@ -5,14 +5,7 @@
 import xml.etree.ElementTree as ET
 import xml.dom.minidom as minidom
 import sys
-import random as randNumLocations
-import random as randNumPersons
-import random as randTTCH
-import random as randDTI
-import random as randSuscep
-import random as randIsVacc
-import random as randIS
-
+import random
 
 ###### Settings go here ######
 
@@ -70,14 +63,6 @@ VACCINATION_STATUS              = ["yes", "no"]
 
 def main():
     outFileName = sys.argv[1]
-
-    randNumLocations.seed()
-    randNumPersons.seed()
-    randTTCH.seed()
-    randDTI.seed()
-    randSuscep.seed()
-    randIsVacc.seed()
-    randIS.seed()
 
     root = ET.Element("epidemic_configuration")
 
@@ -145,30 +130,30 @@ def main():
         field = ET.SubElement(doc, "region_name")
         field.text = "Region"+str(regionNum)
         field = ET.SubElement(doc, "number_of_locations")
-        numberOfLocations = randNumLocations.randrange(MIN_NUM_OF_LOCS_PER_REGION, MAX_NUM_OF_LOCS_PER_REGION+1)
+        numberOfLocations = random.randrange(MIN_NUM_OF_LOCS_PER_REGION, MAX_NUM_OF_LOCS_PER_REGION+1)
         field.text = str(numberOfLocations)
         for locationNum in range(numberOfLocations):
             doc1 = ET.SubElement(doc, "location")
             field = ET.SubElement(doc1, "location_name")
             field.text = "Location"+str(locationNum)
             field = ET.SubElement(doc1, "number_of_persons")
-            numberOfPersons = randNumPersons.randrange(MIN_NUM_OF_PERSONS_PER_LOC, MAX_NUM_OF_PERSONS_PER_LOC+1)
+            numberOfPersons = random.randrange(MIN_NUM_OF_PERSONS_PER_LOC, MAX_NUM_OF_PERSONS_PER_LOC+1)
             field.text = str(numberOfPersons)
             field = ET.SubElement(doc1, "travel_time_to_central_hub")
-            field.text = str(randTTCH.randrange(MIN_TRAVEL_TIME_TO_CENTRAL_HUB, MAX_TRAVEL_TIME_TO_CENTRAL_HUB+1))
+            field.text = str(random.randrange(MIN_TRAVEL_TIME_TO_CENTRAL_HUB, MAX_TRAVEL_TIME_TO_CENTRAL_HUB+1))
             field = ET.SubElement(doc1, "diffusion_trigger_interval")
-            field.text = str(randDTI.randrange(MIN_DIFFUSION_TRIG_INTERVAL, MAX_DIFFUSION_TRIG_INTERVAL+1))
+            field.text = str(random.randrange(MIN_DIFFUSION_TRIG_INTERVAL, MAX_DIFFUSION_TRIG_INTERVAL+1))
             for numPerson in range(numberOfPersons):
                 doc2 = ET.SubElement(doc1, "person")
                 field = ET.SubElement(doc2, "pid")
                 field.text = str(pid)
                 pid += 1
                 field = ET.SubElement(doc2, "susceptibility")
-                field.text = str(randSuscep.randrange(0, SUSCEPTIBILITY_PRECISION)/SUSCEPTIBILITY_PRECISION)
+                field.text = str(random.randrange(0, SUSCEPTIBILITY_PRECISION)/SUSCEPTIBILITY_PRECISION)
                 field = ET.SubElement(doc2, "is_vaccinated")
-                field.text = str(VACCINATION_STATUS[randIsVacc.randrange(0, len(VACCINATION_STATUS))])
+                field.text = str(VACCINATION_STATUS[random.randrange(0, len(VACCINATION_STATUS))])
                 field = ET.SubElement(doc2, "infection_state")
-                field.text = str(INFECTION_STATES[randIS.randrange(0, len(INFECTION_STATES))])
+                field.text = str(INFECTION_STATES[random.randrange(0, len(INFECTION_STATES))])
 
     with open(outFileName, 'w') as f:
         s = ET.tostring(root)
