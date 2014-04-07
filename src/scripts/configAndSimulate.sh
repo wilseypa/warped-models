@@ -24,10 +24,10 @@ function set_config {
     configFile="/tmp/$hostname.parallel.json"
 
     # Set configuration parameters
-    sed -i "s/\"WorkerThreadCount\": [0-9]*$/\"WorkerThreadCount\": $workerThreadCount/g" $configFile
+    sed -i "s/\"WorkerThreadCount\": \"[0-9]*$\"/\"WorkerThreadCount\": \"$workerThreadCount\"/g" $configFile
     sed -i "s/\"ScheduleQScheme\": \"[a-zA-Z]*$\"/\"ScheduleQScheme\": \"$scheduleQScheme\"/g" $configFile
     sed -i "s/\"CausalityType\": \"[a-zA-Z]*$\"/\"CausalityType\": \"$causalityType\"/g" $configFile
-    sed -i "s/\"ScheduleQCount\": [0-9]*$/\"ScheduleQCount\": $scheduleQCount/g" $configFile
+    sed -i "s/\"ScheduleQCount\": \"[0-9]*$\"/\"ScheduleQCount\": \"$scheduleQCount\"/g" $configFile
 }
 
 function run {
@@ -65,7 +65,7 @@ function run {
         echo $rollbacks
 
         # Write to log file
-        echo "$binary,$binaryConfig,$iteration,$workerThreadCount,$scheduleQScheme,$causalityType,$scheduleQCount,$simulateUntil,$runTime,$rollbacks" >> $logFile
+        echo "$binary,$workerThreadCount,$scheduleQCount,$causalityType,$runTime,$rollbacks" >> $logFile
 
         sleep 10
     done
@@ -76,8 +76,8 @@ date=`date +"%m-%d-%y_%T"`
 logFile="scripts/logs/$hostname---$date.csv"
 
 # Write csv header
-## Simulation Threads Scheme ScheduleQCount SimulateUntil Runtime Rollbacks
-echo "Simulation,SimulationConfig,TestNumber,Threads,Scheme,CausalityType,ScheduleQCount,SimulateUntil,Runtime,Rollbacks" > $logFile
+## Simulation Threads ScheduleQCount CausalityType Runtime Rollbacks
+echo "Simulation,Threads,ScheduleQCount,CausalityType,Runtime,Rollbacks" > $logFile
 
 trap control_c SIGINT
 
