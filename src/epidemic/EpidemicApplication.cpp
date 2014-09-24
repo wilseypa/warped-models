@@ -222,7 +222,9 @@ std::vector<SimulationObject*>* EpidemicApplication::getSimulationObjects() {
         abort();
     }
 
-    EpidemicConfig.SaveFile(inputFileName.c_str());
+    // !BAM
+    // saving the config file is unnecessary and causes issues with llamaOS
+    // EpidemicConfig.SaveFile(inputFileName.c_str());
 
     return simulationObjVec;
 }
