@@ -23,7 +23,13 @@ Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include <assert.h>
 #include <math.h>
-#include "_G_config.h"
+
+// !BAM
+// this is obsolete in glibc now, use stdint instead
+// #include "_G_config.h"
+#include <stdint.h>
+typedef int32_t _G_int32_t; 
+typedef uint32_t _G_uint32_t; 
 
 union PrivateRNGSingleType {		   	// used to access floats as unsigneds
     float s;
