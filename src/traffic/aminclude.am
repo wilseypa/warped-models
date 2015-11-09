@@ -1,0 +1,10 @@
+TRAFFIC_PROGRAM=traffic
+
+traffic_SOURCES= \
+	traffic/TrafficEvent.h \
+	traffic/TrafficObject.h \
+	traffic/TrafficObjectState.h \
+	traffic/TrafficApplication.h \
+	traffic/main.cpp
+
+traffic_LDFLAGS=-static
