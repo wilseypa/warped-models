@@ -23,7 +23,7 @@ public:
 
         for (unsigned int i = 0; i < num_x_*num_y_, i++) {
             retval->push_back( 
-                    new TrafficObject(num_x_, num_y_, num_cars_, mean_interval_, index) );
+                    new TrafficObject(num_x_, num_y_, num_cars_, mean_interval_, i) );
         }
         return retval;
     }
