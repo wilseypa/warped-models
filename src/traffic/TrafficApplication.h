@@ -5,22 +5,41 @@
 #include <Application.h>
 
 class TrafficApplication : public Application {
+
 public:
-  TrafficApplication( unsigned int initNumObjects, 
-		       unsigned int numEventsPerObject,
-		       unsigned int initNumBallsAtOnce,
-		       bool initRandomDelays );
+    TrafficApplication( unsigned int num_intersections_x,
+                        unsigned int num_intersections_y,
+                        unsigned int num_cars,
+                        unsigned int mean_interval ) :
+                num_x_(num_intersections_x),
+                num_y_(num_intersections_y),
+                num_cars_(num_cars),
+                mean_interval_(mean_interval) {}
 
-  std::vector<SimulationObject *> *getSimulationObjects();
+    std::vector<SimulationObject *> *getSimulationObjects() {
 
-  void registerDeserializers();
-  
+        vector<SimulationObject *> *retval = new vector<SimulationObject *>;
+        retval->reserve(num_objects_);
+
+        for (unsigned int i = 0; i < num_x_*num_y_, i++) {
+            retval->push_back( 
+                    new TrafficObject(num_x_, num_y_, num_cars_, mean_interval_, index) );
+        }
+        return retval;
+    }
+
+    void registerDeserializers() {
+        DeserializerManager::instance()->registerDeserializer(
+                                            TrafficEvent::getTrafficEventDataType(), 
+                                            &TrafficEvent::deserialize);
+    }
+
+
 private:
-
-  unsigned int numObjects;
-  unsigned int numEventsPerObject;
-  unsigned int numBallsAtOnce;
-  bool randomDelays;
+    unsigned int num_x_;
+    unsigned int num_y_;
+    unsigned int num_cars_;
+    unsigned int mean_interval_;
 };
 
 #endif
