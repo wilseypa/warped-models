@@ -240,17 +240,17 @@ public :
                     IntVTime curr_time = static_cast<const IntVTime&> (getSimulationTime());
                     NegativeExpntl interval_neg_expo(mean_interval_, my_state->gen_);
                     int interval = (int) interval_neg_expo();
+                    SimulationObject *receiver = computeMove(departure_direction);
                     TrafficEvent *event = 
                         new TrafficEvent(   curr_time, 
                                             curr_time + interval, 
-                                            this, this, 
-                                            //computeMove(departure_direction), 
+                                            this, receiver, 
                                             traffic_event->getX(), 
                                             traffic_event->getY(), 
                                             traffic_event->getArrivedFrom(), 
                                             traffic_event->getCurrentLane(), 
                                             ARRIVAL     );
-                    this->receiveEvent(event);
+                    receiver->receiveEvent(event);
 
                 } break;
 
