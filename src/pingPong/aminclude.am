@@ -1,13 +1,13 @@
 PING_PONG_PROGRAM=pingpong
 
 pingpong_SOURCES= \
-	pingPong/PingEvent.cpp \
-	pingPong/PingEvent.h \
-	pingPong/PingObject.cpp \
-	pingPong/PingObject.h \
-	pingPong/PingObjectState.h \
-	pingPong/PingPongApplication.h \
-	pingPong/PingPongApplication.cpp \
-	pingPong/main.cpp
+    pingPong/PingEvent.cpp \
+    pingPong/PingEvent.h \
+    pingPong/PingObject.cpp \
+    pingPong/PingObject.h \
+    pingPong/PingObjectState.h \
+    pingPong/PingPongApplication.h \
+    pingPong/PingPongApplication.cpp \
+    pingPong/main.cpp
 
 pingpong_LDFLAGS=-static

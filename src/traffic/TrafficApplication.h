@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <Application.h>
+#include "TrafficObject.h"
 
 class TrafficApplication : public Application {
 
@@ -18,10 +19,8 @@ public:
 
     std::vector<SimulationObject *> *getSimulationObjects() {
 
-        vector<SimulationObject *> *retval = new vector<SimulationObject *>;
-        retval->reserve(num_objects_);
-
-        for (unsigned int i = 0; i < num_x_*num_y_, i++) {
+        std::vector<SimulationObject *> *retval = new std::vector<SimulationObject *>;
+        for (unsigned int i = 0; i < num_x_*num_y_; i++) {
             retval->push_back( 
                     new TrafficObject(num_x_, num_y_, num_cars_, mean_interval_, i) );
         }

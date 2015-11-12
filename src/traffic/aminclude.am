@@ -1,10 +1,10 @@
-TRAFFIC_PROGRAM=traffic
+TRAFFIC_PROGRAM=trafficSim
 
-traffic_SOURCES= \
-	traffic/TrafficEvent.h \
-	traffic/TrafficObject.h \
-	traffic/TrafficObjectState.h \
-	traffic/TrafficApplication.h \
-	traffic/main.cpp
+trafficSim_SOURCES= \
+    traffic/TrafficEvent.h \
+    traffic/TrafficObject.h \
+    traffic/TrafficObjectState.h \
+    traffic/TrafficApplication.h \
+    traffic/main.cpp
 
-traffic_LDFLAGS=-static
+trafficSim_LDFLAGS=-static

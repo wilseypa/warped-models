@@ -3,6 +3,9 @@
 
 #include <warped.h>
 #include <SimulationObject.h>
+#include "IntVTime.h"
+#include "TrafficObjectState.h"
+#include "TrafficEvent.h"
 
 #define MAX_CARS_ON_ROAD 5
 
@@ -61,18 +64,18 @@ public :
             traffic_event = (TrafficEvent *) getEvent();
             if (!traffic_event) continue;
 
-            switch (traffic_event->event_type_) {
+            switch (traffic_event->getEventType()) {
 
                 case ARRIVAL: {
 
-                    if (!traffic_event->x_to_go_ && !traffic_event->y_to_go_) {
+                    if (!traffic_event->getX() && !traffic_event->getY()) {
                         my_state->total_cars_finished_++;
                         break;
                     }
-                    car_direction_t arrival_from = traffic_event->current_lane_;
+                    car_direction_t arrival_from = traffic_event->getCurrentLane();
                     my_state->total_cars_arrived_++;
 
-                    switch (traffic_event->current_lane_) {
+                    switch (traffic_event->getCurrentLane()) {
 
                         case WEST_LEFT: {
                             my_state->num_in_east_left_++;
@@ -139,14 +142,14 @@ public :
                     events.emplace_back(new TrafficEvent {
                             this->name_, DIRECTION_SELECT, 
                             traffic_event->x_to_go_, traffic_event->y_to_go_, 
-                            traffic_event->arrived_from_, arrival_from, timestamp});*/
+                            traffic_event->getArrivedFrom(), arrival_from, timestamp});*/
                 } break;
 
                 case DEPARTURE: {
 
                     direction_t departure_direction = NORTH;
 
-                    switch (traffic_event->current_lane_) {
+                    switch (traffic_event->getCurrentLane()) {
                         case WEST_LEFT: {
                             my_state->num_out_west_left_--;
                             departure_direction = WEST;
@@ -212,16 +215,16 @@ public :
                     events.emplace_back(new TrafficEvent {
                             this->compute_move(departure_direction), ARRIVAL, 
                             traffic_event->x_to_go_, traffic_event->y_to_go_, 
-                            traffic_event->arrived_from_, traffic_event->current_lane_, timestamp});*/
+                            traffic_event->getArrivedFrom(), traffic_event->getCurrentLane(), timestamp});*/
                 } break;
 
                 case DIRECTION_SELECT: {
 
-                    int x_to_go = traffic_event->x_to_go_;
-                    int y_to_go = traffic_event->y_to_go_;
-                    car_direction_t current_lane = traffic_event->current_lane_;
+                    int x_to_go = traffic_event->getX();
+                    int y_to_go = traffic_event->getY();
+                    car_direction_t current_lane = traffic_event->getCurrentLane();
 
-                    switch (traffic_event->current_lane_) {
+                    switch (traffic_event->getCurrentLane()) {
                         case EAST_LEFT: {
                             my_state->num_in_east_left_--;
                             if ((y_to_go < 0) && 
@@ -243,15 +246,15 @@ public :
                                 x_to_go--;
 
                             } else {
-                                if (traffic_event->arrived_from_ == SOUTH_LEFT) {
+                                if (traffic_event->getArrivedFrom() == SOUTH_LEFT) {
                                     current_lane = EAST_RIGHT;
                                     my_state->num_out_east_right_++;
 
-                                } else if (traffic_event->arrived_from_ == EAST_STRAIGHT) {
+                                } else if (traffic_event->getArrivedFrom() == EAST_STRAIGHT) {
                                     current_lane = EAST_STRAIGHT;
                                     my_state->num_out_east_straight_++;
 
-                                } else if (traffic_event->arrived_from_ == NORTH_RIGHT) {
+                                } else if (traffic_event->getArrivedFrom() == NORTH_RIGHT) {
                                     current_lane = EAST_LEFT;
                                     my_state->num_out_east_left_++;
                                 }
@@ -279,15 +282,15 @@ public :
                                 y_to_go--;
 
                             } else {
-                                if (traffic_event->arrived_from_ == NORTH_RIGHT) {
+                                if (traffic_event->getArrivedFrom() == NORTH_RIGHT) {
                                     current_lane = EAST_LEFT;
                                     my_state->num_out_east_left_++;
 
-                                } else if (traffic_event->arrived_from_ == EAST_STRAIGHT) {
+                                } else if (traffic_event->getArrivedFrom() == EAST_STRAIGHT) {
                                     current_lane = EAST_STRAIGHT;
                                     my_state->num_out_east_straight_++;
 
-                                } else if (traffic_event->arrived_from_ == SOUTH_LEFT) {
+                                } else if (traffic_event->getArrivedFrom() == SOUTH_LEFT) {
                                     current_lane = EAST_RIGHT;
                                     my_state->num_out_east_right_++;
                                 }
@@ -315,15 +318,15 @@ public :
                                 x_to_go++;
 
                             } else {
-                                if (traffic_event->arrived_from_ == SOUTH_LEFT) {
+                                if (traffic_event->getArrivedFrom() == SOUTH_LEFT) {
                                     current_lane = EAST_RIGHT;
                                     my_state->num_out_east_right_++;
 
-                                } else if (traffic_event->arrived_from_ == EAST_STRAIGHT) {
+                                } else if (traffic_event->getArrivedFrom() == EAST_STRAIGHT) {
                                     current_lane = EAST_STRAIGHT;
                                     my_state->num_out_east_straight_++;
 
-                                } else if (traffic_event->arrived_from_ == NORTH_RIGHT) {
+                                } else if (traffic_event->getArrivedFrom() == NORTH_RIGHT) {
                                     current_lane = EAST_LEFT;
                                     my_state->num_out_east_left_++;
                                 }
@@ -351,15 +354,15 @@ public :
                                 x_to_go++;
 
                             } else {
-                                if (traffic_event->arrived_from_ == SOUTH_RIGHT) {
+                                if (traffic_event->getArrivedFrom() == SOUTH_RIGHT) {
                                     current_lane = WEST_LEFT;
                                     my_state->num_out_west_left_++;
 
-                                } else if (traffic_event->arrived_from_ == WEST_STRAIGHT) {
+                                } else if (traffic_event->getArrivedFrom() == WEST_STRAIGHT) {
                                     current_lane = WEST_STRAIGHT;
                                     my_state->num_out_west_straight_++;
 
-                                } else if (traffic_event->arrived_from_ == NORTH_LEFT) {
+                                } else if (traffic_event->getArrivedFrom() == NORTH_LEFT) {
                                     current_lane = WEST_RIGHT;
                                     my_state->num_out_west_right_++;
                                 }
@@ -387,15 +390,15 @@ public :
                                 y_to_go++;
 
                             } else {
-                                if (traffic_event->arrived_from_ == SOUTH_RIGHT) {
+                                if (traffic_event->getArrivedFrom() == SOUTH_RIGHT) {
                                     current_lane = WEST_LEFT;
                                     my_state->num_out_west_left_++;
 
-                                } else if (traffic_event->arrived_from_ == WEST_STRAIGHT) {
+                                } else if (traffic_event->getArrivedFrom() == WEST_STRAIGHT) {
                                     current_lane = WEST_STRAIGHT;
                                     my_state->num_out_west_straight_++;
 
-                                } else if (traffic_event->arrived_from_ == NORTH_LEFT) {
+                                } else if (traffic_event->getArrivedFrom() == NORTH_LEFT) {
                                     current_lane = WEST_RIGHT;
                                     my_state->num_out_west_right_++;
                                 }
@@ -423,15 +426,15 @@ public :
                                 x_to_go++;
 
                             } else {
-                                if (traffic_event->arrived_from_ == SOUTH_RIGHT) {
+                                if (traffic_event->getArrivedFrom() == SOUTH_RIGHT) {
                                     current_lane = WEST_LEFT;
                                     my_state->num_out_west_left_++;
 
-                                } else if (traffic_event->arrived_from_ == WEST_STRAIGHT) {
+                                } else if (traffic_event->getArrivedFrom() == WEST_STRAIGHT) {
                                     current_lane = WEST_STRAIGHT;
                                     my_state->num_out_west_straight_++;
 
-                                } else if (traffic_event->arrived_from_ == NORTH_LEFT) {
+                                } else if (traffic_event->getArrivedFrom() == NORTH_LEFT) {
                                     current_lane = WEST_RIGHT;
                                     my_state->num_out_west_right_++;
                                 }
@@ -459,15 +462,15 @@ public :
                                 y_to_go++;
 
                             } else {
-                                if (traffic_event->arrived_from_ == WEST_RIGHT) {
+                                if (traffic_event->getArrivedFrom() == WEST_RIGHT) {
                                     current_lane = NORTH_LEFT;
                                     my_state->num_out_north_left_++;
 
-                                } else if (traffic_event->arrived_from_ == NORTH_STRAIGHT) {
+                                } else if (traffic_event->getArrivedFrom() == NORTH_STRAIGHT) {
                                     current_lane = NORTH_STRAIGHT;
                                     my_state->num_out_north_straight_++;
 
-                                } else if (traffic_event->arrived_from_ == EAST_LEFT) {
+                                } else if (traffic_event->getArrivedFrom() == EAST_LEFT) {
                                     current_lane = NORTH_RIGHT;
                                     my_state->num_out_north_right_++;
                                 }
@@ -495,15 +498,15 @@ public :
                                 x_to_go++;
 
                             } else {
-                                if (traffic_event->arrived_from_ == WEST_RIGHT) {
+                                if (traffic_event->getArrivedFrom() == WEST_RIGHT) {
                                     current_lane = NORTH_LEFT;
                                     my_state->num_out_north_left_++;
 
-                                } else if (traffic_event->arrived_from_ == NORTH_STRAIGHT) {
+                                } else if (traffic_event->getArrivedFrom() == NORTH_STRAIGHT) {
                                     current_lane = NORTH_STRAIGHT;
                                     my_state->num_out_north_straight_++;
 
-                                } else if (traffic_event->arrived_from_ == EAST_LEFT) {
+                                } else if (traffic_event->getArrivedFrom() == EAST_LEFT) {
                                     current_lane = NORTH_RIGHT;
                                     my_state->num_out_north_right_++;
                                 }
@@ -531,15 +534,15 @@ public :
                                 y_to_go--;
 
                             } else {
-                                if (traffic_event->arrived_from_ == WEST_RIGHT) {
+                                if (traffic_event->getArrivedFrom() == WEST_RIGHT) {
                                     current_lane = NORTH_LEFT;
                                     my_state->num_out_north_left_++;
 
-                                } else if (traffic_event->arrived_from_ == NORTH_STRAIGHT) {
+                                } else if (traffic_event->getArrivedFrom() == NORTH_STRAIGHT) {
                                     current_lane = NORTH_STRAIGHT;
                                     my_state->num_out_north_straight_++;
 
-                                } else if (traffic_event->arrived_from_ == EAST_LEFT) {
+                                } else if (traffic_event->getArrivedFrom() == EAST_LEFT) {
                                     current_lane = NORTH_RIGHT;
                                     my_state->num_out_north_right_++;
                                 }
@@ -567,15 +570,15 @@ public :
                                 y_to_go--;
 
                             } else {
-                                if (traffic_event->arrived_from_ == WEST_LEFT) {
+                                if (traffic_event->getArrivedFrom() == WEST_LEFT) {
                                     current_lane = SOUTH_RIGHT;
                                     my_state->num_out_south_right_++;
 
-                                } else if (traffic_event->arrived_from_ == SOUTH_STRAIGHT) {
+                                } else if (traffic_event->getArrivedFrom() == SOUTH_STRAIGHT) {
                                     current_lane = SOUTH_STRAIGHT;
                                     my_state->num_out_south_straight_++;
 
-                                } else if (traffic_event->arrived_from_ == EAST_RIGHT) {
+                                } else if (traffic_event->getArrivedFrom() == EAST_RIGHT) {
                                     current_lane = SOUTH_LEFT;
                                     my_state->num_out_south_left_++;
                                 }
@@ -603,15 +606,15 @@ public :
                                 x_to_go --;
 
                             } else {
-                                if (traffic_event->arrived_from_ == EAST_RIGHT) {
+                                if (traffic_event->getArrivedFrom() == EAST_RIGHT) {
                                     current_lane = SOUTH_LEFT;
                                     my_state->num_out_south_left_++;
 
-                                } else if (traffic_event->arrived_from_ == SOUTH_STRAIGHT) {
+                                } else if (traffic_event->getArrivedFrom() == SOUTH_STRAIGHT) {
                                     current_lane = SOUTH_STRAIGHT;
                                     my_state->num_out_south_straight_++;
 
-                                } else if (traffic_event->arrived_from_ == WEST_LEFT) {
+                                } else if (traffic_event->getArrivedFrom() == WEST_LEFT) {
                                     current_lane = SOUTH_RIGHT;
                                     my_state->num_out_south_right_++;
                                 }
@@ -639,15 +642,15 @@ public :
                                 y_to_go++;
 
                             } else {
-                                if (traffic_event->arrived_from_ == EAST_RIGHT) {
+                                if (traffic_event->getArrivedFrom() == EAST_RIGHT) {
                                     current_lane = SOUTH_LEFT;
                                     my_state->num_out_south_left_++;
 
-                                } else if (traffic_event->arrived_from_ == SOUTH_STRAIGHT) {
+                                } else if (traffic_event->getArrivedFrom() == SOUTH_STRAIGHT) {
                                     current_lane = SOUTH_STRAIGHT;
                                     my_state->num_out_south_straight_++;
 
-                                } else if (traffic_event->arrived_from_ == WEST_LEFT) {
+                                } else if (traffic_event->getArrivedFrom() == WEST_LEFT) {
                                     current_lane = SOUTH_RIGHT;
                                     my_state->num_out_south_right_++;
                                 }
@@ -658,7 +661,7 @@ public :
                     /*auto timestamp = traffic_event->ts_ + (unsigned int) std::ceil(interval_expo(*this->rng_));
                     events.emplace_back(new TrafficEvent {
                             this->name_, DEPARTURE, x_to_go, y_to_go, 
-                            traffic_event->current_lane_, current_lane, timestamp});*/
+                            traffic_event->getCurrentLane(), current_lane, timestamp});*/
                 } break;
 
                 default: {
