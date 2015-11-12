@@ -4,6 +4,7 @@
 #include <State.h>
 #include <sstream>
 #include <string>
+#include "rnd/MLCG.h"
 
 class TrafficObjectState : public State {
 
@@ -34,9 +35,12 @@ public :
         num_out_east_right_(0),
         num_out_west_left_(0),
         num_out_west_straight_(0),
-        num_out_west_right_(0) {}
+        num_out_west_right_(0),
+        gen_(NULL) {}
 
-    ~TrafficObjectState() {};
+    ~TrafficObjectState() {
+        delete gen_;
+    };
 
     void copyState( const State *to_copy ) {
         ASSERT(to_copy);
@@ -67,6 +71,9 @@ public :
         num_out_west_left_ = traffic_state->num_out_west_left_;
         num_out_west_straight_ = traffic_state->num_out_west_straight_;
         num_out_west_right_ = traffic_state->num_out_west_right_;
+
+        delete gen_;
+        gen_ = new MLCG(*(traffic_state->gen_));
     }
 
     unsigned int total_cars_arrived_;
@@ -95,6 +102,7 @@ public :
     unsigned int num_out_west_left_;
     unsigned int num_out_west_straight_;
     unsigned int num_out_west_right_;
+    MLCG *gen_;
 };
 
 #endif

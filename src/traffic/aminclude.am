@@ -8,3 +8,4 @@ trafficSim_SOURCES= \
     traffic/main.cpp
 
 trafficSim_LDFLAGS=-static
+trafficSim_LDADD=$(top_builddir)/thirdparty/rnd/libRnd.la

@@ -6,6 +6,8 @@
 #include "IntVTime.h"
 #include "TrafficObjectState.h"
 #include "TrafficEvent.h"
+#include "rnd/DiscUnif.h"
+#include "rnd/NegExp.h"
 
 #define MAX_CARS_ON_ROAD 5
 
@@ -28,7 +30,7 @@ public :
                     const unsigned int num_cars,
                     const unsigned int mean_interval,
                     const unsigned int index) :
-            obj_name_("Intersection" + std::to_string(index)),
+            obj_name_(objectName(index)),
             num_intersections_x_(num_intersections_x),
             num_intersections_y_(num_intersections_y),
             num_cars_(num_cars),
@@ -39,16 +41,35 @@ public :
     ~TrafficObject() {}
 
     void initialize() {
-        /* Create and send the initial events */
-        /*IntVTime curr_time = static_cast<const IntVTime&> (getSimulationTime());
-        car_direction_t car_arrival = (car_direction_t) 0;
-        car_direction_t car_current_lane = car_arrival;
-        TrafficEvent *event = new TrafficEvent( current_time,
-                                                curr_time + (int) mean_interval_,
-                                                this, this, 0, 0, 
-                                                car_arrival, current_lane_, 
-                                                ARRIVAL );
-        this->receiveEvent(event);*/
+
+        TrafficObjectState *traffic_state = dynamic_cast<TrafficObjectState *>(getState());
+        ASSERT(traffic_state);
+        delete traffic_state->gen_;
+        traffic_state->gen_ = new MLCG(index_, index_+1);
+
+        for (unsigned int i = 0; i < num_cars_; i++) {
+
+            NegativeExpntl interval_neg_expo(mean_interval_, traffic_state->gen_);
+            int interval = (int) interval_neg_expo();
+
+            DiscreteUniform rand_car_direction(0, 11, traffic_state->gen_);
+            car_direction_t car_arrival = (car_direction_t) rand_car_direction();
+            car_direction_t car_current_lane = car_arrival;
+
+            DiscreteUniform rand_x(-99, 100, traffic_state->gen_);
+            int x = (int) rand_x();
+
+            DiscreteUniform rand_y(-99, 100, traffic_state->gen_);
+            int y = (int) rand_y();
+
+            IntVTime curr_time = static_cast<const IntVTime&> (getSimulationTime());
+            TrafficEvent *event = new TrafficEvent( curr_time, curr_time + interval,
+                                                    this, this, 
+                                                    x, y, 
+                                                    car_arrival, car_current_lane, 
+                                                    ARRIVAL );
+            this->receiveEvent(event);
+        }
     }
 
     void finalize() {}
@@ -138,11 +159,16 @@ public :
                         } break;
                     }
 
-                    /*auto timestamp = traffic_event->ts_ + (unsigned int) std::ceil(interval_expo(*this->rng_));
-                    events.emplace_back(new TrafficEvent {
-                            this->name_, DIRECTION_SELECT, 
-                            traffic_event->x_to_go_, traffic_event->y_to_go_, 
-                            traffic_event->getArrivedFrom(), arrival_from, timestamp});*/
+                    IntVTime curr_time = static_cast<const IntVTime&> (getSimulationTime());
+                    NegativeExpntl interval_neg_expo(mean_interval_, my_state->gen_);
+                    int interval = (int) interval_neg_expo();
+                    TrafficEvent *event = 
+                        new TrafficEvent(   curr_time, curr_time + interval, this, this,
+                                            traffic_event->getX(), traffic_event->getY(), 
+                                            traffic_event->getArrivedFrom(), arrival_from, 
+                                            DIRECTION_SELECT    );
+                    this->receiveEvent(event);
+
                 } break;
 
                 case DEPARTURE: {
@@ -211,11 +237,21 @@ public :
                         } break;
                     }
 
-                    /*auto timestamp = traffic_event->ts_ + (unsigned int) std::ceil(interval_expo(*this->rng_));
-                    events.emplace_back(new TrafficEvent {
-                            this->compute_move(departure_direction), ARRIVAL, 
-                            traffic_event->x_to_go_, traffic_event->y_to_go_, 
-                            traffic_event->getArrivedFrom(), traffic_event->getCurrentLane(), timestamp});*/
+                    IntVTime curr_time = static_cast<const IntVTime&> (getSimulationTime());
+                    NegativeExpntl interval_neg_expo(mean_interval_, my_state->gen_);
+                    int interval = (int) interval_neg_expo();
+                    TrafficEvent *event = 
+                        new TrafficEvent(   curr_time, 
+                                            curr_time + interval, 
+                                            this, this, 
+                                            //computeMove(departure_direction), 
+                                            traffic_event->getX(), 
+                                            traffic_event->getY(), 
+                                            traffic_event->getArrivedFrom(), 
+                                            traffic_event->getCurrentLane(), 
+                                            ARRIVAL     );
+                    this->receiveEvent(event);
+
                 } break;
 
                 case DIRECTION_SELECT: {
@@ -658,10 +694,16 @@ public :
                         } break;
                     }
 
-                    /*auto timestamp = traffic_event->ts_ + (unsigned int) std::ceil(interval_expo(*this->rng_));
-                    events.emplace_back(new TrafficEvent {
-                            this->name_, DEPARTURE, x_to_go, y_to_go, 
-                            traffic_event->getCurrentLane(), current_lane, timestamp});*/
+                    IntVTime curr_time = static_cast<const IntVTime&> (getSimulationTime());
+                    NegativeExpntl interval_neg_expo(mean_interval_, my_state->gen_);
+                    int interval = (int) interval_neg_expo();
+                    TrafficEvent *event = 
+                        new TrafficEvent(   curr_time, curr_time + interval, this, this,
+                                            x_to_go, y_to_go, 
+                                            traffic_event->getCurrentLane(), current_lane, 
+                                            DEPARTURE   );
+                    this->receiveEvent(event);
+
                 } break;
 
                 default: {
@@ -695,8 +737,45 @@ private :
     const unsigned int mean_interval_;
     const unsigned int index_;
 
-    /*std::string compute_move(direction_t direction) {
-    }*/
+    std::string objectName(unsigned int index) {
+        return std::string("Intersection_") + std::to_string(index);
+    }
+
+    SimulationObject *computeMove(direction_t direction) {
+
+        unsigned int new_x = 0, new_y = 0;
+        unsigned int current_y = this->index_ / num_intersections_x_;
+        unsigned int current_x = this->index_ % num_intersections_x_;
+
+        switch (direction) {
+            case WEST: {
+                new_x = (current_x + num_intersections_x_ - 1) % num_intersections_x_;
+                new_y = current_y;
+            } break;
+
+            case EAST: {
+                new_x = (current_x + 1) % num_intersections_x_;
+                new_y = current_y;
+            } break;
+
+            case SOUTH: {
+                new_x = current_x;
+                new_y = (current_y + num_intersections_y_ - 1) % num_intersections_y_;
+            } break;
+
+            case NORTH: {
+                new_x = current_x;
+                new_y = (current_y + 1) % num_intersections_y_;
+            } break;
+
+            default: {
+                ASSERT(0);
+            }
+        }
+        std::string object_name = objectName(new_x + new_y * num_intersections_x_);
+
+        return getObjectHandle(object_name);
+    }
 };
 
 #endif
