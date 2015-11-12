@@ -5,11 +5,11 @@ INCLUDES=-I$(top_srcdir)/thirdparty
 # and other macro definitions for each model are kept in `aminclude.am` files in
 # the models' directories. These files are included here directly.
 
-include pingPong/aminclude.am
+include traffic/aminclude.am
 include phold/aminclude.am
 include raid/aminclude.am
 include smmp/aminclude.am
 include epidemic/aminclude.am
 include iscas/aminclude.am
 
-noinst_PROGRAMS = $(PING_PONG_PROGRAM) $(PHOLD_PROGRAM) $(RAID_PROGRAM) $(SMMP_PROGRAM) $(EPIDEMIC_PROGRAM) $(ISCAS_PROGRAM)
+noinst_PROGRAMS = $(TRAFFIC_PROGRAM) $(PHOLD_PROGRAM) $(RAID_PROGRAM) $(SMMP_PROGRAM) $(EPIDEMIC_PROGRAM) $(ISCAS_PROGRAM)
